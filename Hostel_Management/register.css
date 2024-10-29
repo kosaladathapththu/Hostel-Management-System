@@ -1,0 +1,86 @@
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Keep the height as is */
+    margin: 0;
+    overflow-y: auto; /* Allow vertical scrolling if necessary */
+}
+
+.container {
+    background-color: #fff;
+    padding: 40px; /* Maintain padding */
+    border-radius: 10px; 
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Full width */
+    max-width: 600px; /* Increased max-width */
+    max-height: 90vh; /* Allow the container to be tall */
+    overflow-y: auto; /* Allow scrolling inside the container */
+}
+
+h2 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    font-size: 16px; 
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+/* Input styles */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+    width: 100%;
+    padding: 12px; 
+    margin-bottom: 20px; 
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    transition: border 0.3s ease;
+}
+
+/* Focus styles */
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styles */
+button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding: 14px; 
+    font-size: 18px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* File input wrapper */
+.file-upload-wrapper {
+    margin-bottom: 20px; 
+}
+
+/* Responsive design */
+@media (max-width: 500px) {
+    .container {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,104 @@
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif; /* Font from Google Fonts */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9; /* Light background color */
+    color: #333; /* Text color */
+}
+
+header {
+    background-color: #007BFF; /* Blue header */
+    color: white; /* White text */
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 10px 0 0; /* Adjust margin */
+}
+
+header a {
+    color: white; /* White text for logout link */
+    text-decoration: none; /* No underline */
+    font-weight: bold;
+}
+
+section {
+    padding: 20px;
+    max-width: 900px; /* Max width for the content */
+    margin: 20px auto; /* Center content */
+    background: white; /* White background for section */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+h2 {
+    color: #007BFF; /* Blue color for section heading */
+}
+
+table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Merge borders */
+    margin-top: 20px; /* Space above table */
+}
+
+table th, table td {
+    padding: 12px; /* Padding for cells */
+    text-align: left; /* Left align text */
+    border: 1px solid #dddddd; /* Light gray border */
+}
+
+table th {
+    background-color: #007BFF; /* Blue background for header */
+    color: white; /* White text for header */
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray for even rows */
+}
+
+table tr:hover {
+    background-color: #e1e7ff; /* Light blue on hover */
+}
+
+a {
+    color: #007BFF; /* Blue for links */
+    text-decoration: none; /* No underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+section a {
+    display: inline-block; /* Display as block */
+    margin-top: 20px; /* Space above button */
+    padding: 10px 20px; /* Padding for button */
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+section a:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.dashboard-button {
+    background-color: #6c757d; /* Gray color */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for the buttons */
+    text-decoration: none; /* No underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.dashboard-button:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+

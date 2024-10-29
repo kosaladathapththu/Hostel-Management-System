@@ -1,0 +1,128 @@
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #e25454; /* Dark red */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin-top: 10px;
+}
+
+header a {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Calendar container */
+#calendar {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 10px;
+}
+
+/* FullCalendar styles */
+.fc-toolbar-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+}
+
+.fc-button {
+    background-color: #007bff; /* Blue buttons */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.fc-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.fc-button-primary:not(:disabled).fc-button-active {
+    background-color: #0056b3; /* Active button color */
+}
+
+.fc-daygrid-day-number {
+    color: #333;
+    font-weight: bold;
+}
+
+.fc-event {
+    background-color: #4CAF50; /* Green events */
+    border: none;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.fc-event:hover {
+    background-color: #388e3c; /* Darker green on hover */
+}
+
+.fc-daygrid-event-dot {
+    background-color: #4CAF50;
+}
+
+.fc-daygrid-day-frame {
+    padding: 12px; /* Add some space inside day boxes */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #calendar {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .fc-toolbar-title {
+        font-size: 20px;
+    }
+}
+
+/* General button styling */
+.button-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.button-container a {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50; /* Green background */
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button-container a:hover {
+    background-color: #388e3c; /* Darker green on hover */
+}
+
+.add-event-button {
+    background-color: #2196F3; /* Blue background for Add Event */
+}
+
+.add-event-button:hover {
+    background-color: #1976d2; /* Darker blue on hover */
+}

@@ -1,0 +1,129 @@
+body {
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    background-color: #f5f5f5; /* Light gray background */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #df3939; /* Red background */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 3px solid #b33030; /* Add a darker red border for contrast */
+}
+
+section {
+    margin: 20px;
+    padding: 20px;
+    background-color: white; /* White background for content */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Increase shadow for more depth */
+}
+
+h2 {
+    color: #333; /* Dark gray for headings */
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Merge borders */
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px; /* Increase padding for readability */
+    text-align: left;
+    border-bottom: 1px solid #e9afaf; /* Light border for table rows */
+}
+
+th {
+    background-color: #ff0101; /* Bright red for header background */
+    color: #ffffff; /* White text */
+}
+
+tr:hover {
+    background-color: #dfcccc; /* Change background on hover */
+}
+
+a {
+    text-decoration: none; /* Remove underline from links */
+    color: #4CAF50; /* Green link color */
+}
+
+/*a:hover {
+    text-decoration: underline; /* Underline on hover */
+
+
+/* Add New Supplier Button */
+.add-supplier-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px; /* Increase padding for a larger button */
+    background-color: #4CAF50; /* Button color */
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.add-supplier-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Dashboard Button */
+.dashboard-button {
+    padding: 10px 16px; /* Adjust padding for dashboard button */
+    background-color: #292828; /* Dark gray color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Smooth transition */
+    margin-left: 10px; /* Space between buttons */
+}
+
+.dashboard-button:hover {
+    background-color: #212321; /* Darker gray on hover */
+}
+
+/* Delete Button */
+.delete-button {
+    padding: 10px 16px; /* Adjust padding for consistency */
+    background-color: #ff4d4d; /* Red color */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
+
+/* Edit Button */
+.edit-button {
+    padding: 10px 16px; /* Adjust padding for consistency */
+    background-color: #28a745; /* Green color */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.rate-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #e5be11; /* Green */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.rate-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
