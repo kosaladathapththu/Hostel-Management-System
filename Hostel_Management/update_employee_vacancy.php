@@ -31,9 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Update Employee Vacancy</title>
+    <link rel="stylesheet" href="update_employee_vacancy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
 </head>
-<body>
-    <h1>Update Employee Vacancy</h1>
+
+<header>
+    <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
+<h2>Update Employee Vacancy</h2>
+     
+    <div class="user-info">
+        <p>Welcome, <p> 
+        <a href="admin_logout.php" class="logout-btn">Logout</a>
+    </div>
+</header>
+
+<body><br>
+    <center>
     <form action="update_employee_vacancy.php" method="POST">
         <input type="hidden" name="vacancy_id" value="<?php echo $vacancy['vacancy_id']; ?>">
 
@@ -49,7 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Closed" <?php if ($vacancy['status'] === 'Closed') echo 'selected'; ?>>Closed</option>
         </select>
 
-        <button type="submit">Update Vacancy</button>
+        <button type="submit">Update Vacancy</button></center>
+        <a href="admin_dashboard.php" class="dashboard-button">Dashboard</a> 
     </form>
 </body>
 </html>

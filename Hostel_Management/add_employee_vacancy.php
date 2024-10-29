@@ -22,10 +22,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Add Employee Vacancy</title>
+    <link rel="stylesheet" href="add_employee_vacancy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
 </head>
-<body>
-    <h1>Add Employee Vacancy</h1>
+
+<header>
+    <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
+<h2>Add Employee Vacancy</h2>
+     
+    <div class="user-info">
+        <p>Welcome, <p> 
+        <a href="admin_logout.php" class="logout-btn">Logout</a>
+    </div>
+</header>
+
+<body><center><br>
+    
     <form action="add_employee_vacancy.php" method="POST">
+     
         <label for="job_title">Job Title:</label>
         <input type="text" name="job_title" required>
 
@@ -39,8 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </select>
 
         <button type="submit">Add Vacancy</button>
+        <a href="admin_dashboard.php" class="dashboard-button">Dashboard</a> 
     </form>
-</body>
+</body></center>
 </html>
 
 <?php $conn->close(); ?>

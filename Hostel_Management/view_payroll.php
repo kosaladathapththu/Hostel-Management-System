@@ -24,11 +24,23 @@ if (isset($_GET['delete_id'])) {
 <head>
     <meta charset="UTF-8">
     <title>View Payroll</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="view_payrol.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <h2>Payroll Records</h2>
-    <a href="add_payroll.php" class="add-btn">Add New Salary</a>
+
+<header>
+    <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
+<h2>View Payroll System</h2>
+     
+    <div class="user-info">
+        <p>Welcome, <p> 
+        <a href="admin_logout.php" class="logout-btn">Logout</a>
+    </div>
+</header>
+
+<body><br>
+    <center>
+    
     <table border="1">
         <tr>
             <th>Employee Name</th>
@@ -55,7 +67,10 @@ if (isset($_GET['delete_id'])) {
                 </td>
             </tr>
         <?php endwhile; ?>
-    </table>
+        
+    </table></center><br>
+    <center><a href="add_payroll.php" class="add-btn">Add New Salary</a> | |
+    <a href="admin_dashboard.php" class="dashboard-button">Dashboard</a></center>
 </body>
 </html>
 

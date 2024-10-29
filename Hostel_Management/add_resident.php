@@ -1,6 +1,5 @@
 <?php
 include 'db_connect.php'; // Include database connection
-
 $successMessage = '';
 $errorMessage = '';
 
