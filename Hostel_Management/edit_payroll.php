@@ -42,9 +42,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Edit Salary</title>
 </head>
+
+<header>
+    <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
+<h2>Add Payroll</h2>
+     
+    <div class="user-info">
+        <p>Welcome, <p> 
+        <a href="admin_logout.php" class="logout-btn">Logout</a>
+    </div>
+</header>
+
 <body>
-    <h2>Edit Salary</h2>
+    <br><center>
     <form action="edit_salary.php" method="POST">
+    <link rel="stylesheet" href="edit_payroll.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
         <input type="hidden" name="salary_id" value="<?php echo $salary['salary_id']; ?>">
 
         <!-- Employee Dropdown -->
@@ -68,7 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="date" name="salary_date" value="<?php echo $salary['salary_date']; ?>" required>
         
         <button type="submit">Update Salary</button>
+        <center><a href="view_payroll.php" class="dashboard-button">View Payroll</a> | |
+    <a href="admin_dashboard.php" class="dashboard-button">Dashboard</a></center>
     </form>
+
 </body>
 </html>
 

@@ -28,10 +28,23 @@ $employees = $conn->query("SELECT employee_id, name FROM employees");
 <head>
     <meta charset="UTF-8">
     <title>Add Salary</title>
+    <link rel="stylesheet" href="add_payroll.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
+<header>
+    <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
+<h2>Add Payroll</h2>
+     
+    <div class="user-info">
+        <p>Welcome, <p> 
+        <a href="admin_logout.php" class="logout-btn">Logout</a>
+    </div>
+</header>
+
 <body>
-    <h2>Add Salary</h2>
+    <br><center>
     <form action="add_payroll.php" method="POST">
         <!-- Employee Dropdown -->
         <label for="employee_id">Employee:</label>
@@ -57,7 +70,9 @@ $employees = $conn->query("SELECT employee_id, name FROM employees");
         <input type="date" name="salary_date" required>
         
         <button type="submit">Add Salary</button>
-    </form>
+    </form></center>
+    <center><a href="view_payroll.php" class="dashboard-button">View Payroll</a> | |
+    <a href="admin_dashboard.php" class="dashboard-button">Dashboard</a></center>
 
     <!-- AJAX Script to Fetch Position -->
     <script>
