@@ -1,0 +1,37 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    text-align: center;
+}
+
+header {
+    background-color: #e25454;
+    color: white;
+    padding: 20px;
+}
+
+header h1, header p {
+    margin: 0;
+}
+
+section {
+    margin: 20px;
+}
+
+.inventory-report {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.inventory-report th, .inventory-report td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.inventory-report th {
+    background-color: #e25454;
+    color: white;
+}

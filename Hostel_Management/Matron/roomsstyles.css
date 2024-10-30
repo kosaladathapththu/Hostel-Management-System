@@ -1,0 +1,137 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif; /* Using the Roboto font */
+    background-color: #f9f9f9; /* Light background color */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f54141; /* Red color */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Section Styles */
+section {
+    max-width: 600px; /* Limit section width */
+    margin: 20px auto; /* Center the section */
+    padding: 20px;
+    background-color: white; /* White background for form */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+h2 {
+    color: #ea06b5; /* Header color for section */
+    margin-bottom: 20px; /* Space below header */
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column; /* Arrange inputs vertically */
+}
+
+label {
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: 500; /* Medium weight for labels */
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    padding: 10px; /* Padding inside inputs */
+    margin-bottom: 15px; /* Space between inputs */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+}
+
+input[type="submit"] {
+    background-color: #3538d4; /* Button background */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    padding: 10px;
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+input[type="submit"]:hover {
+    background-color: #b52a2b; /* Darker red on hover */
+}
+
+a {
+    text-decoration: none; /* No underline for links */
+    color: #c92c2d; /* Link color */
+    display: inline-block; /* Inline block for better spacing */
+    margin-top: 10px; /* Space above link */
+}
+
+/* Notification Styles */
+.notification {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    background-color: #6aa728; /* Green background for success */
+    color: white; /* White text */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center the content */
+    align-items: center; /* Center vertically */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    section {
+        width: 90%; /* Full width on small screens */
+    }
+}
+
+/* Logout Button Styles */
+.logout-btn {
+    background-color: #48ca59; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 15px; /* Padding around the button */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    text-decoration: none; /* No underline */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    float: right; /* Float the button to the right */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.logout-btn:hover {
+    background-color: #b52a2b; /* Darker shade on hover */
+}
+
+/* General button styles */
+.nav-buttons {
+    margin-top: 20px;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #808080; /* Gray background */
+    color: white; /* White text */
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s;
+    margin-right: 10px; /* Space between buttons */
+}
+
+.nav-button:hover {
+    background-color: #696969; /* Darker gray on hover */
+}
+

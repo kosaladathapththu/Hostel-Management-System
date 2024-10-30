@@ -1,0 +1,132 @@
+/* General body and header styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Form container styling */
+.event-form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.event-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.event-form input[type="text"],
+.event-form input[type="date"],
+.event-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.event-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.event-form input[type="submit"].btn {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.event-form input[type="submit"].btn:hover {
+    background-color: #388e3c;
+}
+
+/* Back to calendar link */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: #388e3c;
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .event-form {
+        margin: 20px;
+        padding: 15px;
+    }
+}
+
+.btn {
+    background-color: #4CAF50; /* Green */
+    color: white; /* White text */
+    padding: 10px 15px; /* Spacing around the button */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none; /* No underline for links */
+    display: inline-block; /* Aligns properly in form */
+    margin-top: 10px; /* Space above the button */
+}
+
+.btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.delete-btn {
+    background-color: #f44336; /* Red */
+}
+
+.delete-btn:hover {
+    background-color: #e53935; /* Darker red on hover */
+}
+
+/* Dashboard button styling */
+.dashboard-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF; /* Blue color */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.dashboard-button:hover {
+    background-color: #0069D9;
+}
