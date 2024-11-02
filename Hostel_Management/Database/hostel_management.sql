@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2024 at 04:01 PM
+-- Generation Time: Nov 02, 2024 at 06:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,6 +66,13 @@ CREATE TABLE `applicants` (
   `profile_picture` varchar(255) DEFAULT NULL,
   `resident_form` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `applicants`
+--
+
+INSERT INTO `applicants` (`applicant_id`, `name`, `application_date`, `status`, `national_id`, `age`, `email`, `phone`, `room_id`, `created_at`, `username`, `password`, `profile_picture`, `resident_form`) VALUES
+(3, 'asdfghj', '2024-11-02', '', '20024598766', 22, 'hfhmn@gmail.com', '0719148762', 2, '2024-11-02 04:32:00', 'abcd', '$2y$10$dfS8Y/SlcILfJxald81PS.1S4AYju0JZQIlZyRMryvlGHyc7Kh/RO', 'uploads/burger-4k-desktop-best-wallpaper-thumb.jpg', 'uploads/corrected use case copy.drawio.pdf');
 
 -- --------------------------------------------------------
 
@@ -130,7 +137,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`employee_id`, `name`, `position`, `email`, `phone`, `status`, `created_at`, `national_id`) VALUES
-(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'manajor', 'kosalaathapaththu1234@gmail.com', '0719148762', 1, '2024-10-28 11:47:47', '200117401121');
+(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'manager', 'kosalaathapaththu1234@gmail.com', '0719148762', 1, '2024-10-28 11:47:47', '200117401121');
 
 -- --------------------------------------------------------
 
@@ -151,7 +158,8 @@ CREATE TABLE `employee_vacancies` (
 --
 
 INSERT INTO `employee_vacancies` (`vacancy_id`, `job_title`, `department`, `status`, `created_at`) VALUES
-(1, 'Cleaniner', 'cleaning dp', 'Open', '2024-10-28 15:12:17');
+(1, 'Cleaniner', 'cleaning dp', 'Open', '2024-10-28 15:12:17'),
+(2, 'matron', 'hostel', 'Open', '2024-10-29 17:22:27');
 
 -- --------------------------------------------------------
 
@@ -179,6 +187,29 @@ INSERT INTO `events` (`event_id`, `title`, `description`, `start_date`, `end_dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `guests`
+--
+
+CREATE TABLE `guests` (
+  `guest_id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `national_id` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `guests`
+--
+
+INSERT INTO `guests` (`guest_id`, `name`, `email`, `password`, `phone`, `national_id`, `created_at`) VALUES
+(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'kosalaathapaththu1234@gmail.com', '$2y$10$Hou9kWzVxe79qT2IbLKqSO0nWHqNcMEmJF6bcvD7Mn1KjmWQTD126', '0719148762', NULL, '2024-10-31 17:55:48');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inventory`
 --
 
@@ -197,6 +228,29 @@ CREATE TABLE `inventory` (
 INSERT INTO `inventory` (`item_id`, `item_name`, `category`, `quantity`, `last_updated`) VALUES
 (2, 'beds', 'furniture', 5, '2024-10-29 06:28:13'),
 (3, 'chairs', 'furniture', 10, '2024-10-13 20:09:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `job_applications`
+--
+
+CREATE TABLE `job_applications` (
+  `application_id` int(11) NOT NULL,
+  `vacancy_id` int(11) DEFAULT NULL,
+  `applicant_name` varchar(255) DEFAULT NULL,
+  `contact_email` varchar(255) DEFAULT NULL,
+  `contact_phone` varchar(15) DEFAULT NULL,
+  `application_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `cover_letter` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `job_applications`
+--
+
+INSERT INTO `job_applications` (`application_id`, `vacancy_id`, `applicant_name`, `contact_email`, `contact_phone`, `application_date`, `cover_letter`) VALUES
+(1, 1, 'abcd', 'abcd@gmail.com', '0742397719', '2024-11-01 11:50:51', 'apply');
 
 -- --------------------------------------------------------
 
@@ -281,7 +335,9 @@ INSERT INTO `orders` (`order_id`, `supplier_id`, `item_name`, `quantity`, `order
 (8, 2, 'mixed vegitables', 2, '2024-10-27 20:31:01', '', NULL),
 (9, 2, 'spoons', 20, '2024-10-27 20:44:58', 'declined', NULL),
 (10, 2, 'vegitables', 2, '2024-10-27 20:46:15', '', NULL),
-(11, 7, 'spoons', 20, '2024-10-27 20:50:47', 'approved', NULL);
+(11, 7, 'spoons', 20, '2024-10-27 20:50:47', 'approved', NULL),
+(12, 1, 'vegtables', 5, '2024-11-02 05:05:06', 'requested', NULL),
+(13, 2, 'vegitables', 5, '2024-11-02 05:05:55', 'approved', NULL);
 
 -- --------------------------------------------------------
 
@@ -319,7 +375,8 @@ CREATE TABLE `ratings` (
 
 INSERT INTO `ratings` (`rating_id`, `supplier_id`, `rating`, `comments`, `rated_at`) VALUES
 (1, 1, 5, 'good service', '2024-10-12 19:09:13'),
-(2, 2, 5, 'fresh foods', '2024-10-27 19:17:48');
+(2, 2, 5, 'fresh foods', '2024-10-27 19:17:48'),
+(3, 7, 5, 'good', '2024-11-02 05:04:01');
 
 -- --------------------------------------------------------
 
@@ -360,7 +417,8 @@ INSERT INTO `residents` (`id`, `name`, `national_id`, `age`, `email`, `phone`, `
 (14, 'Girl 2', '20054572902', 20, 'wff@gmail.com', '0719148762', 3, '', '2024-10-24 18:24:15', 'girl2', '$2y$10$RIGb.Sq5QWfOXgkRO3GbT.lfs9gOa1WvLvi1HqmGrxxUDXIY7x0Wq', NULL, NULL),
 (15, 'qwerty', '20024598766', 21, 'qwerty@gmail.com', '01236549873', 1, '', '2024-10-24 18:47:51', 'qwerty', '$2y$10$3vcl7w1CU74E5rkjF98ew.ck3u0HZ7G95uszlrYfYA8lTfg/6gzAe', NULL, NULL),
 (17, 'girl4', '20019864268', 20, 'girl4@gmail.com', '0258741369', 7, 'active', '2024-10-25 16:27:39', 'girl4', '$2y$10$ktPichk0wdqn0wFTzSnM4.HbNUyFndW8HPnmj.N8lH9BWSzySvgeO', 'uploads/unnamed.png', 'uploads/1a.pdf'),
-(18, 'IM Girl', '20019864268', 23, 'girl5@gmail.com', '03579514628', 7, 'active', '2024-10-25 18:24:59', 'girl5', '$2y$10$8BQCI..o5De8VJI9IThL/u811nb7LbDFruc9Mk9Nyp35KufM40llq', 'uploads/104-cat__top_cat_wallpaper.jpg', 'uploads/20230528_104637.jpg');
+(18, 'IM Girl', '20019864268', 23, 'girl5@gmail.com', '03579514628', 7, 'active', '2024-10-25 18:24:59', 'girl5', '$2y$10$8BQCI..o5De8VJI9IThL/u811nb7LbDFruc9Mk9Nyp35KufM40llq', 'uploads/104-cat__top_cat_wallpaper.jpg', 'uploads/20230528_104637.jpg'),
+(19, 'qwertyu', '200117802545', 21, 'kosalaathapaththu1234@gmail.com', '0719148762', 2, 'active', '2024-11-02 04:34:54', 'qwertyu', '$2y$10$mgDdz6DQWP2/LanXfdMzzuM8486xT6umMfubP7ZMZ4vs106CHqmGy', 'uploads/repository-open-graph-template.png', 'uploads/corrected use case copy.drawio.pdf');
 
 -- --------------------------------------------------------
 
@@ -381,10 +439,32 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`room_id`, `room_number`, `capacity`, `status`, `created_at`) VALUES
-(1, '1', 4, 'available', '2024-10-11 20:06:22'),
+(1, '1', 4, '', '2024-10-11 20:06:22'),
 (2, '2', 5, 'available', '2024-10-11 20:43:26'),
 (5, '3', 2, 'available', '2024-10-11 20:51:21'),
 (7, '4', 3, 'available', '2024-10-12 07:53:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room_applications`
+--
+
+CREATE TABLE `room_applications` (
+  `application_id` int(11) NOT NULL,
+  `guest_name` varchar(50) NOT NULL,
+  `guest_email` varchar(50) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `application_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending','approved','rejected') DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `room_applications`
+--
+
+INSERT INTO `room_applications` (`application_id`, `guest_name`, `guest_email`, `room_id`, `application_date`, `status`) VALUES
+(1, 'tn', 'tnd@gmail.com', 1, '2024-10-31 18:31:48', 'pending');
 
 -- --------------------------------------------------------
 
@@ -504,10 +584,24 @@ ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`);
 
 --
+-- Indexes for table `guests`
+--
+ALTER TABLE `guests`
+  ADD PRIMARY KEY (`guest_id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `inventory`
 --
 ALTER TABLE `inventory`
   ADD PRIMARY KEY (`item_id`);
+
+--
+-- Indexes for table `job_applications`
+--
+ALTER TABLE `job_applications`
+  ADD PRIMARY KEY (`application_id`),
+  ADD KEY `vacancy_id` (`vacancy_id`);
 
 --
 -- Indexes for table `meal_feedback`
@@ -557,6 +651,13 @@ ALTER TABLE `rooms`
   ADD PRIMARY KEY (`room_id`);
 
 --
+-- Indexes for table `room_applications`
+--
+ALTER TABLE `room_applications`
+  ADD PRIMARY KEY (`application_id`),
+  ADD KEY `room_id` (`room_id`);
+
+--
 -- Indexes for table `salary`
 --
 ALTER TABLE `salary`
@@ -591,7 +692,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `applicants`
 --
 ALTER TABLE `applicants`
-  MODIFY `applicant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `applicant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `audit_log`
@@ -615,7 +716,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `employee_vacancies`
 --
 ALTER TABLE `employee_vacancies`
-  MODIFY `vacancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `vacancy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -624,10 +725,22 @@ ALTER TABLE `events`
   MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `guests`
+--
+ALTER TABLE `guests`
+  MODIFY `guest_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `job_applications`
+--
+ALTER TABLE `job_applications`
+  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `meal_feedback`
@@ -645,7 +758,7 @@ ALTER TABLE `meal_plans`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -657,19 +770,25 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `residents`
 --
 ALTER TABLE `residents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
   MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `room_applications`
+--
+ALTER TABLE `room_applications`
+  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `salary`
@@ -707,6 +826,12 @@ ALTER TABLE `bookings`
   ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`);
 
 --
+-- Constraints for table `job_applications`
+--
+ALTER TABLE `job_applications`
+  ADD CONSTRAINT `job_applications_ibfk_1` FOREIGN KEY (`vacancy_id`) REFERENCES `employee_vacancies` (`vacancy_id`);
+
+--
 -- Constraints for table `meal_feedback`
 --
 ALTER TABLE `meal_feedback`
@@ -730,6 +855,12 @@ ALTER TABLE `payments`
 --
 ALTER TABLE `ratings`
   ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`supplier_id`);
+
+--
+-- Constraints for table `room_applications`
+--
+ALTER TABLE `room_applications`
+  ADD CONSTRAINT `room_applications_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`room_id`);
 
 --
 -- Constraints for table `salary`
