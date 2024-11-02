@@ -7,7 +7,19 @@ include 'db_connect.php';
 <html>
 <head>
     <title>View Room Vacancy</title>
+    <link rel="stylesheet" href="view_room_vacancy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
+<header>
+    <h1>Salvation Army Girls Hostel - Guest Dashboard</h1>
+    <h2> View room Vacancy</h2>
+    <div class="user-info">
+        <p>Welcome, </p>
+        <br><a href="guest_logout.php">Logout</a>
+    </div>
+</header>
+
 <body>
     <h2>Available Rooms</h2>
 

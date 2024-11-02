@@ -43,15 +43,13 @@ $stmt->close();
             <!-- Employee Management -->
             <h3>Employee Management</h3>
             <a href="view_employee.php" class="control-btn">View Employee</a>
+            <a href="view_employee_vacancies.php" class="control-btn">Employee Vacancy</a>
 
             <!-- Employee Reports -->
             <h3>Employee Reports</h3>
             <a href="generate_employee_report_monthly.php" class="control-btn">Generate Monthly Employee Report</a>
             <a href="generate_employee_report_annual.php" class="control-btn">Generate Annual Employee Report</a>
-
-            <!-- Employee Vacancy Management -->
-            <h3>Employee Vacancy Management</h3>
-            <a href="view_employee_vacancies.php" class="control-btn">Employee Vacancy</a>
+            
 
             <!-- Attendance and Leave -->
             <h3>Attendance and Leave Management</h3>
@@ -74,7 +72,7 @@ $stmt->close();
 
             <!-- Payroll Reports -->
             <h3>Payroll Reports</h3>
-            <a href="generate_payroll_reports.php" class="control-btn">Payroll Report</a>
+            <center><a href="generate_payroll_reports.php" class="control-btn">Payroll Report</a></center>
             
         </div>
     </section>

@@ -76,7 +76,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
 </head>
 <body>
     <header>
-        <h1>Resident Dashboard</h1>
+        <h1>Salvation Army-Resident Dashboard</h1>
         <div class="profile-info">
             <?php
             // Fetch the profile picture path from the database
@@ -143,6 +143,21 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
 
         <a href="resident_view_meal_plans.php" class="feedback-btn">Meals Feedback</a>
     </section>
+
+            <script>
+        // Confirm Logout Script
+        document.querySelector('.logout-btn').addEventListener('click', function(e) {
+            if (!confirm("Are you sure you want to log out?")) {
+                e.preventDefault(); // Prevent logout if not confirmed
+            }
+        });
+
+        // Tooltips for Status Information
+        const statusTooltip = document.createElement('div');
+        statusTooltip.className = 'tooltiptext';
+        statusTooltip.innerText = 'Shows current room status'; 
+        document.querySelector('.metric-box h3').appendChild(statusTooltip);
+        </script>
 
 </body>
 </html>
