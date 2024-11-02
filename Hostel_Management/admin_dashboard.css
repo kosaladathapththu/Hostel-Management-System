@@ -1,118 +1,113 @@
-/* General Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Body Styling */
 body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    padding: 20px;
+    background-color: #eff2f5;
 }
 
-/* Header Styling */
 .header {
-    background-color: #1e88e5; /* Blue background */
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color:rgb(158, 49, 49);
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    border-radius: 15px;
+    
 }
 
-.header h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
+.header-title {
+    font-size: 1.5em;
 }
 
 .admin-info {
-    font-size: 1.2em;
-    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
-
-.edit-btn,
 .logout-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: 500;
-    color: #fff;
-    text-decoration: none;
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 12px;
+    border: none;
     border-radius: 5px;
-    transition: background 0.3s ease;
+    cursor: pointer;
 }
-
 .edit-btn {
-    background-color: #ffa726; /* Orange */
-}
 
-.logout-btn {
-    background-color: #e53935; /* Red */
+    color: rgb(91, 139, 221);
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none; /* Removes underline */
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 .edit-btn:hover {
-    background-color: #fb8c00;
+    background-color: #0056b3; /* Darker shade for hover effect */
 }
 
-.logout-btn:hover {
-    background-color: #c62828;
-}
 
-/* Dashboard Section Styling */
 .dashboard-section {
-    margin-top: 30px;
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    padding-top: 150px;
 }
 
-.dashboard-section h2 {
-    font-size: 2em;
-    color: #1e88e5;
-    margin-bottom: 20px;
-}
-
-/* Control Grid Styling */
-.controls-grid {
+.dashboard-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding: 20px;
+}
+
+/* Glassmorphism effect for dashboard boxes */
+.dashboard-box {
+    background: rgba(95, 25, 25, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-top: 20px;
 }
 
-h3 {
-    grid-column: span 2;
-    font-size: 1.5em;
+/* Hover effect */
+.dashboard-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-box h2 {
+    margin-bottom: 15px;
+    font-size: 1.2em;
     color: #333;
-    margin-top: 20px;
-    text-align: center;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
 }
 
-/* Control Button Styling */
 .control-btn {
     display: block;
-    padding: 15px;
-    background-color: #4caf50; /* Green */
-    color: #fff;
-    text-decoration: none;
-    font-size: 1em;
-    font-weight: 500;
-    border-radius: 8px;
+    width: 80%;
+    margin-top: 10px;
+    margin-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s;
+    transition: background-color 0.3s ease;
 }
 
 .control-btn:hover {
-    background-color: #388e3c;
-    transform: scale(1.05);
+    background-color: #218838;
 }

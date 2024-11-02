@@ -30,50 +30,63 @@ $stmt->close();
 </head>
 
 <body>
+    <!-- Header section -->
     <div class="header">
-        <h1>Admin Dashboard</h1>
-        <p class="admin-info">Welcome, <?php echo $admin_name; ?></p>
-        <a href="admin_edit_profile.php" class="edit-btn">Edit Profile</a>
-        <a class="logout-btn" href="admin_logout.php">Logout</a>
+        <h1 class="header-title">Admin Dashboard</h1>
+        <div class="admin-info">
+            <p>Welcome, <?php echo $admin_name; ?></p>
+            <button onclick="window.location.href='admin_edit_profile.php'" class="edit-btn">Edit Profile</button>
+            <button onclick="window.location.href='admin_logout.php'" class="logout-btn">Logout</button>
+        </div>
     </div>
 
+    <!-- Dashboard Section -->
     <section class="dashboard-section">
-        <h2>Admin Functions</h2>
-        <div class="controls-grid">
+        <div class="dashboard-container">
             <!-- Employee Management -->
-            <h3>Employee Management</h3>
-            <a href="view_employee.php" class="control-btn">View Employee</a>
-            <a href="view_employee_vacancies.php" class="control-btn">Employee Vacancy</a>
+            <div class="dashboard-box">
+                <h2>Employee Management</h2>
+                <button onclick="window.location.href='view_employee.php'" class="control-btn">View Employee</button>
+                <button onclick="window.location.href='view_employee_vacancies.php'" class="control-btn">Employee Vacancy</button>
+            </div>
 
             <!-- Employee Reports -->
-            <h3>Employee Reports</h3>
-            <a href="generate_employee_report_monthly.php" class="control-btn">Generate Monthly Employee Report</a>
-            <a href="generate_employee_report_annual.php" class="control-btn">Generate Annual Employee Report</a>
-            
+            <div class="dashboard-box">
+                <h2>Employee Reports</h2>
+                <button onclick="window.location.href='generate_employee_report_monthly.php'" class="control-btn">Generate Monthly Employee Report</button>
+                <button onclick="window.location.href='generate_employee_report_annual.php'" class="control-btn">Generate Annual Employee Report</button>
+            </div>
 
-            <!-- Attendance and Leave -->
-            <h3>Attendance and Leave Management</h3>
-            <a href="view_attendance.php" class="control-btn">View Attendance Record</a>
-            <a href="view_leave_requests.php" class="control-btn">View Leave Requests</a>
-            <a href="approve_leave.php" class="control-btn">Approve Leave Request</a>
-            <a href="decline_leave.php" class="control-btn">Decline Leave Request</a>
+            <!-- Attendance and Leave Management -->
+            <div class="dashboard-box">
+                <h2>Attendance and Leave Management</h2>
+                <button onclick="window.location.href='view_attendance.php'" class="control-btn">View Attendance Record</button>
+                <button onclick="window.location.href='view_leave_requests.php'" class="control-btn">View Leave Requests</button>
+                <button onclick="window.location.href='approve_leave.php'" class="control-btn">Approve Leave Request</button>
+                <button onclick="window.location.href='decline_leave.php'" class="control-btn">Decline Leave Request</button>
+            </div>
 
             <!-- Leave Reports -->
-            <h3>Leave Reports</h3>
-            <a href="generate_leave_report_monthly.php" class="control-btn">Generate Monthly Leave Report</a>
-            <a href="generate_leave_report_annual.php" class="control-btn">Generate Annual Leave Report</a>
+            <div class="dashboard-box">
+                <h2>Leave Reports</h2>
+                <button onclick="window.location.href='generate_leave_report_monthly.php'" class="control-btn">Generate Monthly Leave Report</button>
+                <button onclick="window.location.href='generate_leave_report_annual.php'" class="control-btn">Generate Annual Leave Report</button>
+            </div>
 
             <!-- Payroll Management -->
-            <h3>Payroll Management</h3>
-            <a href="view_payroll.php" class="control-btn">View Payroll System</a>
-            <a href="calculate_leave_deduction.php" class="control-btn">Calculate Leave Deduction</a>
-            <a href="add_payroll.php" class="control-btn">Calculate Salary</a>
-            <a href="send_notification.php" class="control-btn">Send Notification to Employee</a>
+            <div class="dashboard-box">
+                <h2>Payroll Management</h2>
+                <button onclick="window.location.href='view_payroll.php'" class="control-btn">View Payroll System</button>
+                <button onclick="window.location.href='calculate_leave_deduction.php'" class="control-btn">Calculate Leave Deduction</button>
+                <button onclick="window.location.href='add_payroll.php'" class="control-btn">Calculate Salary</button>
+                <button onclick="window.location.href='send_notification.php'" class="control-btn">Send Notification to Employee</button>
+            </div>
 
             <!-- Payroll Reports -->
-            <h3>Payroll Reports</h3>
-            <center><a href="generate_payroll_reports.php" class="control-btn">Payroll Report</a></center>
-            
+            <div class="dashboard-box">
+                <h2>Payroll Reports</h2>
+                <button onclick="window.location.href='generate_payroll_reports.php'" class="control-btn">Payroll Report</button>
+            </div>
         </div>
     </section>
 </body>
