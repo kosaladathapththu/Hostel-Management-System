@@ -67,7 +67,7 @@ $stmt->close();
             <h3>Payroll Management</h3>
             <a href="view_payroll.php" class="control-btn">View Payroll System</a>
             <a href="calculate_leave_deduction.php" class="control-btn">Calculate Leave Deduction</a>
-            <a href="calculate_salary.php" class="control-btn">Calculate Salary</a>
+            <a href="add_payroll.php" class="control-btn">Calculate Salary</a>
             <a href="send_notification.php" class="control-btn">Send Notification to Employee</a>
 
             <!-- Payroll Reports -->
