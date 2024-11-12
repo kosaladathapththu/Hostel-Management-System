@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <select name="status">
             <option value="available">Available</option>
             <option value="unavailable">Unavailable</option>
+            <option value="Maintanance">Maintanance</option>
         </select>
         <br>
         <input type="submit" value="Add Room">

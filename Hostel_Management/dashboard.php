@@ -1,5 +1,32 @@
 <?php
+session_start(); // Start session to check if the user is logged in
+
+// Check if the user is logged in as a matron
+if (!isset($_SESSION['matron_id'])) {
+    // Redirect to matron_auth.php if not logged in
+    header("Location: matron_auth.php");
+    exit();
+}
+
 include 'db_connect.php'; // Include database connection
+
+// Fetch the matron's details (Extra safety check)
+$matron_id = $_SESSION['matron_id'];
+$matronQuery = "SELECT first_name FROM Matrons WHERE matron_id = ?";
+$stmt = $conn->prepare($matronQuery);
+$stmt->bind_param("i", $matron_id);
+$stmt->execute();
+$matronResult = $stmt->get_result();
+
+if ($matronResult->num_rows === 0) {
+    // Redirect if matron is not found
+    header("Location: matron_auth.php");
+    exit();
+}
+
+// Fetch and assign first name to a variable
+$matronData = $matronResult->fetch_assoc();
+$matron_first_name = $matronData['first_name'];
 
 // Fetch total residents
 $totalResidentsQuery = "SELECT COUNT(*) as total FROM Residents";
@@ -32,87 +59,175 @@ $upcomingCheckouts = $upcomingCheckoutsResult->fetch_assoc()['total'];
 
 // Fetch recent payments with resident name
 $recentPaymentsQuery = "
-SELECT r.name as resident_name, p.amount 
-FROM Payments p
-JOIN Bookings b ON p.booking_id = b.booking_id
-JOIN Residents r ON b.resident_id = r.id
-ORDER BY p.payment_date DESC LIMIT 5";
+SELECT r.name as resident_name, t.amount 
+FROM transactionss t
+JOIN Residents r ON t.resident_id = r.id
+ORDER BY t.trant_payment_date DESC LIMIT 5";
 $recentPaymentsResult = $conn->query($recentPaymentsQuery);
+
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matron Dashboard</title>
-    <link rel="stylesheet" href="matron_dashboard.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Salvation Army Girls Hostel -Matron Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
-    <header>
-        <h1>Salvation Army Girls Hostel - Dashboard</h1>
-        <div class="user-info">
-            <p>Admin: [matron Name]</p>
-            <a href="logout.php" class="logout-btn">Logout</a>
-        </div>
-    </header>
-
-    <section class="main-metrics">
-        <h2>Main Metrics</h2>
-        <div class="metrics-grid">
-            <div class="metric-box">
-                <h3>Total Residents</h3>
-                <p><?php echo $totalResidents; ?></p>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="The_Salvation_Army.png" alt="Logo" class="logo">
+                <h2>Salvation Army</h2>
+                <p>Girls Hostel</p>
             </div>
-            <div class="metric-box">
-                <h3>Remaining Capacity</h3>
-                <p><?php echo $remainingCapacity; ?></p>
+            
+            <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="residents.php" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Residents</span>
+            </a>
+            <a href="rooml.php" class="nav-item">
+                <i class="fas fa-bed"></i>
+                <span>Rooms</span>
+            </a>
+            <a href="payments.php" class="nav-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Payments</span>
+            </a>
+            <a href="view_calendar.php" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Events</span>
+            </a>
+            <a href="view_meal_plans.php" class="nav-item">
+                <i class="fas fa-utensils"></i>
+                <span>Meal Plans</span>
+            </a>
+            <a href="view_order.php" class="nav-item">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Orders</span>
+            </a>
+            <a href="view_inventory.php" class="nav-item">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="bookings.php" class="nav-item">
+                <i class="fas fa-clipboard-check"></i>
+                <span>Checking/Checkouts</span>
+            </a>
+            <a href="view_suppliers.php" class="nav-item">
+                <i class="fas fa-truck"></i>
+                <span>Suppliers</span>
+            </a>
+        </nav>
+    </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="header-right">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="admin-profile">
+                        <img src="admin-avatar.jpg" alt="Admin" class="avatar">
+                        <div class="admin-info">
+                        <span class="admin-name"><?php echo htmlspecialchars($matron_first_name); ?></span>
+                            <p class="admin-role">Matron</p>
+                        </div>
+                    </div>
+                    <a href="matron_logout.php" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Total Residents</h3>
+                            <p class="metric-value"><?php echo $totalResidents; ?></p>
+                        </div>
+                        <div class="metric-icon residents">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Remaining Capacity</h3>
+                            <p class="metric-value"><?php echo $remainingCapacity; ?></p>
+                        </div>
+                        <div class="metric-icon capacity">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Upcoming Check-ins</h3>
+                            <p class="metric-value"><?php echo $upcomingCheckins; ?></p>
+                        </div>
+                        <div class="metric-icon check-ins">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Upcoming Check-outs</h3>
+                            <p class="metric-value"><?php echo $upcomingCheckouts; ?></p>
+                        </div>
+                        <div class="metric-icon check-outs">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <h3>Occupancy Trend</h3>
+                        <canvas id="occupancyChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Recent Payments</h3>
+                        <div class="payments-list">
+                            <?php while($row = $recentPaymentsResult->fetch_assoc()): ?>
+                            <div class="payment-item">
+                                <div class="payment-info">
+                                    <i class="fas fa-money-bill"></i>
+                                    <span class="resident-name"><?php echo $row['resident_name']; ?></span>
+                                </div>
+                                <span class="payment-amount">Rs.<?php echo $row['amount']; ?></span>
+                            </div>
+                            <?php endwhile; ?>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="metric-box">
-                <h3>Upcoming Check-ins</h3>
-                <p><?php echo $upcomingCheckins; ?></p>
-            </div>
-            <div class="metric-box">
-                <h3>Upcoming Check-outs</h3>
-                <p><?php echo $upcomingCheckouts; ?></p>
-            </div>
-        </div>
-
-        <h2>Recent Payments</h2>
-        <ul>
-            <?php while($row = $recentPaymentsResult->fetch_assoc()): ?>
-                <li><?php echo $row['resident_name'] . ' - $' . $row['amount']; ?></li>
-            <?php endwhile; ?>
-        </ul>
-
-       <!-- Navigation Buttons -->
-<div class="nav-buttons">
-    <a href="residents.php" class="nav-button">View Residents</a>
-    <a href="bookings.php" class="nav-button">Checkings/Check-outs</a>
-    <a href="rooml.php" class="nav-button">View Rooms</a>
-    <a href="payments.php" class="nav-button">View Payments</a>
-    <a href="view_suppliers.php" class="nav-button">View Suppliers</a> 
-    
-</div>
-
-<!-- New line for additional buttons -->
-<div class="nav-buttons">
-    <a href="view_order.php" class="nav-button">View Orders</a> 
-    <a href="view_inventory.php" class="nav-button">View Inventory</a>
-    <a href="view_calendar.php" class="nav-button">View Events</a>
-    <a href="view_meal_plans.php" class="nav-button">View Meal Plans</a>
-    
-</div>
-
-
-
-    </section>
+        </main>
+    </div>
+    <script src="dashboard.js"></script>
 </body>
-
 </html>
 
 <?php

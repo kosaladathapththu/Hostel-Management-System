@@ -8,6 +8,7 @@ if (isset($_GET['id'])) {
     $updateQuery = "UPDATE bookings SET status = 'approved' WHERE booking_id = ?";
     $stmt = $conn->prepare($updateQuery);
     $stmt->bind_param("i", $booking_id);
+    
     if ($stmt->execute()) {
         echo "Booking approved successfully!";
     } else {

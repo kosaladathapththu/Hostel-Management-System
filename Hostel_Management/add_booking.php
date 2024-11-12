@@ -90,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="button-container">
             <a href="bookings.php" class="back-btn">Back to Bookings List</a>
             <a href="dashboard.php" class="dashboard-btn">Go to Dashboard</a>
-            <a href="manage_checkin_checkout.php" class="dashboard-btn">Aprove Checking</a>
             
         </div>
     </section>

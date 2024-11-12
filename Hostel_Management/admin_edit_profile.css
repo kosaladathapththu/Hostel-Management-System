@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: white;
+    display: flex; /* Use flexbox to arrange child elements */
+    height: 100vh; /* Full height of the viewport */
+}
+
+.left-background {
+    background-image: url('undraw_Private_data_re_4eab.png'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire section */
+    background-position: center; /* Center the image */
+    width: 35%; /* Adjust the width of the left section */
+    height: 75%; /* Full height of the viewport */
+    padding-top: 100px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 150px;
+}
+.right-background {
+    background-image: url('undraw_Windows_re_uo4w.png'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire section */
+    background-position: center; /* Center the image */
+    width: 35%; /* Adjust the width of the left section */
+    height: 75%; /* Full height of the viewport */
+    padding-top: 100px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 150px;
+}
+.header {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color:rgb(158, 49, 49);
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    border-radius: 15px;
+    
+}
+
+
+.header-title {
+    font-size: 1.5em;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logout-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-profile-section {
+    padding-top: 150px; /* Adjusted for the fixed header */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-profile-form {
+    background:  rgba(95, 25, 25, 0.2);
+    border-radius: 15px;
+    padding: 100px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 400px; /* Set a width for the form */
+    text-align: center; /* Center the text */
+    margin-bottom: 100px;
+}
+/* Hover effect */
+.admin-profile-form:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.admin-profile-form h2{
+    display: block;
+    color: #333;
+}
+
+.admin-profile-form label {
+    display: block;
+    margin: 15px 0 5px;
+    color: #333;
+}
+
+.admin-profile-form input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.admin-profile-form button {
+    background-color: rgb(158, 49, 49);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-profile-form button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+
+.glassmorphism-form label {
+    display: block;
+    margin: 15px 0 5px;
+    color: #333;
+}
+
+.glassmorphism-form input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.glassmorphism-form button {
+    background-color: rgb(158, 49, 49);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.glassmorphism-form button:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}

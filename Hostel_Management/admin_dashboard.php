@@ -26,68 +26,47 @@ $stmt->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="admin_dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <!-- Header section -->
-    <div class="header">
-        <h1 class="header-title">Admin Dashboard</h1>
-        <div class="admin-info">
-            <p>Welcome, <?php echo $admin_name; ?></p>
-            <button onclick="window.location.href='admin_edit_profile.php'" class="edit-btn">Edit Profile</button>
-            <button onclick="window.location.href='admin_logout.php'" class="logout-btn">Logout</button>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
+        <div class="profile-info">
+            <p><i class="fas fa-user"></i> <?php echo $admin_name; ?></p>
         </div>
+        <ul>
+            <li><a href="view_employee.php"><i class="fas fa-users"></i> Employee Management</a></li>
+            <li><a href="view_employee_vacancies.php"><i class="fas fa-briefcase"></i> Employee Vacancies</a></li>
+            <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Job Applications</a></li>
+            <li><a href="admin_approve_matron.php"><i class="fas fa-user-check"></i> Matron Applications</a></li>
+            <li><a href="view_attendance.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
+            <li><a href="view_leave_requests.php"><i class="fas fa-envelope"></i> Leave Requests</a></li>
+            <li><a href="view_payroll.php"><i class="fas fa-money-check-alt"></i> Payroll System</a></li>
+            <li><a href="generate_payroll_reports.php"><i class="fas fa-chart-line"></i> Payroll Report</a></li>
+        </ul>
+        <button onclick="window.location.href='admin_edit_profile.php'" class="edit-btn"><i class="fas fa-user-edit"></i> Edit Profile</button>
+        <button onclick="window.location.href='admin_logout.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
-    <!-- Dashboard Section -->
-    <section class="dashboard-section">
-        <div class="dashboard-container">
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+        </header>
+        <section class="dashboard-section">
             <!-- Employee Management -->
             <div class="dashboard-box">
-                <h2>Employee Management</h2>
+                <h2><i class="fas fa-users"></i> Employee Management</h2>
                 <button onclick="window.location.href='view_employee.php'" class="control-btn">View Employee</button>
                 <button onclick="window.location.href='view_employee_vacancies.php'" class="control-btn">Employee Vacancy</button>
+                <button onclick="window.location.href='view_applications.php'" class="control-btn">View Job Applications</button>
+                <button onclick="window.location.href='admin_approve_matron.php'" class="control-btn">Matron Applications</button>
             </div>
-
-            <!-- Employee Reports -->
-            <div class="dashboard-box">
-                <h2>Employee Reports</h2>
-                <button onclick="window.location.href='generate_employee_report_monthly.php'" class="control-btn">Generate Monthly Employee Report</button>
-                <button onclick="window.location.href='generate_employee_report_annual.php'" class="control-btn">Generate Annual Employee Report</button>
-            </div>
-
-            <!-- Attendance and Leave Management -->
-            <div class="dashboard-box">
-                <h2>Attendance and Leave Management</h2>
-                <button onclick="window.location.href='view_attendance.php'" class="control-btn">View Attendance Record</button>
-                <button onclick="window.location.href='view_leave_requests.php'" class="control-btn">View Leave Requests</button>
-                <button onclick="window.location.href='approve_leave.php'" class="control-btn">Approve Leave Request</button>
-                <button onclick="window.location.href='decline_leave.php'" class="control-btn">Decline Leave Request</button>
-            </div>
-
-            <!-- Leave Reports -->
-            <div class="dashboard-box">
-                <h2>Leave Reports</h2>
-                <button onclick="window.location.href='generate_leave_report_monthly.php'" class="control-btn">Generate Monthly Leave Report</button>
-                <button onclick="window.location.href='generate_leave_report_annual.php'" class="control-btn">Generate Annual Leave Report</button>
-            </div>
-
-            <!-- Payroll Management -->
-            <div class="dashboard-box">
-                <h2>Payroll Management</h2>
-                <button onclick="window.location.href='view_payroll.php'" class="control-btn">View Payroll System</button>
-                <button onclick="window.location.href='calculate_leave_deduction.php'" class="control-btn">Calculate Leave Deduction</button>
-                <button onclick="window.location.href='add_payroll.php'" class="control-btn">Calculate Salary</button>
-                <button onclick="window.location.href='send_notification.php'" class="control-btn">Send Notification to Employee</button>
-            </div>
-
-            <!-- Payroll Reports -->
-            <div class="dashboard-box">
-                <h2>Payroll Reports</h2>
-                <button onclick="window.location.href='generate_payroll_reports.php'" class="control-btn">Payroll Report</button>
-            </div>
-        </div>
-    </section>
+            <!-- Other Sections (Add More as Needed) -->
+        </section>
+    </div>
 </body>
 </html>

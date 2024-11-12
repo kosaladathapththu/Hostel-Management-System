@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
 
-<!-- Header Section -->
+
 <header>
         <h1>Salvation Army Girls Hostel - Dashboard</h1>
         <div class="user-info">

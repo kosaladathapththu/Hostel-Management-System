@@ -1,0 +1,123 @@
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #e63946, #840d47, #e63946, #ff7c7c);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Right background image */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%; /* Take half of the screen on the right side */
+    background-image: url('visuals/guestlogin3.png'); /* Ensure path to image is correct */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.20; /* Adjust opacity for a softer look */
+    z-index: -3; /* Keep it behind the container */
+}
+
+.container {
+    width: 50%;
+    max-width: 550px;
+    max-height: 400px;
+    background: rgba(255, 255, 255, 0.2); /* Transparent white for glass effect */
+    backdrop-filter: blur(10px); /* Blur for frosted glass effect */
+    border-radius: 10px;
+    padding: 20px 40px;
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    z-index: 1; /* Bring it above the background */
+    color: #fff;
+    margin-left: 200px;
+    margin-top: 10px;
+    margin: auto;
+}
+
+/* Form container styling */
+.form-container {
+    width: 75%;
+    text-align: center;
+    margin: 0 auto
+}
+
+/* Heading styling */
+h2 {
+    margin-bottom: 20px;
+    color: #051852;
+    margin-left: 50px;
+}
+
+/* Error message */
+.error {
+    color: #d9534f;
+    margin-bottom: 15px;
+}
+
+/* Input styling */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #ccc;
+    text-align: left;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 2px solid #4db8e6;
+    background: transparent;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-bottom-color: #007acc;
+}
+
+/* Button styling with hover effect */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color:  #12e66e;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+button[type="submit"]:hover {
+    background-color:#380303;
+}
+
+/* Link styling */
+p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+p a {
+    color: #007acc;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

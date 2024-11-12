@@ -61,7 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    
     <form method="post" action="">
+    <B><h1><diV>Suplier Login</h1></div></B><br>
         <label>Username:</label>
         <input type="text" name="username" required><br>
 

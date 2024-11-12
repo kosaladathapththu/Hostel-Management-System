@@ -2,6 +2,8 @@
 include 'db_connect.php';
 session_start();
 
+$error_message = '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -16,27 +18,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['guest_id'] = $row['guest_id'];
             $_SESSION['guest_name'] = $row['name'];
             header("Location: guest_dashboard.php");
+            exit();
         } else {
-            echo "Incorrect password!";
+            $error_message = "Incorrect password!";
         }
     } else {
-        echo "Email not registered!";
+        $error_message = "Email not registered!";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Login</title>
+    <link rel="stylesheet" href="guest_login.css">
 </head>
 <body>
-    <h2>Guest Login</h2>
-    <form method="POST" action="">
-        Email: <input type="email" name="email" required><br>
-        Password: <input type="password" name="password" required><br>
-        <button type="submit">Login</button>
-    </form>
-    <p>Don’t have an account? <a href="guest_register.php">Register here</a>.</p>
+    <div class="container">
+        <div class="form-container">
+            <h2>Guest Login</h2>
+            <form method="POST" action="">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <p>Don’t have an account? <a href="guest_register.php">Register here</a>.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript for Client-side Validation -->
+    <script src="guest_login.js"></script>
+
+    <!-- PHP Error Handling Alert -->
+    <?php if (!empty($error_message)): ?>
+        <script>
+            alert("<?php echo $error_message; ?>");
+        </script>
+    <?php endif; ?>
 </body>
 </html>

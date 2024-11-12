@@ -11,9 +11,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemName = $_POST['item_name'];
     $quantity = $_POST['quantity'];
 
-    // Insert new order into the Orders table
+    // Insert into Orders table
     $insertQuery = "INSERT INTO Orders (supplier_id, item_name, quantity) VALUES ('$supplierId', '$itemName', '$quantity')";
     if ($conn->query($insertQuery) === TRUE) {
+        $orderId = $conn->insert_id;  // Get the ID of the new order
+
+        // Insert into OrderDetails table
+        $detailsQuery = "INSERT INTO OrderDetails (order_id, order_amount, delivery_date) 
+                         VALUES ('$orderId', '0.00', '0000-00-00')";  // Dummy data
+        $conn->query($detailsQuery);
+
+        // Insert into OrderStatus table
+        $statusQuery = "INSERT INTO OrderStatus (order_id, supplier_acceptance) 
+                        VALUES ('$orderId', 'Pending')";
+        $conn->query($statusQuery);
+
+        // Insert into OrderPayments table
+        $paymentQuery = "INSERT INTO OrderPayments (order_id, payment_status) 
+                         VALUES ('$orderId', 'Pending')";
+        $conn->query($paymentQuery);
+
         echo "<script>alert('Order requested successfully.');</script>";
     } else {
         echo "<script>alert('Error: " . $insertQuery . " " . $conn->error . "');</script>";
@@ -57,8 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="view_order.php" class="back-button">Back to Orders</a>
         <a href="dashboard.php" class="dashboard-button">Dashboard</a>
     </div>
-</section>
-
+    </section>
 </body>
 </html>
 

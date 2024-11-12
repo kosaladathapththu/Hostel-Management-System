@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Delete Button -->
         <a href="delete_event.php?id=<?php echo $eventId; ?>" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this event?')">Delete Event</a>
-        <a href="dashboard.php" class="dashboard-button">Dashboard</a> <!-- New Dashboard Button -->
+        <a href="dashboard.php" class="dashboard-button">Dashboard</a> 
     </form>
 
     <a href="view_calendar.php" class="back-link">Back to Calendar</a>

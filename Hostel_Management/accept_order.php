@@ -4,20 +4,19 @@ include 'db_connect.php';
 if (isset($_GET['order_id'])) {
     $order_id = $_GET['order_id'];
 
-    // Update the order status to 'accepted'
-    $sql = "UPDATE orders SET status = 'approved' WHERE order_id = ?";
+    // Update the order status to 'Accepted' and redirect to bill creation page
+    $sql = "UPDATE Orders 
+            SET status = 'Accepted' 
+            WHERE order_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $order_id);
-
-    if ($stmt->execute()) {
-        echo "Order accepted!";
-    } else {
-        echo "Error updating order: " . $conn->error;
-    }
-}
+    $stmt->execute();
     $stmt->close();
-    $conn->close();
-    header("Location: supplier_dashboard.php");
-    exit();
 
+    // Redirect to the page where the bill can be assigned
+    header("Location: create_bill.php?order_id=" . $order_id);
+    exit();
+}
+
+$conn->close();
 ?>

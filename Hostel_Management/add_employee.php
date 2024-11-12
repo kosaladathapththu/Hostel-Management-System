@@ -36,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
     <h2>Add Employe<h2>
     <div class="user-info">
-        <p>Welcome, <p>
-        
+        <p>Welcome, <p> 
         <a href="admin_logout.php" class="logout-btn">Logout</a>
     </div>
 </header>

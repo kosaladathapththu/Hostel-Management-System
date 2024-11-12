@@ -1,0 +1,99 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f3f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Heading Styling */
+h1 {
+    color: #2e3a59;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    max-width: 900px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-spacing: 0;
+}
+
+/* Table Header Styling */
+th {
+    background-color: #2e3a59;
+    color: #fff;
+    padding: 16px;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+/* Table Cell Styling */
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Hover Effect on Rows */
+tr:hover {
+    background-color: #f4f6f9;
+    transition: background-color 0.3s ease;
+}
+
+/* Styling the action links */
+a {
+    text-decoration: none;
+    color: #4e54c8;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+a:hover {
+    color: #8f94fb;
+    transition: color 0.3s ease;
+}
+
+/* Styling Buttons */
+button {
+    background-color: #2e3a59;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4e54c8;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    table {
+        width: 100%;
+    }
+    button {
+        padding: 10px 20px;
+    }
+}

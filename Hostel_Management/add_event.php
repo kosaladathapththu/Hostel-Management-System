@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="date" name="end_date" required>
         <br>
         <input type="submit" value="Add Event">
-        <a href="dashboard.php" class="dashboard-button">Dashboard</a> <!-- New Dashboard Button -->
+        <a href="dashboard.php" class="dashboard-button">Dashboard</a>
         <a href="view_calendar.php">Back to Calendar</a>
     </form>
     

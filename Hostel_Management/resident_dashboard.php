@@ -17,8 +17,17 @@ if (!isset($_SESSION['resident_id'])) {
 }
 
 // Fetch resident_id and name from session
-$resident_id = $_SESSION['resident_id']; 
+$resident_id = $_SESSION['resident_id'];
 $resident_name = $_SESSION['resident_name'];
+
+// Query to fetch profile picture
+$profileQuery = "SELECT profile_picture FROM residents WHERE id = ?";
+$profileStmt = $conn->prepare($profileQuery);
+$profileStmt->bind_param("i", $resident_id);
+$profileStmt->execute();
+$profileResult = $profileStmt->get_result();
+$profileData = $profileResult->fetch_assoc(); // Fetch profile data as an associative array
+$profileStmt->close(); // Close statement after execution
 
 // Fetch resident's room information directly from the residents table
 $roomInfoQuery = "
@@ -31,6 +40,7 @@ $roomStmt->bind_param("i", $resident_id);
 $roomStmt->execute();
 $roomInfoResult = $roomStmt->get_result();
 $roomInfo = $roomInfoResult->fetch_assoc();
+$roomStmt->close();
 
 // Fetch upcoming events for residents
 $upcomingEventsQuery = "SELECT title, start_date FROM events WHERE start_date >= CURDATE() ORDER BY start_date ASC LIMIT 5";
@@ -46,6 +56,7 @@ $checkinStmt->bind_param("i", $resident_id);
 $checkinStmt->execute();
 $checkinCheckoutResult = $checkinStmt->get_result();
 $checkinCheckout = $checkinCheckoutResult->fetch_assoc();
+$checkinStmt->close();
 
 // Fetch past check-in/check-out records for checking checkouts
 $pastCheckinsQuery = "
@@ -57,6 +68,7 @@ $pastCheckinsStmt = $conn->prepare($pastCheckinsQuery);
 $pastCheckinsStmt->bind_param("i", $resident_id);
 $pastCheckinsStmt->execute();
 $pastCheckinsResult = $pastCheckinsStmt->get_result();
+$pastCheckinsStmt->close();
 
 // Check if check-out date has passed
 $showRequestCheckings = true;
@@ -65,6 +77,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,93 +85,256 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Dashboard</title>
     <link rel="stylesheet" href="resident_dashboard.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Moving styles to separate CSS file */
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Salvation Army-Resident Dashboard</h1>
-        <div class="profile-info">
-            <?php
-            // Fetch the profile picture path from the database
-            $residentQuery = "SELECT profile_picture FROM residents WHERE id = ?";
-            $residentStmt = $conn->prepare($residentQuery);
-            $residentStmt->bind_param("i", $resident_id);
-            $residentStmt->execute();
-            $residentResult = $residentStmt->get_result();
-            $residentData = $residentResult->fetch_assoc();
-
-            // Display profile picture or default icon
-            if (!empty($residentData['profile_picture'])):
-            ?>
-                <img src="<?php echo $residentData['profile_picture']; ?>" alt="Profile Picture" class="profile-picture">
-            <?php else: ?>
-                <img src="default_profile.png" alt="Default Profile" class="profile-picture"> <!-- Placeholder for default image -->
-            <?php endif; ?>
-            <a href="edit_profile.php" class="edit-profile-btn">Edit Profile</a>
-        </div>
-
-        <div class="user-info">
-            <p>Welcome, <?php echo $resident_name; ?></p> <!-- Resident's name displayed -->
-            <a href="?logout=true" class="logout-btn">Logout</a>
-        </div>
-    </header>
-
-    <section class="main-metrics">
-        <h2>Room Details</h2>
-        <div class="metrics-grid">
-            <div class="metric-box">
-                <h3>Room Number</h3>
-                <p><?php echo $roomInfo['room_number'] ?? 'Not Assigned'; ?></p>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="The_Salvation_Army.png" alt="Logo" class="logo">
+                <h2>Salvation Army</h2>
             </div>
-            <div class="metric-box">
-                <h3>Status</h3>
-                <p><?php echo $roomInfo['status'] ?? 'Unknown'; ?></p>
-            </div>
-        </div>
-
-        <h2>Upcoming Events</h2>
-        <ul>
-            <?php while($row = $upcomingEventsResult->fetch_assoc()): ?>
-                <li><?php echo $row['title'] . ' - ' . $row['start_date']; ?></li>
-            <?php endwhile; ?>
-        </ul>
-
-        <h2>Checking Checkouts</h2>
-        <div class="past-checkouts">
-            <?php if ($pastCheckinsResult->num_rows > 0): ?>
+            <nav class="sidebar-nav">
                 <ul>
-                    <?php while($past = $pastCheckinsResult->fetch_assoc()): ?>
-                        <li>Check-in: <?php echo date('Y-m-d', strtotime($past['check_in_date'])); ?> | 
-                            Check-out: <?php echo date('Y-m-d', strtotime($past['check_out_date'])); ?></li>
-                    <?php endwhile; ?>
+                    <li class="active">
+                        <a href="resident_dashboard.php"><i class="fas fa-home"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="edit_profile.php"><i class="fas fa-user"></i>Profile</a>
+                    </li>
+                    <li>
+                        <a href="resident_view_meal_plans.php"><i class="fas fa-utensils"></i>Meals</a>
+                    </li>
+                    <li>
+                        <a href="update_checkin_checkout.php"><i class="fas fa-calendar-check"></i>Check-in/out</a>
+                    </li>
+                    <li>
+                        <a href="#events"><i class="fas fa-calendar"></i>Events</a>
+                    </li>
+                    <li>
+                        <a href="transaction.php"><i class="fa fa-credit-card"></i>Monthly Fee</a>
+                    </li>
+                    <li>
+                        <a href="#support"><i class="fas fa-headset"></i>Support</a>
+                    </li>
                 </ul>
-            <?php else: ?>
-                <p>No past check-in/check-out records found.</p>
-            <?php endif; ?>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="?logout=true" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+    <div class="nav-left">
+        <button id="sidebar-toggle" class="sidebar-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search...">
+            <div class="search-results">
+                <div class="search-results-content">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="user-menu">
+        <!-- Messages Dropdown -->
+        <div class="menu-item messages-dropdown">
+            <button class="icon-button">
+                <i class="fas fa-envelope"></i>
+                <span class="badge">4</span>
+            </button>
+            <div class="dropdown-content messages-content">
+                <div class="dropdown-header">
+                    <h3>Messages</h3>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="dropdown-body">
+                    <a href="#" class="message-item unread">
+                        <img src="assets/default_profile.png" alt="Sender" class="sender-avatar">
+                        <div class="message-content">
+                            <div class="message-info">
+                                <h4>Room Service</h4>
+                                <span class="time">2m ago</span>
+                            </div>
+                            <p>Your room cleaning is scheduled...</p>
+                        </div>
+                    </a>
+                    <!-- Add more message items as needed -->
+                </div>
+            </div>
         </div>
 
-        <?php if ($showRequestCheckings): ?>
-            <a href="update_checkin_checkout.php" class="feedback-btn">Request Checkings</a>
-        <?php endif; ?>
+        <!-- Notifications Dropdown -->
+        <div class="menu-item notifications-dropdown">
+            <button class="icon-button">
+                <i class="fas fa-bell"></i>
+                <span class="badge"><?php echo $notificationCount ?? '3'; ?></span>
+            </button>
+            <div class="dropdown-content notifications-content">
+                <div class="dropdown-header">
+                    <h3>Notifications</h3>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="dropdown-body">
+                    <a href="#" class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p>New event scheduled for tomorrow</p>
+                            <span class="time">1h ago</span>
+                        </div>
+                    </a>
+                    <!-- Add more notification items as needed -->
+                </div>
+            </div>
+        </div>
 
-        <a href="resident_view_meal_plans.php" class="feedback-btn">Meals Feedback</a>
-    </section>
+        <!-- Profile Dropdown -->
+        <div class="menu-item profile-dropdown">
+            <button class="profile-button">
+            <img src="<?php echo !empty($profileData['profile_picture']) ? 'uploads/' . htmlspecialchars($profileData['profile_picture']) : 'assets/default_profile.png'; ?>" 
+     alt="Profile" 
+     class="profile-picture"
+     onerror="this.src='assets/default_profile.png'">
+<span class="profile-name"><?php echo htmlspecialchars($resident_name); ?></span>
 
-            <script>
-        // Confirm Logout Script
-        document.querySelector('.logout-btn').addEventListener('click', function(e) {
-            if (!confirm("Are you sure you want to log out?")) {
-                e.preventDefault(); // Prevent logout if not confirmed
-            }
-        });
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-content profile-content">
+                <div class="dropdown-header profile-header">
+                    <img src="<?php echo !empty($profileData['profile_picture']) ? 'uploads/' . $profileData['profile_picture'] : 'assets/default_profile.png'; ?>" 
+                         alt="Profile"
+                         class="large-profile-picture"
+                         onerror="this.src='assets/default_profile.png'">
+                    <div class="profile-info">
+                        <h3><?php echo htmlspecialchars($resident_name); ?></h3>
+                        <p>Room <?php echo $roomInfo['room_number'] ?? 'Not Assigned'; ?></p>
+                    </div>
+                </div>
+                <div class="dropdown-body">
+                    <a href="edit_profile.php" class="dropdown-item">
+                        <i class="fas fa-user"></i> My Profile
+                    </a>
+                    <a href="settings.php" class="dropdown-item">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a href="help.php" class="dropdown-item">
+                        <i class="fas fa-question-circle"></i> Help Center
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="?logout=true" class="dropdown-item logout-item">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 
-        // Tooltips for Status Information
-        const statusTooltip = document.createElement('div');
-        statusTooltip.className = 'tooltiptext';
-        statusTooltip.innerText = 'Shows current room status'; 
-        document.querySelector('.metric-box h3').appendChild(statusTooltip);
-        </script>
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h1>Welcome back, <?php echo $resident_name; ?>!</h1>
+                    <p>Here's what's happening today</p>
+                </div>
 
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon room-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Room Number</h3>
+                            <p><?php echo $roomInfo['room_number'] ?? 'Not Assigned'; ?></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon status-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Status</h3>
+                            <p><?php echo $roomInfo['status'] ?? 'Unknown'; ?></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon calendar-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Next Check-out</h3>
+                            <p><?php echo isset($checkinCheckout['check_out_date']) ? date('M d, Y', strtotime($checkinCheckout['check_out_date'])) : 'N/A'; ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events and Activities -->
+                <div class="content-grid">
+                    <div class="content-card upcoming-events">
+                        <div class="card-header">
+                            <h2>Upcoming Events</h2>
+                            <button class="view-all">View All</button>
+                        </div>
+                        <ul class="events-list">
+                            <?php while($row = $upcomingEventsResult->fetch_assoc()): ?>
+                            <li class="event-item">
+                                <div class="event-date">
+                                    <?php 
+                                        $date = new DateTime($row['start_date']);
+                                        echo $date->format('M');
+                                        echo "<span>" . $date->format('d') . "</span>";
+                                    ?>
+                                </div>
+                                <div class="event-details">
+                                    <h4><?php echo $row['title']; ?></h4>
+                                    <p><?php echo $date->format('g:i A'); ?></p>
+                                </div>
+                            </li>
+                            <?php endwhile; ?>
+                        </ul>
+                    </div>
+
+                    <div class="content-card check-history">
+                        <div class="card-header">
+                            <h2>Check-in/out History</h2>
+                            <button class="view-all">View All</button>
+                        </div>
+                        <div class="history-list">
+                            <?php while($past = $pastCheckinsResult->fetch_assoc()): ?>
+                            <div class="history-item">
+                                <div class="history-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="history-details">
+                                    <h4>Check Period</h4>
+                                    <p>From: <?php echo date('M d, Y', strtotime($past['check_in_date'])); ?></p>
+                                    <p>To: <?php echo date('M d, Y', strtotime($past['check_out_date'])); ?></p>
+                                </div>
+                            </div>
+                            <?php endwhile; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
 

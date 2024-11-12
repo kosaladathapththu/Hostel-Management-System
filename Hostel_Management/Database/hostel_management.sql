@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2024 at 06:44 AM
+-- Generation Time: Nov 03, 2024 at 04:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin`
 --
 
+DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `admin_id` int(11) NOT NULL,
   `admin_name` varchar(100) NOT NULL,
@@ -50,6 +51,7 @@ INSERT INTO `admin` (`admin_id`, `admin_name`, `username`, `email`, `password`, 
 -- Table structure for table `applicants`
 --
 
+DROP TABLE IF EXISTS `applicants`;
 CREATE TABLE `applicants` (
   `applicant_id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
@@ -72,7 +74,7 @@ CREATE TABLE `applicants` (
 --
 
 INSERT INTO `applicants` (`applicant_id`, `name`, `application_date`, `status`, `national_id`, `age`, `email`, `phone`, `room_id`, `created_at`, `username`, `password`, `profile_picture`, `resident_form`) VALUES
-(3, 'asdfghj', '2024-11-02', '', '20024598766', 22, 'hfhmn@gmail.com', '0719148762', 2, '2024-11-02 04:32:00', 'abcd', '$2y$10$dfS8Y/SlcILfJxald81PS.1S4AYju0JZQIlZyRMryvlGHyc7Kh/RO', 'uploads/burger-4k-desktop-best-wallpaper-thumb.jpg', 'uploads/corrected use case copy.drawio.pdf');
+(5, 'qaz', '2024-11-02', '', '20021465896', 21, 'qaz1@Gmail.com', '0719148762', 2, '2024-11-02 07:04:21', 'qaz', '$2y$10$24Izi7EIwwKJLlMxmFrIaOXkuig5CDgpyPsFdW.ATuKzrCA9k3nS2', 'uploads/oretawindowslogonew.png', 'uploads/corrected use case copy.drawio.pdf');
 
 -- --------------------------------------------------------
 
@@ -80,6 +82,7 @@ INSERT INTO `applicants` (`applicant_id`, `name`, `application_date`, `status`, 
 -- Table structure for table `audit_log`
 --
 
+DROP TABLE IF EXISTS `audit_log`;
 CREATE TABLE `audit_log` (
   `log_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -93,6 +96,7 @@ CREATE TABLE `audit_log` (
 -- Table structure for table `bookings`
 --
 
+DROP TABLE IF EXISTS `bookings`;
 CREATE TABLE `bookings` (
   `booking_id` int(11) NOT NULL,
   `resident_id` int(11) DEFAULT NULL,
@@ -121,6 +125,7 @@ INSERT INTO `bookings` (`booking_id`, `resident_id`, `room_id`, `check_in_date`,
 -- Table structure for table `employees`
 --
 
+DROP TABLE IF EXISTS `employees`;
 CREATE TABLE `employees` (
   `employee_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -129,15 +134,23 @@ CREATE TABLE `employees` (
   `phone` varchar(15) DEFAULT NULL,
   `status` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `national_id` varchar(50) DEFAULT NULL
+  `national_id` varchar(50) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `is_password_set` tinyint(1) DEFAULT 0,
+  `leave_balance` int(11) DEFAULT 20
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `name`, `position`, `email`, `phone`, `status`, `created_at`, `national_id`) VALUES
-(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'manager', 'kosalaathapaththu1234@gmail.com', '0719148762', 1, '2024-10-28 11:47:47', '200117401121');
+INSERT INTO `employees` (`employee_id`, `name`, `position`, `email`, `phone`, `status`, `created_at`, `national_id`, `password`, `is_password_set`, `leave_balance`) VALUES
+(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'manager', 'kosalaathapaththu1234@gmail.com', '0719148762', 1, '2024-10-28 11:47:47', '200117401121', '', 0, 20),
+(2, 'Unknown', 'Unknown Position', 'noemail@example.com', NULL, 1, '2024-11-02 10:48:43', NULL, '$2y$10$DUavm..Nb9G6GOkqdQKDjO9FwyiQ.ams9Gji5oWSkD5y22eq78pPS', 0, 20),
+(3, 'qwas', 'cleaner', 'qwas@gmail.com', '0147852369', 0, '2024-11-02 06:37:12', '20024598766', '$2y$10$9FUZu5cUsSGNWw29b4DZLebba3Pl39511YeEE7bS5PaKYFGel//a2', 1, 20),
+(4, 'zxcv', 'New Hire', 'zxcv@gmail.com', '1234567890', 0, '2024-11-02 06:47:00', '', '$2y$10$LwVv8OwSWIGogqSX05m4DOJG.nX0bREdHrkXN33zQpWmWr79MeV.y', 1, 13),
+(5, 'madhumini', 'New Hire', 'maduu@gmail.com', '0345621798', 0, '2024-11-02 12:56:56', '', '$2y$10$rLq4y5gS4oSKdlMBod.0De0T4sOjwJPCyXECSypXZi9ynJ8V1r18O', 1, 19),
+(6, 'rashmi p', 'New Hire', 'rush1234@gmail.com', '0719148762', 0, '2024-11-03 00:27:44', '', '$2y$10$FcyO0bwhJvae5xYUfecIk.n5i1lno39VxXKIoHHXUbYOnAYmVAfJe', 1, 17);
 
 -- --------------------------------------------------------
 
@@ -145,6 +158,7 @@ INSERT INTO `employees` (`employee_id`, `name`, `position`, `email`, `phone`, `s
 -- Table structure for table `employee_vacancies`
 --
 
+DROP TABLE IF EXISTS `employee_vacancies`;
 CREATE TABLE `employee_vacancies` (
   `vacancy_id` int(11) NOT NULL,
   `job_title` varchar(100) NOT NULL,
@@ -167,6 +181,7 @@ INSERT INTO `employee_vacancies` (`vacancy_id`, `job_title`, `department`, `stat
 -- Table structure for table `events`
 --
 
+DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `event_id` int(11) NOT NULL,
   `title` varchar(100) DEFAULT NULL,
@@ -190,6 +205,7 @@ INSERT INTO `events` (`event_id`, `title`, `description`, `start_date`, `end_dat
 -- Table structure for table `guests`
 --
 
+DROP TABLE IF EXISTS `guests`;
 CREATE TABLE `guests` (
   `guest_id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
@@ -205,7 +221,8 @@ CREATE TABLE `guests` (
 --
 
 INSERT INTO `guests` (`guest_id`, `name`, `email`, `password`, `phone`, `national_id`, `created_at`) VALUES
-(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'kosalaathapaththu1234@gmail.com', '$2y$10$Hou9kWzVxe79qT2IbLKqSO0nWHqNcMEmJF6bcvD7Mn1KjmWQTD126', '0719148762', NULL, '2024-10-31 17:55:48');
+(1, 'A.M.Kosala Dhaneshwara Athapaththu', 'kosalaathapaththu1234@gmail.com', '$2y$10$Hou9kWzVxe79qT2IbLKqSO0nWHqNcMEmJF6bcvD7Mn1KjmWQTD126', '0719148762', NULL, '2024-10-31 17:55:48'),
+(2, 'rush', 'rush1234@gmail.com', '$2y$10$Q2X.6jBSb8Tc2VHdK6gdFeZGmzcEcdIAz.t1SPhAf2ApCtQ0.9yki', '0719148762', NULL, '2024-11-03 04:55:45');
 
 -- --------------------------------------------------------
 
@@ -213,6 +230,7 @@ INSERT INTO `guests` (`guest_id`, `name`, `email`, `password`, `phone`, `nationa
 -- Table structure for table `inventory`
 --
 
+ DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory` (
   `item_id` int(11) NOT NULL,
   `item_name` varchar(100) DEFAULT NULL,
@@ -235,6 +253,7 @@ INSERT INTO `inventory` (`item_id`, `item_name`, `category`, `quantity`, `last_u
 -- Table structure for table `job_applications`
 --
 
+ DROP TABLE IF EXISTS `job_applications`;
 CREATE TABLE `job_applications` (
   `application_id` int(11) NOT NULL,
   `vacancy_id` int(11) DEFAULT NULL,
@@ -242,15 +261,48 @@ CREATE TABLE `job_applications` (
   `contact_email` varchar(255) DEFAULT NULL,
   `contact_phone` varchar(15) DEFAULT NULL,
   `application_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `cover_letter` text DEFAULT NULL
+  `cover_letter` text DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `job_applications`
 --
 
-INSERT INTO `job_applications` (`application_id`, `vacancy_id`, `applicant_name`, `contact_email`, `contact_phone`, `application_date`, `cover_letter`) VALUES
-(1, 1, 'abcd', 'abcd@gmail.com', '0742397719', '2024-11-01 11:50:51', 'apply');
+INSERT INTO `job_applications` (`application_id`, `vacancy_id`, `applicant_name`, `contact_email`, `contact_phone`, `application_date`, `cover_letter`, `status`) VALUES
+(1, 1, 'abcd', 'abcd@gmail.com', '0742397719', '2024-11-01 11:50:51', 'apply', 'approved'),
+(2, 1, 'qwas', 'qwas@gmail.com', '0147852369', '2024-11-02 11:05:04', 'approve me', 'approved'),
+(3, 1, 'zxcv', 'zxcv@gmail.com', '1234567890', '2024-11-02 11:16:42', 'asdfg', 'approved'),
+(4, 2, 'madhumini', 'maduu@gmail.com', '0345621798', '2024-11-02 17:26:25', 'please approve my job', 'approved'),
+(5, 2, 'rashmi p', 'rush1234@gmail.com', '0719148762', '2024-11-03 04:57:07', 'approve me', 'approved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leave_applications`
+--
+ 
+DROP TABLE IF EXISTS `leave_applications`;
+CREATE TABLE `leave_applications` (
+  `application_id` int(11) NOT NULL,
+  `employee_id` int(11) DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `reason` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_applications`
+--
+
+INSERT INTO `leave_applications` (`application_id`, `employee_id`, `start_date`, `end_date`, `status`, `reason`, `created_at`) VALUES
+(1, 4, '2024-11-02', '2024-11-05', 'approved', 'sick leave', '2024-11-02 17:18:04'),
+(2, 4, '2024-11-02', '2024-11-05', 'approved', 'sick leave', '2024-11-02 18:09:07'),
+(3, 5, '2024-11-03', '2024-11-03', 'approved', 'no reason', '2024-11-02 19:14:21'),
+(4, 6, '2024-11-03', '2024-11-05', 'approved', 'asdfgh', '2024-11-03 04:58:50'),
+(5, 4, '2024-11-03', '2024-11-05', 'approved', 'asdfg', '2024-11-03 10:48:25');
 
 -- --------------------------------------------------------
 
@@ -258,6 +310,7 @@ INSERT INTO `job_applications` (`application_id`, `vacancy_id`, `applicant_name`
 -- Table structure for table `meal_feedback`
 --
 
+ DROP TABLE IF EXISTS `meal_feedback`;  
 CREATE TABLE `meal_feedback` (
   `feedback_id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL,
@@ -285,11 +338,21 @@ INSERT INTO `meal_feedback` (`feedback_id`, `resident_id`, `meal_id`, `comment`,
 (11, 4, 1, 'very nice', 5, '2024-10-26 07:43:52');
 
 -- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Matron (
+    matron_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    second_name VARCHAR(50),
+    email VARCHAR(100) UNIQUE,
+    birth_date DATE,
+    city VARCHAR(50),
+    password VARCHAR(255) -- store password securely
+);
 
 --
 -- Table structure for table `meal_plans`
 --
 
+DROP TABLE IF EXISTS `meal_plans`;  
 CREATE TABLE `meal_plans` (
   `meal_id` int(11) NOT NULL,
   `meal_name` varchar(100) NOT NULL,
@@ -312,6 +375,8 @@ INSERT INTO `meal_plans` (`meal_id`, `meal_name`, `description`, `date`, `create
 -- Table structure for table `orders`
 --
 
+
+DROP TABLE IF EXISTS `orders`; 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `supplier_id` int(11) DEFAULT NULL,
@@ -337,7 +402,8 @@ INSERT INTO `orders` (`order_id`, `supplier_id`, `item_name`, `quantity`, `order
 (10, 2, 'vegitables', 2, '2024-10-27 20:46:15', '', NULL),
 (11, 7, 'spoons', 20, '2024-10-27 20:50:47', 'approved', NULL),
 (12, 1, 'vegtables', 5, '2024-11-02 05:05:06', 'requested', NULL),
-(13, 2, 'vegitables', 5, '2024-11-02 05:05:55', 'approved', NULL);
+(13, 2, 'vegitables', 5, '2024-11-02 05:05:55', 'approved', NULL),
+(14, 8, 'Gass Cooker', 2, '2024-11-03 10:10:35', 'requested', NULL);
 
 -- --------------------------------------------------------
 
@@ -345,6 +411,8 @@ INSERT INTO `orders` (`order_id`, `supplier_id`, `item_name`, `quantity`, `order
 -- Table structure for table `payments`
 --
 
+
+DROP TABLE IF EXISTS `payments`;    
 CREATE TABLE `payments` (
   `payment_id` int(11) NOT NULL,
   `booking_id` int(11) DEFAULT NULL,
@@ -361,6 +429,8 @@ CREATE TABLE `payments` (
 -- Table structure for table `ratings`
 --
 
+
+DROP TABLE IF EXISTS `ratings`;   
 CREATE TABLE `ratings` (
   `rating_id` int(11) NOT NULL,
   `supplier_id` int(11) DEFAULT NULL,
@@ -384,6 +454,8 @@ INSERT INTO `ratings` (`rating_id`, `supplier_id`, `rating`, `comments`, `rated_
 -- Table structure for table `residents`
 --
 
+
+DROP TABLE IF EXISTS `residents`;  
 CREATE TABLE `residents` (
   `id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
@@ -426,6 +498,8 @@ INSERT INTO `residents` (`id`, `name`, `national_id`, `age`, `email`, `phone`, `
 -- Table structure for table `rooms`
 --
 
+
+DROP TABLE IF EXISTS `rooms`; 
 CREATE TABLE `rooms` (
   `room_id` int(11) NOT NULL,
   `room_number` varchar(10) DEFAULT NULL,
@@ -450,6 +524,7 @@ INSERT INTO `rooms` (`room_id`, `room_number`, `capacity`, `status`, `created_at
 -- Table structure for table `room_applications`
 --
 
+DROP TABLE IF EXISTS `room_applications`; 
 CREATE TABLE `room_applications` (
   `application_id` int(11) NOT NULL,
   `guest_name` varchar(50) NOT NULL,
@@ -472,6 +547,7 @@ INSERT INTO `room_applications` (`application_id`, `guest_name`, `guest_email`, 
 -- Table structure for table `salary`
 --
 
+  DROP TABLE IF EXISTS `salary`;
 CREATE TABLE `salary` (
   `salary_id` int(11) NOT NULL,
   `employee_id` int(11) DEFAULT NULL,
@@ -488,7 +564,9 @@ CREATE TABLE `salary` (
 --
 
 INSERT INTO `salary` (`salary_id`, `employee_id`, `base_salary`, `allowances`, `deductions`, `total_salary`, `salary_date`, `created_at`) VALUES
-(1, 1, 100000.00, 5000.00, 12000.00, 93000.00, '2024-10-29', '2024-10-28 16:17:00');
+(1, 1, 100000.00, 5000.00, 12000.00, 93000.00, '2024-10-29', '2024-10-28 16:17:00'),
+(2, 3, 35000.00, 2000.00, 100.00, 36900.00, '2024-11-02', '2024-11-02 15:43:51'),
+(3, 5, 85000.00, 5000.00, 10000.00, 80000.00, '2024-11-03', '2024-11-02 18:58:59');
 
 -- --------------------------------------------------------
 
@@ -496,6 +574,7 @@ INSERT INTO `salary` (`salary_id`, `employee_id`, `base_salary`, `allowances`, `
 -- Table structure for table `suppliers`
 --
 
+ DROP TABLE IF EXISTS `suppliers`;
 CREATE TABLE `suppliers` (
   `supplier_id` int(11) NOT NULL,
   `supplier_name` varchar(100) DEFAULT NULL,
@@ -515,7 +594,8 @@ INSERT INTO `suppliers` (`supplier_id`, `supplier_name`, `category`, `contact`, 
 (2, 'Cargils', 'food', '0700000023', '2024-10-12 08:45:26', 'cargils', '$2y$10$t1ginWzIv5sJ19mkb8v.OergzAHmqvHiCm.p0tUWpz5Qyp6A6qZgi'),
 (3, 'TN furnitures', 'furniture', '0745689325', '2024-10-12 09:00:17', 'supplier_3', NULL),
 (4, 'Rajana Electricals', 'repair_services', '0123697856', '2024-10-12 09:03:19', 'supplier_4', NULL),
-(7, 'No 1 Food City', 'food', '0745689325', '2024-10-27 14:55:57', 'foodcity1', '$2y$10$Cuph3iPU4uHWDKkq16iEeekOu6HG2QlukY1QXZeKIZJrZQ4yLUQ62');
+(7, 'No 1 Food City', 'food', '0745689325', '2024-10-27 14:55:57', 'foodcity1', '$2y$10$Cuph3iPU4uHWDKkq16iEeekOu6HG2QlukY1QXZeKIZJrZQ4yLUQ62'),
+(8, 'mnk', 'utilities', '0700000000', '2024-11-03 05:28:08', 'mnk_67274930da09a', '$2y$10$WAB5QosVpWVsjSmKc31TA.CU8o2xklocZxfv2qRb5d.mlMzb1tnji');
 
 -- --------------------------------------------------------
 
@@ -523,6 +603,7 @@ INSERT INTO `suppliers` (`supplier_id`, `supplier_name`, `category`, `contact`, 
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`; 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
@@ -602,6 +683,12 @@ ALTER TABLE `inventory`
 ALTER TABLE `job_applications`
   ADD PRIMARY KEY (`application_id`),
   ADD KEY `vacancy_id` (`vacancy_id`);
+
+--
+-- Indexes for table `leave_applications`
+--
+ALTER TABLE `leave_applications`
+  ADD PRIMARY KEY (`application_id`);
 
 --
 -- Indexes for table `meal_feedback`
@@ -692,7 +779,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `applicants`
 --
 ALTER TABLE `applicants`
-  MODIFY `applicant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `applicant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `audit_log`
@@ -710,7 +797,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `employee_vacancies`
@@ -728,7 +815,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `guests`
 --
 ALTER TABLE `guests`
-  MODIFY `guest_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `guest_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `inventory`
@@ -740,7 +827,13 @@ ALTER TABLE `inventory`
 -- AUTO_INCREMENT for table `job_applications`
 --
 ALTER TABLE `job_applications`
-  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `leave_applications`
+--
+ALTER TABLE `leave_applications`
+  MODIFY `application_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `meal_feedback`
@@ -758,7 +851,7 @@ ALTER TABLE `meal_plans`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -794,13 +887,13 @@ ALTER TABLE `room_applications`
 -- AUTO_INCREMENT for table `salary`
 --
 ALTER TABLE `salary`
-  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `salary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`

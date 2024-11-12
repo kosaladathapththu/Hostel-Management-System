@@ -15,7 +15,7 @@ $ratingsResult = $conn->query($ratingsQuery);
 <head>
     <meta charset="UTF-8">
     <title>View Ratings</title>
-    <link rel="stylesheet" href="view_ratings.css"> <!-- Link to your CSS file -->
+c
 </head>
 <body>
     <header>
