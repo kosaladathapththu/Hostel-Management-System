@@ -13,9 +13,9 @@ class TransactionManager {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $resident_id = $_POST['resident_id'];
             $trant_payment_date = $_POST['trant_payment_date'];
-            $trant_month = $_POST['trant_month'];
+            $t  rant_month = $_POST['trant_month'];
             $amount = $_POST['amount'];
-            
+                               
             if ($this->uploadReceipt()) {
                 return $this->saveTransaction($resident_id, $trant_payment_date, $trant_month, $amount);
             }
@@ -47,7 +47,7 @@ class TransactionManager {
     }
     
     public function getResidentData($resident_id) {
-        $stmt = $this->conn->prepare("SELECT name FROM residents WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT resident_name FROM residents WHERE id = ?");
         $stmt->bind_param("i", $resident_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Get resident data
 $resident_id = 1; // Replace with actual session logic
 $resident_data = $transactionManager->getResidentData($resident_id);
-$resident_name = $resident_data['name'];
+$resident_name = $resident_data['resident_name'];
 ?>
 
 <!DOCTYPE html>

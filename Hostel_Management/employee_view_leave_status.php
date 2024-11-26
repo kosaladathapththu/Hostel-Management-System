@@ -23,7 +23,9 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Leave Status</title>
-    <link rel="stylesheet" href="employee_view_leave_status.css"> <!-- Link to the CSS file if saved separately -->
+    <link rel="stylesheet" href="employee_view_leave_status.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <h1>Your Leave Status</h1>

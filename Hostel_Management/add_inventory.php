@@ -6,11 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemName = mysqli_real_escape_string($conn, $_POST['item_name']);
     $category = mysqli_real_escape_string($conn, $_POST['category']);
     $quantity = intval($_POST['quantity']);
+    $itemPrice = floatval($_POST['item_price']); // Sanitize and fetch item price
 
     // Insert new item into the Inventory table
-    $insertQuery = "INSERT INTO Inventory (item_name, category, quantity) VALUES (?, ?, ?)";
+    $insertQuery = "INSERT INTO Inventory (item_name, category, quantity, item_price) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($insertQuery);
-    $stmt->bind_param("ssi", $itemName, $category, $quantity);
+    $stmt->bind_param("ssii", $itemName, $category, $quantity, $itemPrice);
 
     if ($stmt->execute()) {
         echo "<script>alert('New inventory item added successfully.'); window.location.href='view_inventory.php';</script>";
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Add New Inventory Item</title>
-    <link rel="stylesheet" href=" add_inventory.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="add_inventory.css"> <!-- Link to your CSS file -->
 </head>
 <body>
     <header>
@@ -46,20 +47,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="food">Food</option>
                 <option value="furniture">Furniture</option>
                 <option value="cleaning">Cleaning</option>
-                <option value="Kitchen">Kitchen</option>
+                <option value="kitchen">Kitchen</option>
                 <option value="other">Other</option>
             </select>
             <br>
             <label for="quantity">Quantity:</label>
             <input type="number" name="quantity" min="1" required>
             <br>
+            <label for="item_price">Item Price:</label> <!-- New Input Field -->
+            <input type="number" name="item_price" min="0" step="0.01" required>
+            <br>
             <input type="submit" value="Add Item">
         </form>
         
         <div>
-        <a href="dashboard.php" class="dashboard-button">Dashboard</a> <!-- New Dashboard Button -->
-        <a href="view_inventory.php">Back to Inventory List</a>
-</div>
+            <a href="dashboard.php" class="dashboard-button">Dashboard</a> <!-- Dashboard Button -->
+            <a href="view_inventory.php">Back to Inventory List</a>
+        </div>
     </section>
 </body>
 </html>

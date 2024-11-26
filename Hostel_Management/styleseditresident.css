@@ -144,3 +144,43 @@ button:hover {
     to {bottom: 0; opacity: 0;}
 }
 
+/* General button styles */
+button, .submit-btn, .back-btn, .dashboard-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover, .submit-btn:hover, .back-btn:hover, .dashboard-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Button container to align buttons */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Specific button placement */
+.submit-btn {
+    width: 100%; /* Makes the submit button full-width */
+    margin-top: 20px;
+}
+
+.back-btn, .dashboard-btn {
+    width: 48%; /* Makes sure the back and dashboard buttons are side by side */
+}
+
+.dashboard-btn {
+    background-color: #008CBA; /* Blue background for Dashboard button */
+}
+
+.back-btn {
+    background-color: #f44336; /* Red background for Back button */
+}

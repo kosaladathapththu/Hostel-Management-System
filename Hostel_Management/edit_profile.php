@@ -14,21 +14,31 @@ $resident_id = $_SESSION['resident_id'];
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $new_name = $_POST['name'];
-    $new_national_id = $_POST['national_id'];
-    $new_age = $_POST['age'];
+    // Gather POST data
+    $new_name = $_POST['resident_name'];
+    $new_national_id = $_POST['resident_id']; // Make sure this matches the database column
+    $new_age = $_POST['resident_DOB']; // This should map to resident_DOB
     $new_email = $_POST['email'];
-    $new_phone = $_POST['phone'];
-    $new_room_id = $_POST['room_id'];
+    $new_phone = $_POST['resident_contact'];
+    $new_room_id = $_POST['resident_room_no'];
     $new_username = $_POST['username'];
     $new_password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null; // Hashing password only if provided
     $new_profile_picture = $_FILES['profile_picture']['name'] ? $_FILES['profile_picture']['name'] : null;
 
-    // Update query
-    $updateQuery = "UPDATE residents SET name = ?, national_id = ?, age = ?, email = ?, phone = ?, room_id = ?, username = ?" . ($new_password ? ", password = ?" : "") . ($new_profile_picture ? ", profile_picture = ?" : "") . " WHERE id = ?";
+    // Update query with proper fields
+    $updateQuery = "UPDATE residents SET resident_name = ?, resident_id = ?, resident_DOB = ?, email = ?, resident_contact = ?, resident_room_no = ?, username = ?" . 
+                    ($new_password ? ", password = ?" : "") . 
+                    ($new_profile_picture ? ", profile_picture = ?" : "") . 
+                    " WHERE id = ?";
+
+    // Prepare statement
     $stmt = $conn->prepare($updateQuery);
 
-    // Prepare parameters for binding
+    if (!$stmt) {
+        die('Error preparing the statement: ' . $conn->error); // Check for errors in query preparation
+    }
+
+    // Bind parameters based on which fields are filled
     if ($new_password && $new_profile_picture) {
         $stmt->bind_param("ssissssssi", $new_name, $new_national_id, $new_age, $new_email, $new_phone, $new_room_id, $new_username, $new_password, $new_profile_picture, $resident_id);
     } elseif ($new_password) {
@@ -39,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ssisssss", $new_name, $new_national_id, $new_age, $new_email, $new_phone, $new_room_id, $new_username, $resident_id);
     }
 
+    // Execute statement and check for errors
     if ($stmt->execute()) {
         echo "Profile updated successfully!";
     } else {
@@ -52,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch current details to show in the form
-$residentQuery = "SELECT name, national_id, age, email, phone, room_id, username, profile_picture FROM residents WHERE id = ?";
+$residentQuery = "SELECT resident_name, resident_id, resident_DOB, email, resident_contact, resident_room_no, username, profile_picture FROM residents WHERE id = ?";
 $residentStmt = $conn->prepare($residentQuery);
 $residentStmt->bind_param("i", $resident_id);
 $residentStmt->execute();
@@ -70,30 +81,26 @@ $residentData = $residentResult->fetch_assoc();
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-        
-    
-
     <form method="POST" action="" enctype="multipart/form-data">
         <div class="form-content"> 
-        <h1><center>Edit Profile</h1></center>
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($residentData['name']); ?>" required>
+            <h1><center>Edit Profile</center></h1>
+            <label for="resident_name">Name:</label>
+            <input type="text" name="resident_name" id="resident_name" value="<?php echo htmlspecialchars($residentData['resident_name']); ?>" required>
             
-            <label for="national_id">National ID:</label>
-            <input type="text" name="national_id" id="national_id" value="<?php echo htmlspecialchars($residentData['national_id']); ?>" required>
+            <label for="resident_id">National ID:</label>
+            <input type="text" name="resident_id" id="resident_id" value="<?php echo htmlspecialchars($residentData['resident_id']); ?>" required>
 
-            <label for="age">Age:</label>
-            <input type="number" name="age" id="age" value="<?php echo htmlspecialchars($residentData['age']); ?>" required>
+            <label for="resident_DOB">Age:</label>
+            <input type="date" name="resident_DOB" id="resident_DOB" value="<?php echo htmlspecialchars($residentData['resident_DOB']); ?>" required>
 
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($residentData['email']); ?>" required>
 
-            <label for="phone">Phone:</label>
-            <input type="text" name="phone" id="phone" value="<?php echo htmlspecialchars($residentData['phone']); ?>" required>
+            <label for="resident_contact">Phone:</label>
+            <input type="text" name="resident_contact" id="resident_contact" value="<?php echo htmlspecialchars($residentData['resident_contact']); ?>" required>
 
-            <label for="room_id">Room ID:</label>
-            <input type="text" name="room_id" id="room_id" value="<?php echo htmlspecialchars($residentData['room_id']); ?>" required>
+            <label for="resident_room_no">Room Number:</label>
+            <input type="text" name="resident_room_no" id="resident_room_no" value="<?php echo htmlspecialchars($residentData['resident_room_no']); ?>" required>
 
             <label for="username">Username:</label>
             <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($residentData['username']); ?>" required>
@@ -111,4 +118,3 @@ $residentData = $residentResult->fetch_assoc();
     
 </body>
 </html>
-

@@ -9,8 +9,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $residentId = intval($_GET['id']);
 
     // Fetch resident details
-    $residentQuery = "SELECT * FROM residents WHERE id = $residentId";
-    $residentResult = $conn->query($residentQuery);
+    $residentQuery = "SELECT * FROM residents WHERE id = ?";
+    $stmt = $conn->prepare($residentQuery);
+    $stmt->bind_param("i", $residentId);
+    $stmt->execute();
+    $residentResult = $stmt->get_result();
 
     // Check if resident exists
     if ($residentResult && $residentResult->num_rows > 0) {
@@ -20,11 +23,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     }
 
     // Fetch available rooms
-    $roomsQuery = "SELECT r.room_id, r.room_number, r.capacity, 
-                  (SELECT COUNT(*) FROM residents WHERE residents.room_id = r.room_id) as current_residents 
-                  FROM rooms r
-                  HAVING current_residents < r.capacity OR r.room_id = " . intval($resident['room_id']);
-    $roomsResult = $conn->query($roomsQuery);
+    $roomsQuery = "
+        SELECT r.room_id, r.room_number, r.capacity, 
+        (SELECT COUNT(*) FROM residents WHERE residents.resident_room_no = r.room_id) as current_residents 
+        FROM rooms r
+        HAVING current_residents < r.capacity OR r.room_id = ?";
+    $stmt = $conn->prepare($roomsQuery);
+    $stmt->bind_param("i", $resident['resident_room_no']);
+    $stmt->execute();
+    $roomsResult = $stmt->get_result();
 } else {
     echo "Invalid resident ID.";
     exit;
@@ -33,37 +40,54 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 // Handle form submission (POST request)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get updated form data
-    $name = $_POST['name'];
-    $national_id = $_POST['national_id']; 
-    $age = $_POST['age']; 
+    $resident_name = $_POST['resident_name'];
+    $resident_id = $_POST['resident_id'];
+    $resident_DOB = $_POST['resident_DOB'];
     $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $room_id = $_POST['room_id'];
+    $resident_contact = $_POST['resident_contact'];
+    $resident_room_no = $_POST['resident_room_no'];
     $status = $_POST['status'];
 
     // Check if the room has enough capacity before updating
-    $capacityCheckQuery = "SELECT capacity, 
-                           (SELECT COUNT(*) FROM residents WHERE room_id = $room_id) as current_residents 
-                           FROM rooms WHERE room_id = $room_id";
-    $capacityCheckResult = $conn->query($capacityCheckQuery);
+    $capacityCheckQuery = "
+        SELECT capacity, 
+        (SELECT COUNT(*) FROM residents WHERE resident_room_no = ?) as current_residents 
+        FROM rooms WHERE room_id = ?";
+    $stmt = $conn->prepare($capacityCheckQuery);
+    $stmt->bind_param("ii", $resident_room_no, $resident_room_no);
+    $stmt->execute();
+    $capacityCheckResult = $stmt->get_result();
     $roomData = $capacityCheckResult->fetch_assoc();
 
-    if ($roomData['current_residents'] < $roomData['capacity'] || $room_id == $resident['room_id']) {
+    if ($roomData['current_residents'] < $roomData['capacity'] || $resident_room_no == $resident['resident_room_no']) {
         // Update resident in the database
-        $updateQuery = "UPDATE residents SET 
-            name = '$name', 
-            national_id = '$national_id',  
-            age = '$age',  
-            email = '$email', 
-            phone = '$phone', 
-            room_id = '$room_id', 
-            status = '$status' 
-            WHERE id = $residentId";
+        $updateQuery = "
+            UPDATE residents SET 
+                resident_name = ?, 
+                resident_id = ?,  
+                resident_DOB = ?,  
+                email = ?, 
+                resident_contact = ?, 
+                resident_room_no = ?, 
+                status = ? 
+            WHERE id = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param(
+            "ssssssii", 
+            $resident_name, 
+            $resident_id, 
+            $resident_DOB, 
+            $email, 
+            $resident_contact, 
+            $resident_room_no, 
+            $status, 
+            $residentId
+        );
 
-        if ($conn->query($updateQuery) === TRUE) {
+        if ($stmt->execute()) {
             $successMessage = "Resident updated successfully.";
         } else {
-            echo "Error: " . $updateQuery . "<br>" . $conn->error;
+            $errorMessage = "Error updating resident: " . $stmt->error;
         }
     } else {
         $errorMessage = "Error: The selected room is already at full capacity.";
@@ -93,31 +117,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form action="edit_resident.php?id=<?php echo $residentId; ?>" method="POST">
             <!-- Name Field -->
-            <label for="name">Name:</label>
-            <input type="text" name="name" value="<?php echo htmlspecialchars($resident['name']); ?>" required>
+            <label for="resident_name">Name:</label>
+            <input type="text" name="resident_name" value="<?php echo htmlspecialchars($resident['resident_name']); ?>" required>
 
             <!-- National ID Field -->
-            <label for="national_id">National ID:</label>
-            <input type="text" name="national_id" value="<?php echo htmlspecialchars($resident['national_id']); ?>" required>
+            <label for="resident_id">Resident ID:</label>
+            <input type="text" name="resident_id" value="<?php echo htmlspecialchars($resident['resident_id']); ?>" required>
 
-            <!-- Age Field -->
-            <label for="age">Age:</label>
-            <input type="number" name="age" value="<?php echo htmlspecialchars($resident['age']); ?>" required>
+            <!-- Date of Birth Field -->
+            <label for="resident_DOB">Date of Birth:</label>
+            <input type="date" name="resident_DOB" value="<?php echo htmlspecialchars($resident['resident_DOB']); ?>" required>
 
             <!-- Email Field -->
             <label for="email">Email:</label>
             <input type="email" name="email" value="<?php echo htmlspecialchars($resident['email']); ?>" required>
 
             <!-- Phone Field -->
-            <label for="phone">Phone:</label>
-            <input type="text" name="phone" value="<?php echo htmlspecialchars($resident['phone']); ?>" required>
+            <label for="resident_contact">Phone:</label>
+            <input type="text" name="resident_contact" value="<?php echo htmlspecialchars($resident['resident_contact']); ?>" required>
 
-            <!-- Room ID Field -->            
-            <label for="room_id">Room Number:</label>
-            <select id="room_id" name="room_id" required>
+            <!-- Room Field -->
+            <label for="resident_room_no">Room Number:</label>
+            <select id="resident_room_no" name="resident_room_no" required>
                 <option value="">Select a room</option>
                 <?php while ($room = $roomsResult->fetch_assoc()): ?>
-                    <option value="<?php echo $room['room_id']; ?>" <?php echo ($resident['room_id'] == $room['room_id']) ? 'selected' : ''; ?>>
+                    <option value="<?php echo $room['room_id']; ?>" <?php echo ($resident['resident_room_no'] == $room['room_id']) ? 'selected' : ''; ?>>
                         <?php echo $room['room_number']; ?>
                     </option>
                 <?php endwhile; ?>

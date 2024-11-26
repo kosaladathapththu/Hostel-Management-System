@@ -1,10 +1,12 @@
 <?php
 include 'db_connect.php';
 
-$query = "SELECT b.booking_id, r.name, b.check_in_date, b.check_out_date 
+// Modify this query based on the correct column name in your residents table
+$query = "SELECT b.booking_id, r.resident_name, b.check_in_date, b.check_out_date 
           FROM bookings b
           JOIN residents r ON b.resident_id = r.id
           WHERE b.status = 'pending_approval'";
+
 $result = $conn->query($query);
 
 if (!$result) {
@@ -39,7 +41,7 @@ if (!$result) {
         <tbody>
             <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
-                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['resident_name']; ?></td> <!-- Use correct column name here -->
                 <td><?php echo $row['check_in_date']; ?></td>
                 <td><?php echo $row['check_out_date']; ?></td>
                 <td>

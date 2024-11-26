@@ -43,7 +43,7 @@ include 'db_connect.php';
         <input type="tel" name="contact_phone" required>
         <br><br>
 
-        <label for="cover_letter">Cover Letter:</label><br>
+        <label for="cover_letter">Qualifications:</label><br>
         <textarea name="cover_letter" rows="5" cols="40" required></textarea>
         <br><br>
 

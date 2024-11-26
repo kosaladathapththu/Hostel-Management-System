@@ -6,7 +6,7 @@ $searchTerm = '';
 if (isset($_GET['search'])) {
     $searchTerm = mysqli_real_escape_string($conn, $_GET['search']);
     
-    // Modify the query to search for items by name or category
+    // Query to search for items by name, category, or other fields
     $inventoryQuery = "
     SELECT * FROM Inventory 
     WHERE item_name LIKE '%$searchTerm%' 
@@ -18,7 +18,6 @@ if (isset($_GET['search'])) {
 }
 
 $inventoryResult = $conn->query($inventoryQuery);
-
 
 ?>
 
@@ -44,10 +43,10 @@ $inventoryResult = $conn->query($inventoryQuery);
             <button type="submit">Search</button>
         </form> <br>
 
-
+        <!-- Report Generation Buttons -->
         <form method="GET" action="generate_report_enventory.php" class="report-buttons">
-        <button type="submit" name="report_type" value="monthly">Generate Monthly Report</button>
-        <button type="submit" name="report_type" value="yearly">Generate Yearly Report</button>
+            <button type="submit" name="report_type" value="monthly">Generate Monthly Report</button>
+            <button type="submit" name="report_type" value="yearly">Generate Yearly Report</button>
         </form>
 
         <table class="inventory-table">
@@ -57,18 +56,20 @@ $inventoryResult = $conn->query($inventoryQuery);
                     <th>Item Name</th>
                     <th>Category</th>
                     <th>Quantity</th>
+                    <th>Item Price</th> <!-- New Column -->
                     <th>Last Updated</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if ($inventoryResult->num_rows > 0): ?>
-                    <?php while($row = $inventoryResult->fetch_assoc()): ?>
+                    <?php while ($row = $inventoryResult->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['item_id']); ?></td>
                             <td><?php echo htmlspecialchars($row['item_name']); ?></td>
                             <td><?php echo ucfirst(htmlspecialchars($row['category'])); ?></td>
                             <td><?php echo htmlspecialchars($row['quantity']); ?></td>
+                            <td><?php echo htmlspecialchars($row['item_price']); ?></td> <!-- New Column -->
                             <td><?php echo htmlspecialchars($row['last_updated']); ?></td>
                             <td>
                                 <a href="edit_inventory.php?id=<?php echo $row['item_id']; ?>" class="edit-button">Edit</a>
@@ -78,7 +79,7 @@ $inventoryResult = $conn->query($inventoryQuery);
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6">No inventory items found.</td>
+                        <td colspan="7">No inventory items found.</td> <!-- Adjust colspan -->
                     </tr>
                 <?php endif; ?>
             </tbody>

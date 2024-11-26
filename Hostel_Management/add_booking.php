@@ -2,7 +2,7 @@
 include 'db_connect.php'; // Include database connection
 
 // Fetch residents to populate dropdown
-$residentsQuery = "SELECT id, name FROM Residents";
+$residentsQuery = "SELECT id,resident_name FROM Residents";
 $residentsResult = $conn->query($residentsQuery);
 
 // Fetch available rooms
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="resident_id">Resident:</label>
             <select name="resident_id" required>
                 <?php while($row = $residentsResult->fetch_assoc()): ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $row['resident_name']; ?></option>
                 <?php endwhile; ?>
             </select>
 

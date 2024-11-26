@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
         $applicant = $result->fetch_assoc();
 
         // Step 2: Insert data into residents table
-        $insertQuery = "INSERT INTO residents (name, national_id, age, email, phone, room_id, status, created_at, username, password, profile_picture, resident_form)
+        $insertQuery = "INSERT INTO residents (resident_name, resident_id, resident_DOB, email, resident_contact, resident_room_no, status, created_at, username, password, profile_picture, resident_form)
                         VALUES (?, ?, ?, ?, ?, ?, 'Active', NOW(), ?, ?, ?, ?)";
         $stmtInsert = $conn->prepare($insertQuery);
         $stmtInsert->bind_param(

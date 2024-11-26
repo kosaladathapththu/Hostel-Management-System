@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="header-title">Admin Dashboard</div>
         <div class="admin-info">
             <span><?php echo htmlspecialchars($admin['admin_name']); ?></span>
-            <a href="logout.php" class="logout-btn">Logout</a>
+            <a href="admin_logout.php" class="logout-btn">Logout</a>
         </div>
     </div>
     

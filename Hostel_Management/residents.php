@@ -1,11 +1,21 @@
 <?php
 include 'db_connect.php'; // Include database connection
 
-// Fetch residents along with room details
-$residentsQuery = "SELECT r.*, rm.room_number 
-                   FROM residents r 
-                   LEFT JOIN Rooms rm 
-                   ON r.room_id = rm.room_id"; // Join with the Rooms table
+// Updated query to reflect the renamed columns
+$residentsQuery = "
+    SELECT 
+        r.id, 
+        r.resident_name AS name, 
+        r.resident_id AS national_id, 
+        r.resident_DOB AS age, 
+        r.email, 
+        r.resident_contact AS phone, 
+        rm.room_number, 
+        r.status, 
+        r.created_at 
+    FROM residents r 
+    LEFT JOIN Rooms rm 
+    ON r.resident_room_no = rm.room_id"; // Updated join condition
 $residentsResult = $conn->query($residentsQuery);
 ?>
 
@@ -34,7 +44,7 @@ $residentsResult = $conn->query($residentsQuery);
                     <th>ID</th>
                     <th>Name</th>
                     <th>National ID</th>
-                    <th>Age</th>
+                    <th>Date of Birth</th> <!-- Changed 'Age' to reflect DOB -->
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Room Number</th>

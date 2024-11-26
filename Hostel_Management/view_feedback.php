@@ -1,9 +1,9 @@
 <?php
 include 'db_connect.php'; // Include the database connection
 
-// Fetch feedback along with resident names, meal names, meal ID, comments, and ratings
+// Fetch feedback along with resident names, meal names, comments, and ratings
 $sql = "
-    SELECT mf.feedback_id, r.name AS resident_name, mp.meal_id, mp.meal_name, mf.comment, mf.rating, mf.submitted_at
+    SELECT mf.feedback_id, r.resident_name AS resident_name, mp.meal_name, mf.comment, mf.rating, mf.submitted_at
     FROM meal_feedback mf
     JOIN residents r ON mf.resident_id = r.id
     JOIN meal_plans mp ON mf.meal_id = mp.meal_id
@@ -41,7 +41,6 @@ $result = $conn->query($sql);
                     <th>Comment</th>
                     <th>Rating</th>
                     <th>Submitted At</th>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +51,6 @@ $result = $conn->query($sql);
                         <td><?php echo $row['comment']; ?></td>
                         <td><?php echo $row['rating']; ?>/5</td>
                         <td><?php echo $row['submitted_at']; ?></td>
-                        
                     </tr>
                 <?php endwhile; ?>
             </tbody>

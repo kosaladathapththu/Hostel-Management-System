@@ -1,9 +1,9 @@
 <?php
 // Database connection settings
 $servername = "localhost";
-$username = "root"; // Default XAMPP username
-$password = ""; // Default XAMPP password (blank)
-$dbname = "hostel_management"; // Your database name
+$username = "root";
+$password = ""; 
+$dbname = "hostel_management";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

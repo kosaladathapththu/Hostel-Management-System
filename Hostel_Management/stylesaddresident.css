@@ -32,16 +32,16 @@ h1 {
 }
 
 section {
-    max-width: 600px;
+    max-width: 800px;
     margin: 20px auto;
-    padding: 20px;
-    background-color: white; /* White background for form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Reduced padding */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-    color: #333; /* Darker text color */
+    color: #333;
 }
 
 label {
@@ -54,70 +54,95 @@ input[type="text"],
 input[type="email"],
 input[type="number"],
 select {
-    width: 100%; /* Full width */
-    padding: 10px; /* Padding for input fields */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners */
-    box-sizing: border-box; /* Include padding in width */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 button {
-    background-color: #4CAF50; /* Green button */
-    color: white; /* White text */
+    background-color: #4CAF50;
+    color: white;
     padding: 10px 15px;
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    font-size: 16px; /* Font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049;
 }
 
 .error-message {
-    color: #d9534f; /* Red error message */
+    color: #d9534f;
     margin-top: 10px;
+    font-size: 14px;
 }
 
+/* Scrollable container */
+.scrollable-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Submit button styling */
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Button container styling */
 .button-container {
     margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .back-btn, .dashboard-btn {
-    display: inline-block;
-    margin: 5px;
     padding: 10px 15px;
-    background-color: #007BFF; /* Blue button */
-    color: white; /* White text */
-    text-decoration: none; /* No underline */
-    border-radius: 5px; /* Rounded corners */
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
 .back-btn:hover, .dashboard-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
-/* Toast Notification */
+/* Toast notification styling */
 #toast {
-    visibility: hidden; /* Hidden by default */
-    min-width: 250px; /* Minimum width */
-    margin-left: -125px; /* Center the toast */
-    background-color: #333; /* Dark background */
-    color: #fff; /* White text */
-    text-align: center; /* Center text */
-    border-radius: 5px; /* Rounded corners */
-    padding: 16px; /* Padding */
-    position: fixed; /* Fixed position */
-    z-index: 1; /* Sit on top */
-    left: 50%; /* Center horizontally */
-    bottom: 30px; /* Position from the bottom */
-    font-size: 17px; /* Font size */
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
 }
 
 #toast.show {
-    visibility: visible; /* Show the toast */
-    animation: fadein 0.5s, fadeout 0.5s 2.5s; /* Fade in and out */
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 @keyframes fadein {
@@ -126,6 +151,6 @@ button:hover {
 }
 
 @keyframes fadeout {
-    from { bottom: 30px; opacity: 1; }
-    to { bottom: 0; opacity: 0; }
+    from { opacity: 1; }
+    to { opacity: 0; }
 }

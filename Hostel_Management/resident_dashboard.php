@@ -3,48 +3,66 @@ include 'db_connect.php'; // Include database connection
 
 session_start(); // Start session
 
-// Handle logout if the logout button is clicked
+// Handle logout
 if (isset($_GET['logout'])) {
-    session_destroy(); // Destroy the session
-    header("Location: login.php"); // Redirect to login page
+    session_destroy();
+    header("Location: login.php");
     exit();
 }
 
-// Check if resident is logged in; if not, redirect to login page
+// Redirect if not logged in
 if (!isset($_SESSION['resident_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Fetch resident_id and name from session
+// Regenerate session ID for security
+session_regenerate_id(true);
+
+// Fetch session data
 $resident_id = $_SESSION['resident_id'];
 $resident_name = $_SESSION['resident_name'];
 
-// Query to fetch profile picture
+// Fetch profile picture
 $profileQuery = "SELECT profile_picture FROM residents WHERE id = ?";
 $profileStmt = $conn->prepare($profileQuery);
+
+if ($profileStmt === false) {
+    die("Prepare failed: " . $conn->error);
+}
+
 $profileStmt->bind_param("i", $resident_id);
 $profileStmt->execute();
 $profileResult = $profileStmt->get_result();
-$profileData = $profileResult->fetch_assoc(); // Fetch profile data as an associative array
-$profileStmt->close(); // Close statement after execution
+$profileData = $profileResult->fetch_assoc() ?? ['profile_picture' => null];
+$profileStmt->close();
 
-// Fetch resident's room information directly from the residents table
+// Fetch room info
 $roomInfoQuery = "
     SELECT r.room_number, rs.status 
     FROM rooms r 
-    JOIN residents rs ON r.room_id = rs.room_id 
+    JOIN residents rs ON r.room_number = rs.resident_room_no 
     WHERE rs.id = ?";
+
 $roomStmt = $conn->prepare($roomInfoQuery);
+
+if ($roomStmt === false) {
+    die("Prepare failed: " . $conn->error);
+}
+
 $roomStmt->bind_param("i", $resident_id);
 $roomStmt->execute();
 $roomInfoResult = $roomStmt->get_result();
-$roomInfo = $roomInfoResult->fetch_assoc();
+$roomInfo = $roomInfoResult->fetch_assoc() ?? ['resident_room_no' => 'N/A', 'status' => 'Unknown'];
 $roomStmt->close();
 
-// Fetch upcoming events for residents
+// Fetch upcoming events
 $upcomingEventsQuery = "SELECT title, start_date FROM events WHERE start_date >= CURDATE() ORDER BY start_date ASC LIMIT 5";
 $upcomingEventsResult = $conn->query($upcomingEventsQuery);
+
+if ($upcomingEventsResult === false) {
+    die("Query failed: " . $conn->error);
+}
 
 // Fetch resident's upcoming check-in and check-out dates
 $checkinCheckoutQuery = "
@@ -75,7 +93,11 @@ $showRequestCheckings = true;
 if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['check_out_date']) < time()) {
     $showRequestCheckings = false;
 }
+
 ?>
+
+
+
 
 
 <!DOCTYPE html>
@@ -204,46 +226,45 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
             </div>
         </div>
 
-        <!-- Profile Dropdown -->
-        <div class="menu-item profile-dropdown">
-            <button class="profile-button">
-            <img src="<?php echo !empty($profileData['profile_picture']) ? 'uploads/' . htmlspecialchars($profileData['profile_picture']) : 'assets/default_profile.png'; ?>" 
-     alt="Profile" 
-     class="profile-picture"
-     onerror="this.src='assets/default_profile.png'">
-<span class="profile-name"><?php echo htmlspecialchars($resident_name); ?></span>
-
-                <i class="fas fa-chevron-down"></i>
-            </button>
-            <div class="dropdown-content profile-content">
-                <div class="dropdown-header profile-header">
-                    <img src="<?php echo !empty($profileData['profile_picture']) ? 'uploads/' . $profileData['profile_picture'] : 'assets/default_profile.png'; ?>" 
-                         alt="Profile"
-                         class="large-profile-picture"
-                         onerror="this.src='assets/default_profile.png'">
-                    <div class="profile-info">
-                        <h3><?php echo htmlspecialchars($resident_name); ?></h3>
-                        <p>Room <?php echo $roomInfo['room_number'] ?? 'Not Assigned'; ?></p>
-                    </div>
-                </div>
-                <div class="dropdown-body">
-                    <a href="edit_profile.php" class="dropdown-item">
-                        <i class="fas fa-user"></i> My Profile
-                    </a>
-                    <a href="settings.php" class="dropdown-item">
-                        <i class="fas fa-cog"></i> Settings
-                    </a>
-                    <a href="help.php" class="dropdown-item">
-                        <i class="fas fa-question-circle"></i> Help Center
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="?logout=true" class="dropdown-item logout-item">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </div>
+       <!-- Profile Dropdown -->
+<div class="menu-item profile-dropdown">
+    <button class="profile-button">
+        <img src="<?php echo !empty($profileData['profile_picture']) ? 'uploads/' . htmlspecialchars($profileData['profile_picture']) : 'assets/default_profile.png'; ?>" 
+             alt="Profile" 
+             class="profile-picture"
+             onerror="this.src='assets/default_profile.png'">
+        <span class="profile-name"><?php echo htmlspecialchars($resident_name); ?></span>
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <div class="dropdown-content profile-content">
+        <div class="dropdown-header profile-header">
+            <img src="<?php echo !empty($profileData['profile_picture']) ? 'uploads/' . $profileData['profile_picture'] : 'assets/default_profile.png'; ?>" 
+                 alt="Profile"
+                 class="large-profile-picture"
+                 onerror="this.src='assets/default_profile.png'">
+            <div class="profile-info">
+                <h3><?php echo htmlspecialchars($resident_name); ?></h3>
+                <p>Room <?php echo $roomInfo['room_number'] ?? 'Not Assigned'; ?></p>
             </div>
         </div>
+        <div class="dropdown-body">
+            <a href="edit_profile.php" class="dropdown-item">
+                <i class="fas fa-user"></i> My Profile
+            </a>
+            <a href="settings.php" class="dropdown-item">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+            <a href="help.php" class="dropdown-item">
+                <i class="fas fa-question-circle"></i> Help Center
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="?logout=true" class="dropdown-item logout-item">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
     </div>
+</div>
+
 </nav>
 
             <!-- Dashboard Content -->

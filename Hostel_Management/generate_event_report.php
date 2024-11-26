@@ -7,7 +7,9 @@ $reportType = isset($_GET['type']) ? $_GET['type'] : '';
 if ($reportType == 'annually') {
     // Query for annual event report with event names
     $reportQuery = "
-    SELECT YEAR(start_date) AS year, GROUP_CONCAT(CONCAT_WS(': ', DATE_FORMAT(start_date, '%Y-%m-%d'), title) SEPARATOR '<br>') AS event_list, COUNT(event_id) AS total_events 
+    SELECT YEAR(start_date) AS year, 
+           GROUP_CONCAT(CONCAT_WS(': ', DATE_FORMAT(start_date, '%Y-%m-%d'), title) SEPARATOR '<br>') AS event_list, 
+           COUNT(event_id) AS total_events 
     FROM Events 
     GROUP BY year 
     ORDER BY year";
@@ -17,7 +19,9 @@ if ($reportType == 'annually') {
     
     // Query for monthly event report for a specific year with event names and dates
     $reportQuery = "
-    SELECT MONTH(start_date) AS month, GROUP_CONCAT(CONCAT_WS(': ', DATE_FORMAT(start_date, '%Y-%m-%d'), title) SEPARATOR '<br>') AS event_list, COUNT(event_id) AS total_events 
+    SELECT MONTH(start_date) AS month, 
+           GROUP_CONCAT(CONCAT_WS(': ', DATE_FORMAT(start_date, '%Y-%m-%d'), title) SEPARATOR '<br>') AS event_list, 
+           COUNT(event_id) AS total_events 
     FROM Events 
     WHERE YEAR(start_date) = $selectedYear 
     GROUP BY month 

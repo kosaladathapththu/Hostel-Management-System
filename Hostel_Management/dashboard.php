@@ -1,10 +1,9 @@
 <?php
-session_start(); // Start session to check if the user is logged in
+session_start(); // Start session for authentication check
 
 // Check if the user is logged in as a matron
 if (!isset($_SESSION['matron_id'])) {
-    // Redirect to matron_auth.php if not logged in
-    header("Location: matron_auth.php");
+    header("Location: matron_auth.php"); // Redirect if not logged in
     exit();
 }
 
@@ -19,54 +18,52 @@ $stmt->execute();
 $matronResult = $stmt->get_result();
 
 if ($matronResult->num_rows === 0) {
-    // Redirect if matron is not found
-    header("Location: matron_auth.php");
+    header("Location: matron_auth.php"); // Redirect if matron not found
     exit();
 }
 
-// Fetch and assign first name to a variable
+// Assign matron's first name
 $matronData = $matronResult->fetch_assoc();
 $matron_first_name = $matronData['first_name'];
 
 // Fetch total residents
-$totalResidentsQuery = "SELECT COUNT(*) as total FROM Residents";
+$totalResidentsQuery = "SELECT COUNT(*) AS total FROM Residents";
 $totalResidentsResult = $conn->query($totalResidentsQuery);
-$totalResidents = $totalResidentsResult->fetch_assoc()['total'];
+$totalResidents = $totalResidentsResult->fetch_assoc()['total'] ?? 0;
 
-// Fetch total room capacity
-$totalRoomCapacityQuery = "SELECT SUM(capacity) as total_capacity FROM Rooms WHERE status = 'available'";
+// Fetch total room capacity (adjust query to match your schema)
+$totalRoomCapacityQuery = "SELECT SUM(capacity) AS total_capacity FROM Rooms WHERE status = 'available'";
 $totalRoomCapacityResult = $conn->query($totalRoomCapacityQuery);
-$totalRoomCapacity = $totalRoomCapacityResult->fetch_assoc()['total_capacity'];
+$totalRoomCapacity = $totalRoomCapacityResult->fetch_assoc()['total_capacity'] ?? 0;
 
 // Fetch current residents in available rooms
-$currentResidentsQuery = "SELECT SUM((SELECT COUNT(*) FROM Residents r WHERE r.room_id = Rooms.room_id)) as total_residents 
-                          FROM Rooms WHERE status = 'available'";
+$currentResidentsQuery = "SELECT COUNT(*) AS total_residents FROM Residents WHERE status = 'active'";
 $currentResidentsResult = $conn->query($currentResidentsQuery);
-$currentResidents = $currentResidentsResult->fetch_assoc()['total_residents'];
+$currentResidents = $currentResidentsResult->fetch_assoc()['total_residents'] ?? 0;
 
 // Calculate remaining capacity
 $remainingCapacity = $totalRoomCapacity - $currentResidents;
 
 // Fetch upcoming check-ins
-$upcomingCheckinsQuery = "SELECT COUNT(*) as total FROM Bookings WHERE check_in_date >= CURDATE()";
+$upcomingCheckinsQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE check_in_date >= CURDATE()";
 $upcomingCheckinsResult = $conn->query($upcomingCheckinsQuery);
-$upcomingCheckins = $upcomingCheckinsResult->fetch_assoc()['total'];
+$upcomingCheckins = $upcomingCheckinsResult->fetch_assoc()['total'] ?? 0;
 
 // Fetch upcoming check-outs
-$upcomingCheckoutsQuery = "SELECT COUNT(*) as total FROM Bookings WHERE check_out_date >= CURDATE()";
+$upcomingCheckoutsQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE check_out_date >= CURDATE()";
 $upcomingCheckoutsResult = $conn->query($upcomingCheckoutsQuery);
-$upcomingCheckouts = $upcomingCheckoutsResult->fetch_assoc()['total'];
+$upcomingCheckouts = $upcomingCheckoutsResult->fetch_assoc()['total'] ?? 0;
 
 // Fetch recent payments with resident name
 $recentPaymentsQuery = "
-SELECT r.name as resident_name, t.amount 
+SELECT r.resident_name AS resident_name, t.amount 
 FROM transactionss t
 JOIN Residents r ON t.resident_id = r.id
 ORDER BY t.trant_payment_date DESC LIMIT 5";
 $recentPaymentsResult = $conn->query($recentPaymentsQuery);
 
-
 ?>
+
 
 
 <!DOCTYPE html>

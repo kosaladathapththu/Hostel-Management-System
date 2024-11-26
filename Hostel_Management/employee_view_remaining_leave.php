@@ -29,8 +29,11 @@ if ($result && mysqli_num_rows($result) > 0) {
 <head>
     <meta charset="UTF-8">
     <title>View Remaining Leave</title>
+    <link rel="stylesheet" href="employee_view_remaining_leave.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Your styles here */
+        
     </style>
 </head>
 <body>

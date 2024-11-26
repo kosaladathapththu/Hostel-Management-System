@@ -7,19 +7,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Check database connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
     // Prepare SQL statement to prevent SQL injection
-    $query = $conn->prepare("SELECT * FROM residents WHERE username = ?");
-    $query->bind_param("s", $username);
-    $query->execute();
-    $result = $query->get_result();
-    
+    $query = "SELECT * FROM residents WHERE username = ?";
+    $stmt = $conn->prepare($query);
+
+    if (!$stmt) {
+        // Log the error and do not display it to the user
+        error_log("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        die("An error occurred. Please try again later.");
+    }
+
+    // Bind parameters and execute
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         // Verify password
         if (password_verify($password, $row['password'])) {
             // Check if the account is active
             if ($row['status'] === 'active') {
-                // Login successful, store resident_id in session
+                // Regenerate session ID for security
+                session_regenerate_id(true);
+                // Login successful, store session variables
                 $_SESSION['resident_id'] = $row['id']; // Using resident_id as session variable
                 $_SESSION['resident_name'] = $row['name']; // Store resident's name for dashboard display
                 header('Location: resident_dashboard.php');
