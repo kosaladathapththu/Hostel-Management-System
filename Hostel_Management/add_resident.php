@@ -1,46 +1,72 @@
 <?php
-include 'db_connect.php'; // Include database connection
-$successMessage = '';
-$errorMessage = '';
+include 'db_connect.php'; // Include your database connection file
 
-// Fetch available rooms for dropdown
-$roomsQuery = "SELECT r.room_id, r.room_number, r.capacity, 
-               (SELECT COUNT(*) FROM residents WHERE residents.room_id = r.room_id) as current_residents 
-               FROM rooms r
-               HAVING current_residents < r.capacity";
-$roomsResult = $conn->query($roomsQuery);
-
-// Handle form submission (POST request)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get form data
-    $name = $_POST['resident_name'];
-    $national_id = $_POST['resident_id'];
-    $age = $_POST['age'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get data from the form
+    $resident_name = $_POST['resident_name'];
+    $resident_id = $_POST['resident_id'];
+    $resident_DOB = $_POST['resident_DOB'];
     $email = $_POST['email'];
-    $phone = $_POST['resident_contact'];
-    $room_id = $_POST['resident_room_no'];
-    $status = $_POST['status'];
+    $resident_contact = $_POST['resident_contact'];
+    $resident_room_no = $_POST['resident_room_no'];
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
 
-    // Check current capacity for selected room
-    $capacityCheckQuery = "SELECT capacity, 
-                           (SELECT COUNT(*) FROM residents WHERE room_id = $room_id) as current_residents 
-                           FROM rooms WHERE room_id = $room_id";
-    $capacityCheckResult = $conn->query($capacityCheckQuery);
-    $roomData = $capacityCheckResult->fetch_assoc();
+    // File upload directory
+    $targetDir = "uploads/";
+    $profilePicturePath = "";
+    $residentFormPath = "";
 
-    if ($roomData['current_residents'] < $roomData['capacity']) {
-        // Insert new resident into the database
-        $insertQuery = "INSERT INTO residents (resident_name, resident_id, age, email, resident_contact, resident_room_no, status, created_at) 
-                        VALUES ('$name', '$national_id', '$age', '$email', '$phone', '$room_id', '$status', NOW())";
+    // Handle profile picture upload
+    if (isset($_FILES["profile_picture"]) && $_FILES["profile_picture"]["error"] == 0) {
+        $fileName = basename($_FILES["profile_picture"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+        $allowedTypes = array("jpg", "jpeg", "png", "gif");
 
-        if ($conn->query($insertQuery) === TRUE) {
-            $successMessage = "Resident added successfully.";
+        if (in_array(strtolower($fileType), $allowedTypes) && move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $targetFilePath)) {
+            $profilePicturePath = $targetFilePath;
         } else {
-            echo "Error: " . $insertQuery . "<br>" . $conn->error;
+            echo "Error uploading profile picture or invalid file format.";
         }
-    } else {
-        $errorMessage = "Error: The selected room is already at full capacity.";
     }
+
+    // Handle resident form upload
+    if (isset($_FILES["resident_form"]) && $_FILES["resident_form"]["error"] == 0) {
+        $formFileName = basename($_FILES["resident_form"]["name"]);
+        $formTargetFilePath = $targetDir . $formFileName;
+        $formFileType = pathinfo($formTargetFilePath, PATHINFO_EXTENSION);
+        $allowedFormTypes = array("jpg", "jpeg", "png", "gif", "pdf");
+
+        if (in_array(strtolower($formFileType), $allowedFormTypes) && move_uploaded_file($_FILES["resident_form"]["tmp_name"], $formTargetFilePath)) {
+            $residentFormPath = $formTargetFilePath;
+        } else {
+            echo "Error uploading resident form or invalid file format.";
+        }
+    }
+
+    // Prepare the SQL query to insert the data into the residents table
+    $query = $conn->prepare("INSERT INTO residents (resident_name, resident_id, resident_DOB, email, resident_contact, resident_room_no, username, password, profile_picture, resident_form, status, created_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', NOW())");
+
+    // Check if the query preparation was successful
+    if (!$query) {
+        die('MySQL prepare error: ' . $conn->error);
+    }
+
+    // Bind the parameters
+    $query->bind_param("ssssssssss", $resident_name, $resident_id, $resident_DOB, $email, $resident_contact, $resident_room_no, $username, $password, $profilePicturePath, $residentFormPath);
+
+    // Execute the query
+    if ($query->execute()) {
+        // Success message or any custom action after insert
+        echo "Resident added successfully!";
+    } else {
+        echo "Error: " . $query->error;
+    }
+
+    // Close the connection
+    $conn->close();
 }
 ?>
 
@@ -48,91 +74,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Resident</title>
-    <link rel="stylesheet" href="stylesaddresident.css">
+    <title>Resident Registration</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
-    <header>
-        <h1>Salvation Army Girls Hostel - Add Resident</h1>
-        <div class="user-info">
-            <p>Admin: [Admin Name]</p>
-            <a href="logout.php" class="logout-btn">Logout</a>
-        </div>
-    </header>
-
-    <section class="scrollable-container">
-        <h2>Add New Resident</h2>
-
-        <form action="add_resident.php" method="POST">
-            <!-- Name Field -->
-            <label for="resident_name">Name:</label>
+    <div class="container">
+        <h2>Resident Registration</h2>
+        <form method="POST" action="add_resident.php" enctype="multipart/form-data">
+            <label>Resident Name:</label>
             <input type="text" name="resident_name" required>
-
-            <!-- National ID Field -->
-            <label for="resident_id">National ID:</label>
-            <input type="text" name="resident_id" required>
-
-            <!-- Age Field -->
-            <label for="age">Age:</label>
-            <input type="number" name="age" required>
-
-            <!-- Email Field -->
-            <label for="email">Email:</label>
-            <input type="email" name="email" required>
-
-            <!-- Phone Field -->
-            <label for="resident_contact">Phone:</label>
-            <input type="text" name="resident_contact" required>
-
-            <!-- Room ID Field -->
-            <label for="resident_room_no">Room Number:</label>
-            <select id="resident_room_no" name="resident_room_no" required>
-                <option value="">Select a room</option>
-                <?php while ($room = $roomsResult->fetch_assoc()): ?>
-                    <option value="<?php echo $room['room_id']; ?>">
-                        <?php echo $room['room_number']; ?>
-                    </option>
-                <?php endwhile; ?>
-            </select>
-
-            <!-- Status Field -->
-            <label for="status">Status:</label>
-            <select name="status" required>
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
-            </select>
             
-            <!-- Submit Button -->
-            <button type="submit" class="submit-btn">Add Resident</button>
-
-            <?php if (!empty($errorMessage)): ?>
-                <div class="error-message"><?php echo $errorMessage; ?></div>
-            <?php endif; ?>
-
-            <!-- Toast Notification -->
-            <div id="toast"><?php echo $successMessage; ?></div>
-
-            <!-- Button Container -->
-            <div class="button-container">
-                <a href="residents.php" class="back-btn">Back to Residents List</a>
-                <a href="dashboard.php" class="dashboard-btn">Go to Dashboard</a>
+            <label>Resident ID:</label>
+            <input type="text" name="resident_id" required>
+            
+            <label>Date of Birth:</label>
+            <input type="date" name="resident_DOB" required>
+            
+            <label>Email:</label>
+            <input type="email" name="email" required>
+            
+            <label>Contact Number:</label>
+            <input type="text" name="resident_contact" required>
+            
+            <label>Room Number:</label>
+            <input type="text" name="resident_room_no" required>
+            
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            
+            <div class="file-upload-wrapper">
+                <label>Profile Picture:</label>
+                <input type="file" name="profile_picture" accept="image/*" required>
             </div>
-
+            
+            <div class="file-upload-wrapper">
+                <label>Resident Form (PDF/Image):</label>
+                <input type="file" name="resident_form" accept=".pdf, image/*" required>
+            </div>
+            
+            <button type="submit">Add Resident</button>
         </form>
-    </section>
-
-    <script>
-        // Show success message if resident is added
-        <?php if (!empty($successMessage)): ?>
-            var toast = document.getElementById("toast");
-            toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-        <?php endif; ?>
-    </script>
+    </div>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

@@ -40,7 +40,7 @@ header h1 {
     background-color: #c9302c; /* Darker red */
 }
 
-section {
+.container {
     max-width: 800px;
     margin: 30px auto;
     padding: 20px 30px;
@@ -66,6 +66,8 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="number"],
+input[type="password"],
+input[type="file"],
 select {
     width: 100%;
     padding: 12px 10px;
@@ -99,6 +101,10 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.file-upload-wrapper {
+    margin-bottom: 15px;
 }
 
 .error-message {
@@ -202,7 +208,7 @@ button:hover {
         padding: 10px;
     }
 
-    section {
+    .container {
         padding: 15px;
     }
 

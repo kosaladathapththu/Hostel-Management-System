@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->query($detailsQuery);
 
         // Insert into OrderStatus table
-        $statusQuery = "INSERT INTO OrderStatus (order_id, supplier_acceptance) 
+        $statusQuery = "INSERT INTO OrderStatus (order_id, supplier_acceptance) n
                         VALUES ('$orderId', 'Pending')";
         $conn->query($statusQuery);
 

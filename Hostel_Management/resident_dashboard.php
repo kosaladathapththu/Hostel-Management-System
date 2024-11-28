@@ -109,9 +109,6 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
     <link rel="stylesheet" href="resident_dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Moving styles to separate CSS file */
-    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -136,7 +133,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
                         <a href="update_checkin_checkout.php"><i class="fas fa-calendar-check"></i>Check-in/out</a>
                     </li>
                     <li>
-                        <a href="#events"><i class="fas fa-calendar"></i>Events</a>
+                        <a href="Re_view_calendar.php"><i class="fas fa-calendar"></i>Events</a>
                     </li>
                     <li>
                         <a href="transaction.php"><i class="fa fa-credit-card"></i>Monthly Fee</a>

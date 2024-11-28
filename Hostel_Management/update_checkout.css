@@ -1,0 +1,114 @@
+/* General body styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Light gradient background */
+    color: #333;
+}
+
+/* Main container for content with background image */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    max-width: 1000px;
+    padding: 20px;
+    height: 80vh; /* Set a fixed height for the container */
+    background-image: url('checkout.png'); /* Set your image as background */
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative; /* Enable positioning of child elements */
+}
+
+/* Main content area */
+.main-content {
+    position: absolute; /* Allows precise positioning */
+    top: 28%; /* Adjust to place the form inside the calendar */
+    left: 67%; /* Center horizontally relative to parent */
+    transform: translate(-50%, -30%); /* Offset for centering */
+    max-width: 60%; /* Allows form to take up 60% of the space */
+    padding: 50px;
+    background-color: rgba(36, 3, 63, 0.9); /* Semi-transparent white background */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 2; /* Ensure it appears above the background */
+}
+
+/* Header styling */
+h1 {
+    font-size: 32px;
+    color: #4CAF50; /* Green */
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* Paragraph styling */
+p {
+    font-size: 16px;
+    line-height: 30px;
+    color: #ece9e9;
+    margin-bottom: 20px;
+}
+
+/* Label styling */
+label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #e4dede;
+}
+
+/* Input field styling */
+input[type="datetime-local"] {
+    width: 100%;
+    padding: 12px 20px;
+    max-width: 90%;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease;
+}
+
+input[type="datetime-local"]:focus {
+    border-color: #4CAF50; /* Focus border color */
+    outline: none;
+}
+
+/* Button styling */
+button.btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #ffcc00; /* Gold Yellowish Color */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+    margin-top: 20px;
+}
+
+button.btn:hover {
+    background-color: #f9a825; /* Darker yellow on hover */
+    transform: translateY(-2px);
+}
+
+/* Responsive Design for small screens */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        height: auto; /* Allow height to adjust based on content */
+    }
+
+    .main-content {
+        top: 20%; /* Adjust for smaller screens */
+        max-width: 90%;
+    }
+}

@@ -1,0 +1,161 @@
+/* General body and header styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 20px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Calendar container styling */
+.calendar-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.calendar-container:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Calendar header (days of the week) */
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    background: linear-gradient(135deg, #00bcd4, #4caf50);
+    color: white;
+    padding: 12px 10px;
+    border-radius: 8px 8px 0 0;
+}
+
+.calendar-header-day {
+    padding: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* Calendar body (days of the month) */
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding: 20px 10px 10px 10px;
+}
+
+.calendar-day {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    border-radius: 12px;
+    min-height: 140px;
+    position: relative;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Empty day cell styling for days before the 1st of the month */
+.calendar-day.empty {
+    background-color: #f9f9f9;
+    border: 1px dashed #ddd;
+}
+
+/* Day number styling */
+.calendar-day strong {
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Attendance records styling */
+.attendance-time {
+    font-size: 14px;
+    margin-top: 6px;
+    color: #333;
+}
+
+.attendance-time.no-records {
+    color: #999;
+    font-style: italic;
+}
+
+/* Highlighting In and Out times */
+.attendance-time.in {
+    color: #4caf50; /* Green for "In" */
+    font-weight: bold;
+}
+
+.attendance-time.out {
+    color: #42a5f5; /* Light blue for "Out" */
+    font-weight: bold;
+}
+
+/* Hover effect on calendar day */
+.calendar-day:hover {
+    background-color: #f0f9f0;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design for small screens */
+@media (max-width: 768px) {
+    .calendar-body {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .calendar-day {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .calendar-header-day {
+        font-size: 12px;
+    }
+}
+
+/* General button styling */
+.button-container {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.button-container a {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 16px;
+    color: white;
+    background: linear-gradient(135deg, #4caf50, #8bc34a);
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.button-container a:hover {
+    background: linear-gradient(135deg, #388e3c, #689f38);
+    transform: translateY(-2px);
+}
+
+.add-event-button {
+    background: linear-gradient(135deg, #2196f3, #64b5f6);
+}
+
+.add-event-button:hover {
+    background: linear-gradient(135deg, #1976d2, #42a5f5);
+    transform: translateY(-2px);
+}

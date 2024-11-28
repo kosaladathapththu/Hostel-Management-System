@@ -13,7 +13,7 @@ class TransactionManager {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $resident_id = $_POST['resident_id'];
             $trant_payment_date = $_POST['trant_payment_date'];
-            $t  rant_month = $_POST['trant_month'];
+            $trant_month = $_POST['trant_month'];
             $amount = $_POST['amount'];
                                
             if ($this->uploadReceipt()) {
