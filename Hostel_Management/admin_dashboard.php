@@ -40,7 +40,7 @@ $stmt->close();
         <ul>
             <li><a href="view_employee.php"><i class="fas fa-users"></i> Employee Management</a></li>
             <li><a href="view_employee_vacancies.php"><i class="fas fa-briefcase"></i> Employee Vacancies</a></li>
-            <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Job Applications</a></li>
+            <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Employee Applicants</a></li>
             <li><a href="admin_approve_matron.php"><i class="fas fa-user-check"></i> Matron Applications</a></li>
             <li><a href="view_attendance.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
             <li><a href="view_leave_requests.php"><i class="fas fa-envelope"></i> Leave Requests</a></li>
