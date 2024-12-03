@@ -12,7 +12,7 @@ body {
 
 /* Sidebar styling */
 .sidebar {
-    width: 250px;
+    width: 350px;
     background-color: #343a40;
     color: #fff;
     display: flex;
@@ -95,6 +95,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
+    background: linear-gradient(to right, #f5f1f1a2, #a77a7a);
     border-bottom: 2px solid #e0e0e0;
 }
 
@@ -103,11 +104,25 @@ header h1 {
     color: #333;
 }
 
+.header-right {
+    color: rgb(3, 6, 3);
+    margin-right: 30px;
+}
+
+.logo {
+    width: 60px; /* Smaller logo size */
+    height: 60px; /* Smaller logo size */
+}
+
 .dashboard-section {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 40px;
     margin-top: 20px;
+}
+.dashboard-section > div {
+    flex: 1 1 calc(50% - 20px); /* This creates two columns per row */
+    box-sizing: border-box; /* Ensures that padding and borders are included in the width calculation */
 }
 
 .dashboard-box {

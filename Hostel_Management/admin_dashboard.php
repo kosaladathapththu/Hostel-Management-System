@@ -40,12 +40,14 @@ $stmt->close();
         <ul>
             <li><a href="view_employee.php"><i class="fas fa-users"></i> Employee Management</a></li>
             <li><a href="view_employee_vacancies.php"><i class="fas fa-briefcase"></i> Employee Vacancies</a></li>
-            <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Employee Applicants</a></li>
+            <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Job Applications</a></li>
             <li><a href="admin_approve_matron.php"><i class="fas fa-user-check"></i> Matron Applications</a></li>
             <li><a href="view_attendance.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
             <li><a href="view_leave_requests.php"><i class="fas fa-envelope"></i> Leave Requests</a></li>
             <li><a href="view_payroll.php"><i class="fas fa-money-check-alt"></i> Payroll System</a></li>
             <li><a href="generate_payroll_reports.php"><i class="fas fa-chart-line"></i> Payroll Report</a></li>
+            <li><a href="view_social_service.php"><i class="fas fa-server "></i>View social services</a></li>
+            <li><a href="add_social_services.php"><i class="fas fa-bars"></i>Add social services</a></li>
         </ul>
         <button onclick="window.location.href='admin_edit_profile.php'" class="edit-btn"><i class="fas fa-user-edit"></i> Edit Profile</button>
         <button onclick="window.location.href='admin_logout.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
@@ -53,9 +55,15 @@ $stmt->close();
 
     <!-- Main Content -->
     <div class="main-content">
-        <header>
-            <h1>Dashboard</h1>
-        </header>
+    <header>
+        <div class="header-left">
+            <img src="The_Salvation_Army.png" alt="Logo" class="logo"> 
+        </div>
+        <center><b><h1>Salvation army Girsl hostel</h1></b></center>
+        <div class="header-right">
+            <p>Welcome, <?php echo $admin_name; ?></p>
+        </div>
+    </header>
         <section class="dashboard-section">
             <!-- Employee Management -->
             <div class="dashboard-box">
@@ -65,7 +73,21 @@ $stmt->close();
                 <button onclick="window.location.href='view_applications.php'" class="control-btn">View Job Applications</button>
                 <button onclick="window.location.href='admin_approve_matron.php'" class="control-btn">Matron Applications</button>
             </div>
-            <!-- Other Sections (Add More as Needed) -->
+            <div class="dashboard-box">
+                <h2><i class="fas fa-industry "></i> Leave Management</h2>
+                <button onclick="window.location.href='view_leave_requests.php'" class="control-btn">View leave Requests</button>
+                <button onclick="window.location.href='view_attendance.php'" class="control-btn">Attendance Record</button>
+            </div>
+            <div class="dashboard-box">
+                <h2><i class="fas fa-life-ring "></i> Social Awareness</h2>
+                <button onclick="window.location.href='add_social_services.php'" class="control-btn">Add social services</button>
+                <button onclick="window.location.href='view_social_services.php'" class="control-btn">View social services</button>
+            </div>
+            <div class="dashboard-box">
+                <h2><i class="fas fa-credit-card-alt"></i> Payroll Management</h2>
+                <button onclick="window.location.href='view_payroll.php'" class="control-btn">View Payroll</button>
+                <button onclick="window.location.href='generate_payroll_reports.php'" class="control-btn">Payroll reports</button>
+            </div>
         </section>
     </div>
 </body>

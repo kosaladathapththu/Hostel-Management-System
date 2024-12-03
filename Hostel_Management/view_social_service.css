@@ -1,0 +1,58 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212; /* Dark background for a modern look */
+    color: #0e5ead; /* Light text for contrast */
+    margin: 0;
+    padding: 0;
+}
+
+.services-container {
+    width: 80%;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.services-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.service-box {
+    background: linear-gradient(145deg, #ff1e1e, #9b1111); /* Modern red gradient */
+    color: #210101;
+    border: none;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Elevated shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-box:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 15px 25px rgba(255, 30, 30, 0.5); /* Red glow on hover */
+}
+
+.service-box p {
+    margin: 15px 0;
+    font-size: 1.1rem;
+}
+
+.service-box h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ff1e1e; /* Accent color for headings */
+}
+
+.service-box::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    margin: 0 auto 15px;
+    background-color: #f8f9fa; /* Subtle separator */
+}
