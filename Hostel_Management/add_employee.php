@@ -34,19 +34,54 @@ if (isset($_SESSION['admin_id'])) {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
-    $national_id = $_POST['national_id'];
+    $emp_gender = $_POST['emp_gender'];
+    $position = $_POST['position'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $position = $_POST['position'];
+    $emp_addr_street = $_POST['emp_addr_street'];
+    $emp_addr_city = $_POST['emp_addr_city'];
+    $emp_addr_province = $_POST['emp_addr_province'];
 
-    $insertQuery = "INSERT INTO employees (name, national_id, email, phone, position, created_at) 
-                    VALUES ('$name', '$national_id', '$email', '$phone', '$position', NOW())";
+    // Default values for other fields
+    $status = 1; // Default active status
+    $national_id = $_POST['national_id']; // Added national ID from form
 
-    if ($conn->query($insertQuery) === TRUE) {
+    $insertQuery = "INSERT INTO employees (
+                        name, 
+                        emp_gender, 
+                        position, 
+                        email, 
+                        phone, 
+                        emp_addr_street, 
+                        emp_addr_city, 
+                        emp_addr_province, 
+                        status, 
+                        created_at, 
+                        national_id
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
+
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param(
+        "sssssssssi",
+        $name, 
+        $emp_gender, 
+        $position, 
+        $email, 
+        $phone, 
+        $emp_addr_street, 
+        $emp_addr_city, 
+        $emp_addr_province, 
+        $status, 
+        $national_id
+    );
+
+    if ($stmt->execute()) {
         $successMessage = "Employee added successfully.";
     } else {
-        $errorMessage = "Error: " . $conn->error;
+        $errorMessage = "Error: " . $stmt->error;
     }
+
+    $stmt->close();
 }
 ?>
 
@@ -70,11 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><i class="fas fa-user"></i> <?php echo htmlspecialchars($admin_name); ?></p>
         </div>
         <ul>
+            <li><a href="admin_dashboard.php"><i class="fas fa-dashboard"></i> Dashboard</a></li>
             <li><a href="view_employee.php"><i class="fas fa-users"></i> Employee Management</a></li>
             <li><a href="view_employee_vacancies.php"><i class="fas fa-briefcase"></i> Employee Vacancies</a></li>
             <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Job Applications</a></li>
             <li><a href="admin_approve_matron.php"><i class="fas fa-user-check"></i> Matron Applications</a></li>
-            <li><a href="view_attendance.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
+            <li><a href="view_attendance_by_admin.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
             <li><a href="view_leave_requests.php"><i class="fas fa-envelope"></i> Leave Requests</a></li>
             <li><a href="view_payroll.php"><i class="fas fa-money-check-alt"></i> Payroll System</a></li>
             <li><a href="generate_payroll_reports.php"><i class="fas fa-chart-line"></i> Payroll Report</a></li>
@@ -88,50 +124,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Main Content -->
     <div class="main-content">
         <header>
-            <h1>Salvation Army Girls Hostel - Admin Dashboard</h1>
-            <h2>Add Employee</h2>
-            <div class="user-info">
-                <p>Welcome, <?php echo htmlspecialchars($admin_name); ?></p>
+            <div class="header-left">
+                <img src="The_Salvation_Army.png" alt="Logo" class="logo"> 
+            </div>
+            <center><b><h1>Salvation Army Girl's Hostel</h1></b></center>
+        
+            <div class="header-right">
+                <p>Welcome, <?php echo $admin_name; ?></p>
             </div>
         </header>
+        <div class="breadcrumbs">
+            <a href="view_employee.php" class="breadcrumb-item">
+                <i class="fas fa-arrow-left"></i> Back to Employee List
+            </a>
+        </div>
 
         <div class="content">
-            <h1>Add New Employee</h1>
             <?php if (!empty($successMessage)): ?>
                 <div class="success-message"><?php echo htmlspecialchars($successMessage); ?></div>
             <?php elseif (!empty($errorMessage)): ?>
                 <div class="error-message"><?php echo htmlspecialchars($errorMessage); ?></div>
-            <?php endif; ?>
+            <?php endif; 
+            ?>
 
             <center>
                 <form action="add_employee.php" method="POST">
                     <label for="name">Name:</label>
-                    <input type="text" name="name" required>
+                    <input type="text" id="name" name="name" required>
 
-                    <label for="national_id">National ID:</label>
-                    <input type="text" name="national_id" required>
-
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" required>
-
-                    <label for="phone">Phone:</label>
-                    <input type="text" name="phone" required>
+                    <label for="emp_gender">Gender:</label>
+                    <select id="emp_gender" name="emp_gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
 
                     <label for="position">Position:</label>
-                    <input type="text" name="position" required>
+                    <input type="text" id="position" name="position" required>
 
-                    <button type="submit">Add Employee</button>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone" required>
+
+                    <label for="emp_addr_street">Street Address:</label>
+                    <input type="text" id="emp_addr_street" name="emp_addr_street">
+
+                    <label for="emp_addr_city">City:</label>
+                    <input type="text" id="emp_addr_city" name="emp_addr_city">
+
+                    <label for="emp_addr_province">Province:</label>
+                    <input type="text" id="emp_addr_province" name="emp_addr_province">
+
+                    <label for="national_id">National ID:</label>
+                    <input type="text" id="national_id" name="national_id" required>
+
+                    <button type="submit">Save Employee</button>
                 </form>
-
-                <div class="breadcrumbs">
-                    <a href="view_employee.php" class="breadcrumb-item">
-                    <i class="fas fa-arrow-left"></i> Back to Employee List
-                    </a>
-                <span class="breadcrumb-separator">|</span>
-                <a href="admin_dashboard.php" class="breadcrumb-item">
-                <i class="fas fa-home"></i> Admin Dashboard
-                </a>
-</div>
             </center>
         </div>
     </div>

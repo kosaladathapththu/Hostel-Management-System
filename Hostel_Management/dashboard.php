@@ -76,7 +76,34 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+    /* Snow animation styles */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        z-index: 9999;
+        user-select: none;
+        cursor: default;
+        animation-name: snowfall;
+        animation-duration: 10s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes snowfall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+        }
+    }
+</style>
+
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
@@ -85,10 +112,11 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
                 <img src="The_Salvation_Army.png" alt="Logo" class="logo">
                 <h2>Salvation Army</h2>
                 <p>Girls Hostel</p>
+
             </div>
             
             <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" data-page="dashboard">
+            <a href="dashboard.php" class="nav-item active" data-page="dashboard">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
@@ -128,6 +156,11 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
                 <i class="fas fa-truck"></i>
                 <span>Suppliers</span>
             </a>
+            <a href="edit_matron_profile.php" class="nav-item">
+            <i class="fas fa-user-edit"></i>
+            <span>Edit Profile</span>
+             </a>
+
         </nav>
     </aside>
 
@@ -154,9 +187,13 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
                     <a href="matron_logout.php" class="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
+                    <a href="edit_matron_profile.php" class="profile-btn">
+                    <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+
                 </div>
             </header>
-
+   
             <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <!-- Metrics Grid -->
@@ -224,6 +261,46 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
         </main>
     </div>
     <script src="dashboard.js"></script>
+    <script>
+    // Christmas Snow Animation Script
+    function createSnowflake() {
+        // Check if current month is December
+        const currentDate = new Date();
+        if (currentDate.getMonth() !== 11) { // 11 represents December (0-indexed)
+            return; // Do not create snowflakes if not December
+        }
+
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '❄️';
+
+        // Randomize snowflake properties
+        const size = Math.random() * 10 + 5; // 5-15px
+        snowflake.style.fontSize = `${size}px`;
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.animationDuration = `${Math.random() * 10 + 5}s`; // 5-15s
+        snowflake.style.opacity = Math.random();
+        
+        document.body.appendChild(snowflake);
+
+        // Remove snowflake after animation
+        setTimeout(() => {
+            snowflake.remove();
+        }, 15000);
+    }
+
+    // Create snowflakes periodically only in December
+    function startSnowfall() {
+        const currentDate = new Date();
+        if (currentDate.getMonth() === 11) { // Check if it's December
+            setInterval(createSnowflake, 300); // Create a snowflake every 300ms
+        }
+    }
+
+    // Start snowfall when page loads
+    window.addEventListener('load', startSnowfall);
+</script>
+
 </body>
 </html>
 

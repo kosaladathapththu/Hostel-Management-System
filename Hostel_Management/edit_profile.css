@@ -1,111 +1,79 @@
-/* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full height of the viewport */
+    min-height: 100vh;
     margin: 0;
-    overflow-y: auto; /* Allow vertical scrolling */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
+form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
-    color: #007bff;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
-/* Container for the form */
-form {
-    background-color: #fff;
-    padding: 20px; /* Overall padding */
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 90%; /* Responsive width */
-    max-width: 500px; /* Maximum width */
-}
-
-/* Form content with scroll */
-.form-content {
-    background-color: #fff;
-    padding: 40px; /* Maintain padding */
-    border-radius: 10px; 
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    width: 90%; /* Full width */
-    max-width: 600px; /* Increased max-width */
-    max-height: 90vh; /* Allow the container to be tall */
-    overflow-y: auto; /* Allow scrolling inside the container */
-}
-
-/* Label Styles */
 label {
-    display: block;
-    margin-bottom: 5px;
-    color: #495057;
-    font-weight: bold;
+    margin-top: 15px;
+    color: #555;
+    font-weight: 500;
 }
 
-/* Input styles */
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-input[type="file"] {
-    width: 100%; /* Full width */
-    padding: 12px; /* Padding for inputs */
-    margin-bottom: 20px; /* Space between inputs */
-    border: 1px solid #ced4da; /* Light gray border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    background-color: #f8f9fa; /* Light background */
-    transition: border 0.3s ease; /* Smooth transition for border */
+input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-/* Focus effect for inputs */
 input:focus {
-    border-color: #007bff; /* Change border color on focus */
-    outline: none; /* Remove default outline */
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-/* Button Styles */
 button {
-    width: 100%; /* Full width */
-    background-color: #007bff; /* Primary color */
-    color: #fff; /* Text color */
-    padding: 14px; /* Padding */
-    font-size: 18px; /* Font size */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer on hover */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-/* Button hover effect */
 button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
 }
 
-/* Link styles */
 a {
-    display: block; /* Block display for full width */
-    margin-top: 20px; /* Space above the link */
-    text-align: center; /* Center the text */
-    color: #007bff; /* Link color */
-    text-decoration: none; /* No underline */
-    font-size: 16px; /* Font size */
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline; /* Underline on hover */
-}
-
-/* Responsive adjustments */
-@media (max-width: 500px) {
-    form {
-        padding: 20px; /* Less padding on small screens */
-    }
+    text-decoration: underline;
 }

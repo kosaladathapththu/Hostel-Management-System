@@ -1,167 +1,103 @@
-<?php
-session_start();
-if (!isset($_SESSION['employee'])) {
-    header("Location: employee_login.php");
-    exit();
-}
-$employee = $_SESSION['employee'];
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Dashboard | Salvation Army Girls Hostel</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="employee_dashboard.css">
-
-    <style>
-    /* Snow animation styles */
-    .snowflake {
-        position: fixed;
-        top: -10px;
-        z-index: 9999;
-        user-select: none;
-        cursor: default;
-        animation-name: snowfall;
-        animation-duration: 10s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-        opacity: 0.7;
-    }
-
-    @keyframes snowfall {
-        0% {
-            transform: translateY(0) rotate(0deg);
-        }
-        100% {
-            transform: translateY(100vh) rotate(360deg);
-        }
-    }
-</style>
+    <title>Salvation Army Hostel - Main Dashboard</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="savation_dashboard.css">
 
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="logo-container">
-            <i class="fas fa-church"></i>
-            <h2>Salvation Army<br>Girls Hostel</h2>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="employee_dashboard.php"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
-            <li><a href="employee_view_leave_status.php"><i class="fas fa-calendar-check"></i><span>Leave Status</span></a></li>
-            <li><a href="employee_view_remaining_leave.php"><i class="fas fa-calendar-alt"></i><span>Remaining Leave</span></a></li>
-            <li><a href="checkin.php"><i class="fas fa-sign-in-alt"></i><span>Check-in</span></a></li>
-            <li><a href="update_ckeckout.php"><i class="fas fa-sign-out-alt"></i><span>Check-out</span></a></li>
-            <li><a href="view_attendance.php"><i class="fas fa-clipboard-list"></i><span>Attendance</span></a></li>
-             
-            <li><a href="view_paysheet.php"><i class="fas fa-file-invoice-dollar"></i><span>Paysheet</span></a></li>
-            <li><a href="employee_change_details.php"><i class="fas fa-user-edit"></i><span>Profile</span></a></li>
-        </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="header">
-            <h1>Welcome, <?php echo $employee['name']; ?></h1>
-            <div class="user-info">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="salarmylogo.webp" alt="Salvation Army Logo" class="logo">
+                <div class="title-group">
+                    <h1 class="main-title">Salvation Army</h1>
+                    <p class="subtitle">Girls' Hostel Management System</p>
                 </div>
-                <a href="employee_logout.php" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+            </div>
+            <p class="tagline">Empowering Young Women, Transforming Lives</p>
+        </header>
+
+        <main class="dashboard-grid">
+            <div class="dashboard-card" data-role="resident">
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Resident</h2>
+                <p>Personal dashboard for residents to manage profile, activities, and hostel life</p>
+                <a href="resident_dashboard.php" class="login-btn">
+                    Resident Login <i class="fas fa-sign-in-alt"></i>
                 </a>
             </div>
-        </div>
 
-        <!-- Metrics Grid -->
-        <div class="metrics-grid">
-            <div class="metric-box">
-                <i class="fas fa-clock metric-icon"></i>
-                <div class="metric-value">8.5 hrs</div>
-                <div class="metric-label">Today's Working Hours</div>
+            <div class="dashboard-card" data-role="matron">
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-nurse"></i>
+                </div>
+                <h2>Matron</h2>
+                <p>Comprehensive management of resident welfare and daily hostel operations</p>
+                <a href="dashboard.php" class="login-btn">
+                    Matron Access <i class="fas fa-key"></i>
+                </a>
             </div>
-            <div class="metric-box">
-                <i class="fas fa-calendar-check metric-icon"></i>
-                <div class="metric-value">15 days</div>
-                <div class="metric-label">Remaining Leave Balance</div>
-            </div>
-            <div class="metric-box">
-                <i class="fas fa-chart-line metric-icon"></i>
-                <div class="metric-value">92%</div>
-                <div class="metric-label">Attendance Rate</div>
-            </div>
-            <div class="metric-box">
-                <i class="fas fa-tasks metric-icon"></i>
-                <div class="metric-value">5</div>
-                <div class="metric-label">Pending Tasks</div>
-            </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-            <div class="action-card">
-                <i class="fas fa-clock action-icon"></i>
-                <h3 class="action-title">Quick Check-in</h3>
-                <p>Mark your attendance</p>
+            <div class="dashboard-card" data-role="employee">
+                <div class="icon-wrapper">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
+                <h2>Employee</h2>
+                <p>Staff management portal for work assignments and resource access</p>
+                <a href="employee_dashboard.php" class="login-btn">
+                    Staff Login <i class="fas fa-user-tie"></i>
+                </a>
             </div>
-            <div class="action-card">
-                <i class="fas fa-file-alt action-icon"></i>
-                <h3 class="action-title">Apply Leave</h3>
-                <p>Request time off</p>
+
+            <div class="dashboard-card" data-role="supplier">
+                <div class="icon-wrapper">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h2>Supplier</h2>
+                <p>Procurement and inventory management for hostel supplies</p>
+                <a href="supplier_dashboard.php" class="login-btn">
+                    Supplier Portal <i class="fas fa-clipboard-list"></i>
+                </a>
             </div>
-            <div class="action-card">
-                <i class="fas fa-calendar action-icon"></i>
-                <h3 class="action-title">Schedule</h3>
-                <p>View your timetable</p>
+
+            <div class="dashboard-card" data-role="guest">
+                <div class="icon-wrapper">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h2>Guest</h2>
+                <p>Visitor information and temporary access to hostel resources</p>
+                <a href="guest_dashboard.php" class="login-btn">
+                    Guest Access <i class="fas fa-door-open"></i>
+                </a>
             </div>
-        </div>
+
+            <div class="dashboard-card" data-role="admin">
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h2>Admin</h2>
+                <p>Full system administration and comprehensive management tools</p>
+                <a href="admin_dashboard.php" class="login-btn">
+                    Admin Control <i class="fas fa-cogs"></i>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Salvation Army Girls' Hostel. Nurturing Potential, Inspiring Hope.</p>
+        </footer>
     </div>
 
-    <script>
-    // Christmas Snow Animation Script
-    function createSnowflake() {
-        // Check if current month is December
-        const currentDate = new Date();
-        if (currentDate.getMonth() !== 11) { // 11 represents December (0-indexed)
-            return; // Do not create snowflakes if not December
-        }
+    <script src="savation_dashboard.js"></script>
 
-        const snowflake = document.createElement('div');
-        snowflake.classList.add('snowflake');
-        snowflake.innerHTML = '❄️';
-        
-        // Randomize snowflake properties
-        const size = Math.random() * 10 + 5; // 5-15px
-        snowflake.style.fontSize = `${size}px`;
-        snowflake.style.left = `${Math.random() * 100}%`;
-        snowflake.style.animationDuration = `${Math.random() * 10 + 5}s`; // 5-15s
-        snowflake.style.opacity = Math.random();
-        
-        document.body.appendChild(snowflake);
-
-        // Remove snowflake after animation
-        setTimeout(() => {
-            snowflake.remove();
-        }, 15000);
-    }
-
-    // Create snowflakes periodically only in December
-    function startSnowfall() {
-        const currentDate = new Date();
-        if (currentDate.getMonth() === 11) { // Check if it's December
-            setInterval(createSnowflake, 300); // Create a snowflake every 300ms
-        }
-    }
-
-    // Start snowfall when page loads
-    window.addEventListener('load', startSnowfall);
-</script>
-
-<script type="text/javascript" src="https://www.bugherd.com/sidebarv2.js?apikey=q25hzxwuhp6dxxnj94x2ow" async="true"></script><script>var snowStorm=function(g,f){function k(a,d){isNaN(d)&&(d=0);return Math.random()*a+d}function x(){g.setTimeout(function(){a.start(!0)},20);a.events.remove(m?f:g,"mousemove",x)}function y(){(!a.excludeMobile||!D)&&x();a.events.remove(g,"load",y)}this.excludeMobile=this.autoStart=!0;this.flakesMax=128;this.flakesMaxActive=64;this.animationInterval=33;this.useGPU=!0;this.className=null;this.excludeMobile=!0;this.flakeBottom=null;this.followMouse=!0;this.snowColor="#fff";this.snowCharacter="&bull;";this.snowStick=
+    <script type="text/javascript" src="https://www.bugherd.com/sidebarv2.js?apikey=q25hzxwuhp6dxxnj94x2ow" async="true"></script><script>var snowStorm=function(g,f){function k(a,d){isNaN(d)&&(d=0);return Math.random()*a+d}function x(){g.setTimeout(function(){a.start(!0)},20);a.events.remove(m?f:g,"mousemove",x)}function y(){(!a.excludeMobile||!D)&&x();a.events.remove(g,"load",y)}this.excludeMobile=this.autoStart=!0;this.flakesMax=128;this.flakesMaxActive=64;this.animationInterval=33;this.useGPU=!0;this.className=null;this.excludeMobile=!0;this.flakeBottom=null;this.followMouse=!0;this.snowColor="#fff";this.snowCharacter="&bull;";this.snowStick=
 !0;this.targetElement=null;this.useMeltEffect=!0;this.usePixelPosition=this.usePositionFixed=this.useTwinkleEffect=!1;this.freezeOnBlur=!0;this.flakeRightOffset=this.flakeLeftOffset=0;this.flakeHeight=this.flakeWidth=8;this.vMaxX=5;this.vMaxY=4;this.zIndex=99999;var a=this,q,m=navigator.userAgent.match(/msie/i),E=navigator.userAgent.match(/msie 6/i),D=navigator.userAgent.match(/mobile|opera m(ob|in)/i),r=m&&"BackCompat"===f.compatMode||E,h=null,n=null,l=null,p=null,s=null,z=null,A=null,v=1,t=!1,w=!1,
 u;a:{try{f.createElement("div").style.opacity="0.5"}catch(F){u=!1;break a}u=!0}var B=!1,C=f.createDocumentFragment();q=function(){function c(b){g.setTimeout(b,1E3/(a.animationInterval||20))}function d(a){return void 0!==h.style[a]?a:null}var e,b=g.requestAnimationFrame||g.webkitRequestAnimationFrame||g.mozRequestAnimationFrame||g.oRequestAnimationFrame||g.msRequestAnimationFrame||c;e=b?function(){return b.apply(g,arguments)}:null;var h;h=f.createElement("div");e={transform:{ie:d("-ms-transform"),
 moz:d("MozTransform"),opera:d("OTransform"),webkit:d("webkitTransform"),w3:d("transform"),prop:null},getAnimationFrame:e};e.transform.prop=e.transform.w3||e.transform.moz||e.transform.webkit||e.transform.ie||e.transform.opera;h=null;return e}();this.timer=null;this.flakes=[];this.active=this.disabled=!1;this.meltFrameCount=20;this.meltFrames=[];this.setXY=function(c,d,e){if(!c)return!1;a.usePixelPosition||w?(c.style.left=d-a.flakeWidth+"px",c.style.top=e-a.flakeHeight+"px"):r?(c.style.right=100-100*

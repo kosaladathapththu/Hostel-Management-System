@@ -9,8 +9,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contact = $_POST['contact'];
     $createdAt = date('Y-m-d H:i:s'); // Current date and time
 
-    // Generate a unique username based on supplier name
-    $username = strtolower(str_replace(' ', '_', $supplierName)) . "_" . uniqid();
+    // Assign the supplier name directly as the username (in lowercase and spaces replaced with underscores)
+    $username = strtolower(str_replace(' ', '_', $supplierName));
+
+    // Check if the username already exists in the database
+    $checkQuery = "SELECT COUNT(*) FROM Suppliers WHERE username = ?";
+    $checkStmt = $conn->prepare($checkQuery);
+    $checkStmt->bind_param("s", $username);
+    $checkStmt->execute();
+    $checkStmt->bind_result($count);
+    $checkStmt->fetch();
+    $checkStmt->close();
+
+    // If the username already exists, show an error
+    if ($count > 0) {
+        $_SESSION['error'] = "Username already exists. Please choose a different supplier name.";
+        header("Location: add_supplier.php"); // Redirect back to the add supplier page
+        exit();
+    }
 
     // Insert supplier into the database, including the generated username
     $sql = "INSERT INTO Suppliers (supplier_name, category, contact, created_at, username) VALUES (?, ?, ?, ?, ?)";

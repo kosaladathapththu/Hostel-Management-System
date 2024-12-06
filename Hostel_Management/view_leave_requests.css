@@ -1,99 +1,163 @@
-/* General Reset */
+/* General Styling */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Body Styling */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f1f3f4;
-    color: #333;
+    display: flex;
+    background-color: #f4f4f4;
+    height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #343a40; /* Dark Gray */
+    color: #fff;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 20px;
+    height: 100vh;
+    position: fixed;
 }
 
-/* Heading Styling */
-h1 {
-    color: #2e3a59;
+.sidebar h2 {
+    font-size: 24px;
+    color: #ffc107; /* Yellow */
     margin-bottom: 30px;
-    font-size: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #adb5bd; /* Light Gray */
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar ul li a:hover {
+    color: #ffc107; /* Yellow */
+}
+
+.sidebar .edit-btn, .sidebar .logout-btn {
+    background-color: #ffc107; /* Yellow */
+    color: #343a40; /* Dark Gray */
+    border: none;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.sidebar .logout-btn {
+    background-color: #e74c3c; /* Red */
+    color: #fff;
+}
+
+.sidebar .edit-btn:hover, .sidebar .logout-btn:hover {
+    opacity: 0.9;
+}
+
+/* Main Container */
+.main-container {
+    margin-left: 250px;
+    padding: 20px;
+    width: 100%;
+}
+.main-container h2{
+    margin-top: 20px;
+    margin-left: 20px;
+
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(to right, #f5f1f1a2, #a77a7a); /* Linear gradient */
+    border-bottom: 2px solid #e0e0e0;
+    width: 100%;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    margin-right: 20px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
 
 /* Table Styling */
 table {
-    width: 90%;
-    max-width: 900px;
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-spacing: 0;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-/* Table Header Styling */
-th {
-    background-color: #2e3a59;
-    color: #fff;
-    padding: 16px;
-    text-align: left;
-    font-weight: 500;
-    letter-spacing: 1px;
-    font-size: 14px;
-}
-
-/* Table Cell Styling */
-td {
-    padding: 12px;
-    text-align: left;
+table th, table td {
+    padding: 15px;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
-/* Hover Effect on Rows */
-tr:hover {
-    background-color: #f4f6f9;
-    transition: background-color 0.3s ease;
+table th {
+    background-color: #f42222;
+    color: #e7d1d1;
 }
 
-/* Styling the action links */
-a {
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table td a {
+    color: #5bc0de;
     text-decoration: none;
-    color: #4e54c8;
-    font-weight: bold;
-    margin-right: 10px;
 }
 
-a:hover {
-    color: #8f94fb;
-    transition: color 0.3s ease;
+table td a:hover {
+    color: #31b0d5;
 }
-
-/* Styling Buttons */
-button {
-    background-color: #2e3a59;
-    color: #fff;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.breadcrumbs {
+    margin-top: -20px;
+    margin-bottom: 20px;
     font-size: 16px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    text-align: right;
 }
 
-button:hover {
-    background-color: #4e54c8;
+.breadcrumb-item {
+    color: #0d537b; /* Dark Blue */
+    text-decoration: none;
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 600px) {
-    table {
-        width: 100%;
-    }
-    button {
-        padding: 10px 20px;
-    }
+.breadcrumb-separator {
+    margin: 0 10px;
 }

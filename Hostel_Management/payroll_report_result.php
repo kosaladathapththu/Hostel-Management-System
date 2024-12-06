@@ -10,7 +10,6 @@ if (!isset($_GET['report_type']) || !isset($_GET['report_period']) || empty($_GE
 $reportType = $_GET['report_type'];
 $reportPeriod = $_GET['report_period'];
 
-// Determine the query based on report type
 if ($reportType === 'monthly') {
     $query = "SELECT e.name, e.position, s.base_salary, s.allowances, s.deductions, s.total_salary, s.salary_date 
               FROM salary s 
@@ -28,7 +27,6 @@ if ($reportType === 'monthly') {
 
 $stmt = $conn->prepare($query);
 
-// If report type is monthly, bind "YYYY-MM", else "YYYY" for annual
 if ($reportType === 'monthly') {
     $stmt->bind_param("s", $reportPeriod); // Format YYYY-MM for monthly
 } else {
@@ -44,49 +42,62 @@ $result = $stmt->get_result();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payroll Report</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="payroll_report_result.css">
+    <script>
+        function printReport() {
+            window.print();
+        }
+    </script>
 </head>
 <body>
     <header>
         <h1>Payroll Report - <?php echo ucfirst($reportType); ?></h1>
         <p>Report Period: <?php echo ($reportType === 'monthly') ? date("F Y", strtotime($reportPeriod)) : $year; ?></p>
+        <button class="print-btn" onclick="printReport()">Print Report</button>
     </header>
 
     <section>
-        <table border="1">
-            <tr>
-                <th>Employee Name</th>
-                <th>Position</th>
-                <th>Base Salary</th>
-                <th>Allowances</th>
-                <th>Deductions</th>
-                <th>Total Salary</th>
-                <?php if ($reportType === 'monthly'): ?>
-                    <th>Salary Date</th>
-                <?php else: ?>
-                    <th>Year</th>
-                <?php endif; ?>
-            </tr>
-            <?php while ($row = $result->fetch_assoc()): ?>
+        <table>
+            <thead>
                 <tr>
-                    <td><?php echo $row['name']; ?></td>
-                    <td><?php echo $row['position']; ?></td>
-                    <td><?php echo $row['base_salary']; ?></td>
-                    <td><?php echo $row['allowances']; ?></td>
-                    <td><?php echo $row['deductions']; ?></td>
-                    <td><?php echo $row['total_salary']; ?></td>
+                    <th>Employee Name</th>
+                    <th>Position</th>
+                    <th>Base Salary</th>
+                    <th>Allowances</th>
+                    <th>Deductions</th>
+                    <th>Total Salary</th>
                     <?php if ($reportType === 'monthly'): ?>
-                        <td><?php echo $row['salary_date']; ?></td>
+                        <th>Salary Date</th>
                     <?php else: ?>
-                        <td><?php echo $row['salary_year']; ?></td>
+                        <th>Year</th>
                     <?php endif; ?>
                 </tr>
-            <?php endwhile; ?>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['position']; ?></td>
+                        <td><?php echo $row['base_salary']; ?></td>
+                        <td><?php echo $row['allowances']; ?></td>
+                        <td><?php echo $row['deductions']; ?></td>
+                        <td><?php echo $row['total_salary']; ?></td>
+                        <?php if ($reportType === 'monthly'): ?>
+                            <td><?php echo $row['salary_date']; ?></td>
+                        <?php else: ?>
+                            <td><?php echo $row['salary_year']; ?></td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
         </table>
     </section>
 
-    <a href="generate_payroll_reports.php">Back to Report Options</a>
+    <footer>
+        <a href="generate_payroll_reports.php" class="back-link">Back to Report Options</a>
+    </footer>
 </body>
 </html>
 

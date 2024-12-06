@@ -1,41 +1,32 @@
-/* Reset default margins and paddings */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Body styling with background color */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    color: #333;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align to the left */
-    padding: 0;
-    min-height: 100vh; /* Ensure full height for the body */
+    background-color: #f4f4f4;
+    height: 100vh;
     margin: 0;
 }
 
 /* Sidebar Styling */
 .sidebar {
     width: 250px;
-    background-color: #343a40;
+    background-color: #343a40; /* Dark Gray */
     color: #fff;
     display: flex;
     flex-direction: column;
     padding: 20px;
     height: 100vh;
-    position: fixed; /* Fixed sidebar */
-    top: 0;
-    left: 0;
-    z-index: 100; /* Make sure sidebar is above other content */
+    position: fixed;
 }
 
 .sidebar h2 {
     font-size: 24px;
-    color: #ffc107;
+    color: #ffc107; /* Yellow */
     margin-bottom: 30px;
     display: flex;
     align-items: center;
@@ -52,7 +43,7 @@ body {
 }
 
 .sidebar ul li a {
-    color: #adb5bd;
+    color: #adb5bd; /* Light Gray */
     text-decoration: none;
     font-size: 16px;
     display: flex;
@@ -61,12 +52,12 @@ body {
 }
 
 .sidebar ul li a:hover {
-    color: #ffc107;
+    color: #ffc107; /* Yellow */
 }
 
 .sidebar .edit-btn, .sidebar .logout-btn {
-    background-color: #ffc107;
-    color: #343a40;
+    background-color: #ffc107; /* Yellow */
+    color: #343a40; /* Dark Gray */
     border: none;
     padding: 10px;
     margin-top: 20px;
@@ -80,7 +71,7 @@ body {
 }
 
 .sidebar .logout-btn {
-    background-color: #e74c3c;
+    background-color: #e74c3c; /* Red */
     color: #fff;
 }
 
@@ -90,15 +81,14 @@ body {
 
 /* Main Content Styling */
 .main-container {
-    margin-left: 250px; /* To leave space for the sidebar */
+    margin-left: 250px;
     padding: 20px;
-    flex-grow: 1;
-    width: calc(100% - 250px); /* Adjust width based on sidebar */
-    box-sizing: border-box;
+    width: 100%;
+    background-color: #fff;
 }
-
-.main-container h2 {
+.main-container h2{
     margin-top: 20px;
+    margin-left: 20px;
 }
 
 header {
@@ -106,7 +96,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(to right, #f5f1f1a2, #a77a7a);
+    background: linear-gradient(to right, #f5f1f1a2, #a77a7a); /* Linear gradient */
     border-bottom: 2px solid #e0e0e0;
     width: 100%;
 }
@@ -123,6 +113,12 @@ header {
 .logo {
     width: 60px;
     height: 60px;
+}
+
+section {
+    width: 100%;
+    margin: 20px auto;
+    text-align: center;
 }
 
 table {
@@ -143,8 +139,8 @@ th, td {
 }
 
 th {
-    background-color: #f42222;
-    color: #e7d1d1;
+    background-color: #f42222; /* Red */
+    color: #e7d1d1; /* Light Beige */
     font-weight: bold;
 }
 
@@ -153,29 +149,26 @@ tr:hover {
 }
 
 td a {
-    color: #5bc0de;
+    color: #5bc0de; /* Light Blue */
     text-decoration: none;
     font-weight: bold;
 }
 
 td a:hover {
-    color: #31b0d5;
+    color: #31b0d5; /* Darker Blue */
 }
 
 table th, table td {
     text-align: center;
 }
 
-/* Action links styling */
 a {
-    color: #4e54c8;
+    color: #ffc107; /* Yellow */
     text-decoration: none;
-    font-weight: 500;
-    margin: 0 5px;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #d39e00; /* Dark Yellow */
 }
 
 .breadcrumbs {
@@ -186,50 +179,35 @@ a:hover {
 }
 
 .breadcrumb-item {
-    color: #0d537b;
+    color: #0d537b; /* Dark Blue */
     text-decoration: none;
 }
 
 .breadcrumb-separator {
     margin: 0 10px;
 }
-.breadcrumb-item:hover{
-    background-color: #ffc107;;
-}
-/* Button styling */
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #4e54c8;
+
+.btn {
+    background-color: #28a745; /* Green */
     color: #fff;
-    border: none;
+    padding: 10px;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    text-decoration: none;
+    margin-top: 20px;
 }
 
-button:hover {
-    background-color: #8f94fb;
+.btn:hover {
+    background-color: #218838; /* Darker Green */
 }
 
-/* Responsive design */
+
 @media (max-width: 768px) {
-    /* For smaller screens, adjust layout */
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: static;
-        padding: 10px;
+    header h1, header h2, h1, h2, table {
+        font-size: 18px;
     }
 
-    .main-container {
-        margin-left: 0;
-        width: 100%;
-        padding: 10px;
-    }
-
-    table {
-        width: 100%;
+    th, td {
+        font-size: 14px;
+        padding: 8px;
     }
 }

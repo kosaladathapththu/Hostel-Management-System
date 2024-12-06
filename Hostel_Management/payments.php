@@ -7,19 +7,36 @@ if (!isset($_SESSION['matron_id'])) {
 
 include 'db_connect.php';
 
-$matron_id = $_SESSION['matron_id'];
+// Fetch all transactions grouped by month
+$transactionsQuery = "
+    SELECT trant_month, SUM(amount) AS monthly_total, COUNT(*) AS transaction_count
+    FROM transactionss
+    GROUP BY trant_month
+    ORDER BY trant_month DESC";
 
-// Retrieve recent transactions from the transactions table
-$recentTransactionsQuery = "
-SELECT trant_id, resident_id, trant_payment_receipt, trant_payment_date, trant_month, amount 
-FROM transactionss
-ORDER BY trant_payment_date DESC";
+$transactionsResult = $conn->query($transactionsQuery);
 
-$recentTransactionsResult = $conn->query($recentTransactionsQuery);
+// Calculate grand total
+$grandTotalQuery = "SELECT SUM(amount) AS grand_total FROM transactionss";
+$grandTotalResult = $conn->query($grandTotalQuery);
+$grandTotal = $grandTotalResult->fetch_assoc()['grand_total'] ?? 0;
 
-// Check if the query failed
-if (!$recentTransactionsResult) {
-    die("Error retrieving transactions: " . $conn->error);
+// Fetch all individual transactions
+$allTransactionsQuery = "
+    SELECT trant_month, resident_id, trant_payment_date, amount
+    FROM transactionss
+    ORDER BY trant_month, trant_payment_date";
+
+$allTransactionsResult = $conn->query($allTransactionsQuery);
+
+// Organize transactions by month
+$transactionsByMonth = [];
+while ($row = $allTransactionsResult->fetch_assoc()) {
+    $month = $row['trant_month'];
+    if (!isset($transactionsByMonth[$month])) {
+        $transactionsByMonth[$month] = [];
+    }
+    $transactionsByMonth[$month][] = $row;
 }
 ?>
 
@@ -28,66 +45,96 @@ if (!$recentTransactionsResult) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transactions - Salvation Army Girls Hostel</title>
+    <title>Transaction Report</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .container { margin: 20px; font-family: Arial, sans-serif; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .transaction-table, .details-table, .summary-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .transaction-table th, .transaction-table td, .summary-table th, .summary-table td, .details-table th, .details-table td { 
+            border: 1px solid #ddd; padding: 8px; 
+        }
+        .transaction-table th, .summary-table th, .details-table th { background-color: #f4f4f4; text-align: left; }
+        .btn-toggle { background-color: #007BFF; color: white; padding: 5px 10px; border: none; cursor: pointer; }
+        .btn-toggle:hover { background-color: #0056b3; }
+        .btn-print { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 20px; }
+        .btn-print:hover { background-color: #45a049; }
+        .details-container { display: none; margin-top: 10px; }
+    </style>
 </head>
 <body>
-    <h1>Recent Transactions</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Resident ID</th>
-                <th>Amount</th>
-                <th>Payment Date</th>
-                <th>Month</th>
-                <th>Receipt</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $recentTransactionsResult->fetch_assoc()): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($row['resident_id']); ?></td>
-                <td>Rs. <?php echo number_format($row['amount'], 2); ?></td>
-                <td><?php echo htmlspecialchars($row['trant_payment_date']); ?></td>
-                <td><?php echo htmlspecialchars($row['trant_month']); ?></td>
-                <td><a href="<?php echo htmlspecialchars($row['trant_payment_receipt']); ?>" target="_blank">View Receipt</a></td>
-                
-            </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
-
-    <!-- Modal for viewing receipt -->
-    <div id="receiptModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Transaction Receipt</h2>
-            <div id="receiptDetails">Loading...</div>
+    <div class="container">
+        <div class="header">
+            <h1>Transaction Report</h1>
+            <p>Salvation Army Girls Hostel</p>
         </div>
+
+        <h2>Monthly Summary</h2>
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Total Transactions</th>
+                    <th>Total Amount (Rs.)</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($transactionsByMonth as $month => $transactions): 
+                    $monthlyTotal = array_sum(array_column($transactions, 'amount'));
+                    $transactionCount = count($transactions);
+                ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($month); ?></td>
+                    <td><?php echo $transactionCount; ?></td>
+                    <td>Rs. <?php echo number_format($monthlyTotal, 2); ?></td>
+                    <td>
+                        <button class="btn-toggle" onclick="toggleDetails('<?php echo $month; ?>')">View Details</button>
+                    </td>
+                </tr>
+                <tr class="details-container" id="details-<?php echo $month; ?>">
+                    <td colspan="4">
+                        <h3>Details for <?php echo htmlspecialchars($month); ?></h3>
+                        <table class="details-table">
+                            <thead>
+                                <tr>
+                                    <th>Resident ID</th>
+                                    <th>Payment Date</th>
+                                    <th>Amount (Rs.)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($transactions as $transaction): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($transaction['resident_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($transaction['trant_payment_date']); ?></td>
+                                    <td>Rs. <?php echo number_format($transaction['amount'], 2); ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <h2>Grand Total</h2>
+        <p><strong>Total Amount:</strong> Rs. <?php echo number_format($grandTotal, 2); ?></p>
+
+        <button class="btn-print" onclick="window.print()">Print Report</button>
     </div>
 
     <script>
-        function viewReceipt(trantId) {
-            // Fetch receipt details via AJAX
-            fetch(`fetch_receipt.php?trant_id=${trantId}`)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("receiptDetails").innerHTML = data;
-                    document.getElementById("receiptModal").style.display = "block";
-                });
-        }
-
-        function closeModal() {
-            document.getElementById("receiptModal").style.display = "none";
+        function toggleDetails(month) {
+            const details = document.getElementById('details-' + month);
+            if (details.style.display === 'none' || details.style.display === '') {
+                details.style.display = 'table-row';
+            } else {
+                details.style.display = 'none';
+            }
         }
     </script>
-
-    <style>
-        .modal { display: none; position: fixed; /* Add modal styling here */ }
-        .modal-content { /* Style for modal content */ }
-        .close { cursor: pointer; /* Style for close button */ }
-    </style>
 </body>
 </html>
 

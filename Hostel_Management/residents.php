@@ -38,6 +38,18 @@ $residentsResult = $conn->query($residentsQuery);
 
     <section>
         <h2>Residents List</h2>
+        <div class="breadcrumbs">
+            <a href="add_resident.php" class="breadcrumb-item">
+                <i class="fas fa-plus"></i> Add new Resident
+            </a>
+            <span class="breadcrumb-separator">|</span>
+            <a href="dashboard.php" class="breadcrumb-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <span class="breadcrumb-separator">|</span>
+            <a href="waiting_list.php" class="breadcrumb-item">
+                <i class="fas fa-waiting"></i> Waiting list
+            </a>
         <table>
             <thead>
                 <tr>

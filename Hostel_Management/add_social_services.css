@@ -1,48 +1,161 @@
-body {
-    font-family: 'Roboto', sans-serif;
+/* Global Styling */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-.main-content {
-    width: 80%;
-    margin: 2rem auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+body {
+    display: flex;
+    background-color: #f4f7fa;
 }
 
-form {
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    padding: 20px;
+    height: 100vh;
 }
 
-form label {
+.sidebar h2 {
+    font-size: 24px;
+    color: #ffc107;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #adb5bd;
+    text-decoration: none;
     font-size: 16px;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-form input, form textarea, form button {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.sidebar ul li a:hover {
+    color: #ffc107;
 }
 
-form button {
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
+.sidebar .edit-btn, .sidebar .logout-btn {
+    background-color: #ffc107;
+    color: #343a40;
     border: none;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
-form button:hover {
-    background-color: #0056b3;
+.sidebar .logout-btn {
+    background-color: #e74c3c;
+    color: #fff;
 }
 
+.sidebar .edit-btn:hover, .sidebar .logout-btn:hover {
+    opacity: 0.9;
+}
+
+/* Main Content Styling */
+.main-container {
+    flex-grow: 1;
+    padding: 20px;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    background: linear-gradient(to right, #f5f1f1a2, #a77a7a);
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header-right {
+    margin-right: 20px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+}
+
+h2 {
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #333;
+}
+
+/* Form Styling */
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #ffc107;
+    outline: none;
+}
+
+button {
+    background-color: #07fff7;
+    color: #343a40;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #00dce0a0;
+}
+
+/* Success & Error Messages */
 .success {
     color: green;
     font-weight: bold;
@@ -52,3 +165,49 @@ form button:hover {
     color: red;
     font-weight: bold;
 }
+
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: -5px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #0d537b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color: #ffc107;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body, header, .main-container {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .sidebar {
+        width: 200px;
+    }
+}
+

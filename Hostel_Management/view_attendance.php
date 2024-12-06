@@ -101,6 +101,7 @@ while ($row = $result->fetch_assoc()) {
             }
             ?>
         </div>
+        <a href="employee_atendance.php" class="view-button">print all employee records</a>
     </div>
 </body>
 </html>

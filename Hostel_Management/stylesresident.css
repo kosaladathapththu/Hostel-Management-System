@@ -82,6 +82,8 @@ table tr:hover {
     background-color: #d8d5d5;
 }
 
+
+
 .edit-btn, .delete-btn, .add-btn {
     display: inline-block;
     padding: 8px 12px;
@@ -145,3 +147,4 @@ table tr:hover {
 .waiting-list-btn:hover {
     background-color: #e68a00; /* Darker orange on hover */
 }
+

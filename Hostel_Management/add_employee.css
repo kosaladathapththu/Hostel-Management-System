@@ -83,22 +83,72 @@ body {
     padding: 20px;
 }
 
+/* Header Styling */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
+    padding: 15px 20px;
+    background: linear-gradient(to right, #f5f1f1a2, #a77a7a);
     border-bottom: 2px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
-    font-size: 24px;
+    font-size: 26px;
     color: #333;
+    font-weight: 700;
+    margin: 0;
+    margin-left: 20px;
 }
 
-header .user-info p {
+.header-left .logo {
+    width: 70px;
+    height: 70px;
+    margin-right: 10px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    font-size: 16px;
+    color: #444;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header-right p {
+    margin: 0;
+}
+
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
     font-size: 14px;
-    color: #555;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color: #ffc107;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
 }
 
 /* Form Container */
@@ -112,11 +162,38 @@ header .user-info p {
 }
 
 .content h1 {
-    font-size: 22px;
+    font-size: 24px;
     color: #333;
     margin-bottom: 20px;
     text-align: center;
+    font-weight: 700;
 }
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: 15px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #0d537b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color: #ffc107;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
+}
+
 
 /* Success and Error Messages */
 .success-message, .error-message {
@@ -149,6 +226,7 @@ form {
 form label {
     font-size: 14px;
     color: #555;
+    text-align: left;
 }
 
 form input, form button {
@@ -169,7 +247,7 @@ form input:focus {
 }
 
 form button {
-    background-color: #ffc107;
+    background-color:  #5bc0de;
     color: #343a40;
     border: none;
     cursor: pointer;
@@ -181,54 +259,23 @@ form button:hover {
 }
 
 /* Links */
-form a {
-    font-size: 14px;
-    padding-top: 30px;
-    color: #333;
+form .breadcrumb-item {
     text-decoration: none;
-    margin-top: 30px;
+    color: #555;
+    font-size: 14px;
     display: inline-block;
-    transition: color 0.3s;
+    margin-top: 10px;
 }
 
-form a:hover {
+form .breadcrumb-item:hover {
     color: #ffc107;
 }
+@media (max-width: 768px) {
+    body, header, form{
+        width: 100%;
+    }
 
-/* Center Align Links */
-form a:nth-child(2) {
-    margin-left: 5px;
+    th, td {
+        padding: 10px;
+    }
 }
-.breadcrumbs {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-}
-
-.breadcrumb-item {
-    color: #007BFF;
-    text-decoration: none;
-    margin: 0 10px;
-    display: flex;
-    align-items: center;
-    transition: color 0.3s;
-}
-
-.breadcrumb-item i {
-    margin-right: 5px;
-    font-size: 18px;
-}
-
-.breadcrumb-item:hover {
-    color: #0056b3;
-}
-
-.breadcrumb-separator {
-    color: #6c757d;
-    margin: 0 10px;
-    font-size: 16px;
-}
-

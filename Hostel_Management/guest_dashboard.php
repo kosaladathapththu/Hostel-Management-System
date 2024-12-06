@@ -16,6 +16,32 @@ $guest_name = $_SESSION['guest_name'];
     <title>Guest Dashboard</title>
     <link rel="stylesheet" href="guest_dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+    /* Snow animation styles */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        z-index: 9999;
+        user-select: none;
+        cursor: default;
+        animation-name: snowfall;
+        animation-duration: 10s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes snowfall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+        }
+    }
+    </style>
+
 </head>
 
 <header>
@@ -75,7 +101,45 @@ $guest_name = $_SESSION['guest_name'];
             <a href="view_employee_rules.php">Read Employee Rules</a>
         </div>
     </section>
+    <script>
+    // Christmas Snow Animation Script
+    function createSnowflake() {
+        // Check if current month is December
+        const currentDate = new Date();
+        if (currentDate.getMonth() !== 11) { // 11 represents December (0-indexed)
+            return; // Do not create snowflakes if not December
+        }
 
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '❄️';
+        
+        // Randomize snowflake properties
+        const size = Math.random() * 10 + 5; // 5-15px
+        snowflake.style.fontSize = `${size}px`;
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.animationDuration = `${Math.random() * 10 + 5}s`; // 5-15s
+        snowflake.style.opacity = Math.random();
+        
+        document.body.appendChild(snowflake);
+
+        // Remove snowflake after animation
+        setTimeout(() => {
+            snowflake.remove();
+        }, 15000);
+    }
+
+    // Create snowflakes periodically only in December
+    function startSnowfall() {
+        const currentDate = new Date();
+        if (currentDate.getMonth() === 11) { // Check if it's December
+            setInterval(createSnowflake, 300); // Create a snowflake every 300ms
+        }
+    }
+
+    // Start snowfall when page loads
+    window.addEventListener('load', startSnowfall);
+</script>
     
 </body>
 </html>

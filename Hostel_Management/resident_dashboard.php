@@ -23,6 +23,7 @@ session_regenerate_id(true);
 $resident_id = $_SESSION['resident_id'];
 $resident_name = $_SESSION['resident_name'];
 
+
 // Fetch profile picture
 $profileQuery = "SELECT profile_picture FROM residents WHERE id = ?";
 $profileStmt = $conn->prepare($profileQuery);
@@ -109,6 +110,32 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
     <link rel="stylesheet" href="resident_dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+    /* Snow animation styles */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        z-index: 9999;
+        user-select: none;
+        cursor: default;
+        animation-name: snowfall;
+        animation-duration: 10s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes snowfall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+        }
+    }
+</style>
+
 </head>
 <body>
     <div class="dashboard-container">
@@ -230,7 +257,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
              alt="Profile" 
              class="profile-picture"
              onerror="this.src='assets/default_profile.png'">
-        <span class="profile-name"><?php echo htmlspecialchars($resident_name); ?></span>
+        <span class="profile-name"><?php echo $resident_name; ?></span>
         <i class="fas fa-chevron-down"></i>
     </button>
     <div class="dropdown-content profile-content">
@@ -353,6 +380,49 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
             </div>
         </main>
     </div>
+
+    <script>
+    // Christmas Snow Animation Script
+    function createSnowflake() {
+        // Check if current month is December
+        const currentDate = new Date();
+        if (currentDate.getMonth() !== 11) { // 11 represents December (0-indexed)
+            return; // Do not create snowflakes if not December
+        }
+
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '❄️';
+        
+        // Randomize snowflake properties
+        const size = Math.random() * 10 + 5; // 5-15px
+        snowflake.style.fontSize = `${size}px`;
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.animationDuration = `${Math.random() * 10 + 5}s`; // 5-15s
+        snowflake.style.opacity = Math.random();
+        
+        document.body.appendChild(snowflake);
+
+        // Remove snowflake after animation
+        setTimeout(() => {
+            snowflake.remove();
+        }, 15000);
+    }
+
+    // Create snowflakes periodically only in December
+    function startSnowfall() {
+        const currentDate = new Date();
+        if (currentDate.getMonth() === 11) { // Check if it's December
+            setInterval(createSnowflake, 300); // Create a snowflake every 300ms
+        }
+    }
+
+    // Start snowfall when page loads
+    window.addEventListener('load', startSnowfall);
+</script>
+
+
+
 </body>
 </html>
 

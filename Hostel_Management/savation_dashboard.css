@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+        --primary-background: #e59595;
+        --card-background: #e89a9a;
+        --text-primary: #2c3e50;
+        --text-secondary: #7f8c8d;
+        --border-color: #ecf0f1;
+        --shadow-subtle: rgba(0, 0, 0, 0.08);
+        --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--primary-gradient);
+    color: var(--text-dark);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.title-group {
+    text-align: left;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #d32f2f;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 700px;
+    margin: 1rem auto;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-15px) rotate(3deg);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+.icon-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.5s ease;
+}
+
+.dashboard-card[data-role="resident"] .icon-wrapper { background-color: #ffebee; }
+.dashboard-card[data-role="matron"] .icon-wrapper { background-color: #e3f2fd; }
+.dashboard-card[data-role="employee"] .icon-wrapper { background-color: #e8f5e9; }
+.dashboard-card[data-role="supplier"] .icon-wrapper { background-color: #fffde7; }
+.dashboard-card[data-role="guest"] .icon-wrapper { background-color: #f3e5f5; }
+.dashboard-card[data-role="admin"] .icon-wrapper { background-color: #e8eaf6; }
+
+.icon-wrapper i {
+    font-size: 4rem;
+    transition: transform 0.5s ease;
+}
+
+.dashboard-card:hover .icon-wrapper i {
+    transform: rotate(360deg) scale(1.2);
+}
+
+.dashboard-card h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.dashboard-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.login-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.dashboard-card[data-role="resident"] .login-btn { background-color: #d32f2f; color: white; }
+.dashboard-card[data-role="matron"] .login-btn { background-color: #1976d2; color: white; }
+.dashboard-card[data-role="employee"] .login-btn { background-color: #388e3c; color: white; }
+.dashboard-card[data-role="supplier"] .login-btn { background-color: #fbc02d; color: white; }
+.dashboard-card[data-role="guest"] .login-btn { background-color: #7b1fa2; color: white; }
+.dashboard-card[data-role="admin"] .login-btn { background-color: #303f9f; color: white; }
+
+.login-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .title-group {
+        text-align: center;
+    }
+}

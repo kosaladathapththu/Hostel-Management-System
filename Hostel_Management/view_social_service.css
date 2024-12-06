@@ -1,11 +1,191 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #121212; /* Dark background for a modern look */
-    color: #0e5ead; /* Light text for contrast */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    background-color: #f4f7fa;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    color: #ffc107;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar ul {
+    list-style-type: none;
     padding: 0;
 }
 
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #adb5bd;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar ul li a:hover {
+    color: #ffc107;
+}
+
+.sidebar .edit-btn, .sidebar .logout-btn {
+    background-color: #ffc107;
+    color: #343a40;
+    border: none;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.sidebar .logout-btn {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.sidebar .edit-btn:hover, .sidebar .logout-btn:hover {
+    opacity: 0.9;
+}
+
+/* Main Content Styling */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    background: linear-gradient(to right, #f5f1f1a2, #a77a7a);
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-right {
+    margin-right: 20px;
+    text-align: right;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/* Services List and Table Styling */
+table {
+    width: 100%;
+    max-width: 1200px;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f42222;
+    color: #e7d1d1;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td a {
+    color: #5bc0de;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+td a:hover {
+    color: #31b0d5;
+}
+
+table th, table td {
+    text-align: center;
+}
+
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: 15px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #0d537b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color: #ffc107;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
+}
+
+/* Social Service Cards Styling */
 .services-container {
     width: 80%;
     margin: 2rem auto;
@@ -20,19 +200,19 @@ body {
 }
 
 .service-box {
-    background: linear-gradient(145deg, #ff1e1e, #9b1111); /* Modern red gradient */
-    color: #210101;
+    background: linear-gradient(145deg,#d4ea86, #9cb8d0); 
+    color: #04382d;
     border: none;
     padding: 20px;
     border-radius: 15px;
     width: 300px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Elevated shadow for depth */
+    box-shadow: 10 10px 20px rgba(0, 0, 0, 0.3); 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .service-box:hover {
-    transform: scale(1.05); /* Slight zoom effect */
-    box-shadow: 0 15px 25px rgba(255, 30, 30, 0.5); /* Red glow on hover */
+    transform: scale(1.05); 
+    box-shadow:  #04382d
 }
 
 .service-box p {
@@ -45,7 +225,7 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     text-transform: uppercase;
-    color: #ff1e1e; /* Accent color for headings */
+    color: #ff1e1e;
 }
 
 .service-box::before {
@@ -54,5 +234,33 @@ body {
     width: 60px;
     height: 3px;
     margin: 0 auto 15px;
-    background-color: #f8f9fa; /* Subtle separator */
+    background-color: #f8f9fa; 
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    body, header, table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    .sidebar {
+        width: 200px;
+        padding: 15px;
+    }
+
+    .services-container {
+        width: 90%;
+    }
+
+    .service-box {
+        width: 250px;
+    }
 }
