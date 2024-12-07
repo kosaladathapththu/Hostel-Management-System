@@ -1,22 +1,16 @@
 <?php
 include 'db_connect.php';
 
-// Fetch orders with bill details (JOIN with bill table using order_id)
+// Fetch orders with only the required columns
 $ordersQuery = "
 SELECT 
-    o.order_id, 
-    o.item_name, 
-    o.quantity, 
-    o.order_date, 
-    o.status AS order_status, 
-    o.order_amount, 
-    o.delivery_date, 
-    o.approved_by, 
-    o.remarks, 
-    b.bill_amount, 
-    b.bill_status
-FROM Orders o
-LEFT JOIN bill b ON o.order_id = b.order_id
+    order_id, 
+    item_name, 
+    quantity, 
+    order_date, 
+    status AS order_status, 
+    bill_amount
+FROM Orders
 ";
 $ordersResult = $conn->query($ordersQuery);
 ?>
@@ -28,6 +22,43 @@ $ordersResult = $conn->query($ordersQuery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Orders</title>
     <link rel="stylesheet" href="view_order.css">
+    <style>
+        /* Modal Styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -45,13 +76,8 @@ $ordersResult = $conn->query($ordersQuery);
                 <th>Quantity</th>
                 <th>Order Date</th>
                 <th>Status</th>
-                <th>Order Amount</th>
-                <th>Bill Amount</th> <!-- Bill Amount -->
-                <th>Bill Status</th> <!-- Bill Status -->
-                <th>Delivery Date</th>
-                <th>Approved By</th>
-                <th>Remarks</th>
-                <th>Actions</th>
+                <th>Bill Amount</th>
+                <th>Actions</th> <!-- Action Column -->
             </tr>
             <?php while ($row = $ordersResult->fetch_assoc()): ?>
             <tr>
@@ -60,15 +86,13 @@ $ordersResult = $conn->query($ordersQuery);
                 <td><?php echo htmlspecialchars($row['quantity']); ?></td>
                 <td><?php echo htmlspecialchars($row['order_date']); ?></td>
                 <td><?php echo htmlspecialchars($row['order_status']); ?></td>
-                <td><?php echo htmlspecialchars($row['order_amount']); ?></td>
-                <td><?php echo htmlspecialchars($row['bill_amount']); ?></td> <!-- Bill Amount -->
-                <td><?php echo htmlspecialchars($row['bill_status']); ?></td> <!-- Bill Status -->
-                <td><?php echo htmlspecialchars($row['delivery_date']); ?></td>
-                <td><?php echo htmlspecialchars($row['approved_by']); ?></td>
-                <td><?php echo htmlspecialchars($row['remarks']); ?></td>
+                <td><?php echo htmlspecialchars($row['bill_amount']); ?></td>
                 <td>
-                    <a href="view_order.php?id=<?php echo $row['order_id']; ?>">View Order</a>
-                    <a href="generate_receipt.php?id=<?php echo $row['order_id']; ?>">Generate Receipt</a>
+                    <?php if ($row['order_status'] == 'Bill Assigned'): ?>
+                        <button onclick="openModal(<?php echo $row['order_id']; ?>, '<?php echo $row['bill_amount']; ?>')">Pay</button>
+                    <?php else: ?>
+                        <a href="generate_receipt.php?id=<?php echo $row['order_id']; ?>">Print</a> <!-- Print Action -->
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endwhile; ?>
@@ -79,6 +103,33 @@ $ordersResult = $conn->query($ordersQuery);
             <a href="dashboard.php">Dashboard</a>
         </div>
     </section>
+
+    <!-- Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Payment Confirmation</h2>
+            <p id="orderDetails"></p>
+            <form action="process_order.php" method="post">
+    <input type="hidden" id="order_id" name="order_id">
+    <button type="submit">Confirm Payment</button>
+</form>
+        </div>
+    </div>
+
+    <script>
+        // Open Modal
+        function openModal(orderId, billAmount) {
+            document.getElementById('paymentModal').style.display = 'block';
+            document.getElementById('orderDetails').innerText = `Order ID: ${orderId}, Bill Amount: $${billAmount}`;
+            document.getElementById('order_id').value = orderId;
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
 

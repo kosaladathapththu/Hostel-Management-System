@@ -5,9 +5,9 @@ include 'db_connect.php'; // Include database connection
 if (isset($_GET['id'])) {
     $orderId = intval($_GET['id']); // Use intval to ensure it's an integer
 
-    // Fetch the order details using a prepared statement
+    // Fetch the order details including order value and delivery date
     $orderQuery = "
-    SELECT o.order_id, s.supplier_name, o.item_name, o.quantity, o.order_date, o.status
+    SELECT o.order_id, s.supplier_name, o.item_name, o.quantity, o.order_date, o.status, o.bill_amount, o.delivery_date
     FROM Orders o
     JOIN Suppliers s ON o.supplier_id = s.supplier_id
     WHERE o.order_id = ?";
@@ -59,8 +59,26 @@ if (isset($_GET['id'])) {
                 <td><?php echo htmlspecialchars($order['quantity']); ?></td>
             </tr>
             <tr>
+                <th>Order Value</th>
+                <td><?php echo htmlspecialchars($order['bill_amount'] ?? 'Not Available'); ?></td>
+            </tr>
+
+            <tr>
+                <th>Delivery Date</th>
+                <td><?php echo htmlspecialchars($order['delivery_date']); ?></td>
+            </tr>
+            <tr>
                 <th>Status</th>
-                <td><?php echo htmlspecialchars($order['status']); ?></td>
+                <td>
+                    <?php 
+                    $status = htmlspecialchars($order['status']);
+                    if ($status == 'Paid') {
+                        echo "<span class='paid-seal'>PAID</span>";
+                    } else {
+                        echo $status;
+                    }
+                    ?>
+                </td>
             </tr>
         </table>
 

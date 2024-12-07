@@ -35,6 +35,21 @@ $orderCount = $ordersResult->num_rows;
     <title>Supplier Dashboard</title>
     <link rel="stylesheet" href="supplier_dashboard.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styling for the Print button */
+        .print-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .print-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -69,15 +84,18 @@ $orderCount = $ordersResult->num_rows;
                 <?php if ($row['status'] == 'requested'): ?>
                     <a href="accept_order.php?order_id=<?php echo $row['order_id']; ?>">Accept</a>
                     <a href="decline_order.php?order_id=<?php echo $row['order_id']; ?>">Decline</a>
-
+                <?php elseif ($row['status'] == 'Paid'): ?>
+                    <!-- Display Print Button for Paid Orders -->
+                    <a href="print_receipt.php?order_id=<?php echo $row['order_id']; ?>" target="_blank">
+                        <button class="print-btn">Print Receipt</button>
+                    </a>
                 <?php else: ?>
                     <?php echo ucfirst($row['status']); ?>
                 <?php endif; ?>
             </td>
         </tr>
     <?php endwhile; ?>
-</table>
-
+    </table>
 <?php else: ?>
     <p>No orders found for you.</p>
 <?php endif; ?>

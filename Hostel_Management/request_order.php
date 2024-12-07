@@ -7,34 +7,23 @@ $suppliersResult = $conn->query($suppliersQuery);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
-    $supplierId = $_POST['supplier_id'];
-    $itemName = $_POST['item_name'];
-    $quantity = $_POST['quantity'];
+    $supplierId = intval($_POST['supplier_id']); // Sanitize supplier ID
+    $itemName = htmlspecialchars($_POST['item_name']); // Sanitize item name
+    $quantity = intval($_POST['quantity']); // Sanitize quantity
 
-    // Insert into Orders table
-    $insertQuery = "INSERT INTO Orders (supplier_id, item_name, quantity) VALUES ('$supplierId', '$itemName', '$quantity')";
-    if ($conn->query($insertQuery) === TRUE) {
-        $orderId = $conn->insert_id;  // Get the ID of the new order
+    // Insert directly into Orders table
+    $insertQuery = "INSERT INTO Orders (supplier_id, item_name, quantity, status, order_amount, order_date) 
+                    VALUES (?, ?, ?, 'requested', 0.00, NOW())"; // Default order amount and status
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param('isi', $supplierId, $itemName, $quantity);
 
-        // Insert into OrderDetails table
-        $detailsQuery = "INSERT INTO OrderDetails (order_id, order_amount, delivery_date) 
-                         VALUES ('$orderId', '0.00', '0000-00-00')";  // Dummy data
-        $conn->query($detailsQuery);
-
-        // Insert into OrderStatus table
-        $statusQuery = "INSERT INTO OrderStatus (order_id, supplier_acceptance) n
-                        VALUES ('$orderId', 'Pending')";
-        $conn->query($statusQuery);
-
-        // Insert into OrderPayments table
-        $paymentQuery = "INSERT INTO OrderPayments (order_id, payment_status) 
-                         VALUES ('$orderId', 'Pending')";
-        $conn->query($paymentQuery);
-
+    if ($stmt->execute()) {
         echo "<script>alert('Order requested successfully.');</script>";
     } else {
-        echo "<script>alert('Error: " . $insertQuery . " " . $conn->error . "');</script>";
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
     }
+
+    $stmt->close(); // Close the statement
 }
 ?>
 
@@ -43,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Request New Order</title>
-    <link rel="stylesheet" href="request_order.css"> 
+    <link rel="stylesheet" href="request_order.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -57,8 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST" action="">
         <label for="supplier_id">Supplier:</label>
         <select name="supplier_id" required>
-            <?php while($row = $suppliersResult->fetch_assoc()): ?>
-                <option value="<?php echo $row['supplier_id']; ?>"><?php echo $row['supplier_name']; ?></option>
+            <?php while ($row = $suppliersResult->fetch_assoc()): ?>
+                <option value="<?php echo htmlspecialchars($row['supplier_id']); ?>">
+                    <?php echo htmlspecialchars($row['supplier_name']); ?>
+                </option>
             <?php endwhile; ?>
         </select>
         <br>

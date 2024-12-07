@@ -24,42 +24,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bill_amount = (float)$_POST['bill_amount']; 
     $bill_date = $_POST['bill_date']; // String date
 
-    // Prepare the SQL statement to insert the bill
-    $billInsertSQL = "INSERT INTO Bill (order_id, bill_amount, bill_date, bill_status) 
-                      VALUES (?, ?, ?, 'Pending')";
-    $billStmt = $conn->prepare($billInsertSQL);
+    // Update the Orders table with the new details
+    $updateOrderSQL = "UPDATE Orders 
+                       SET bill_amount = ?, 
+                           status = 'Bill Assigned',
+                           delivery_date = ? 
+                       WHERE order_id = ?";
+    $updateOrderStmt = $conn->prepare($updateOrderSQL);
 
     // Check if the statement prepared successfully
-    if (!$billStmt) {
-        die("Error preparing statement for bill: " . $conn->error);
+    if (!$updateOrderStmt) {
+        die("Error preparing statement for order update: " . $conn->error);
     }
 
-    // Bind parameters (i: integer, d: double/float, s: string)
-    $billStmt->bind_param("ids", $order_id, $bill_amount, $bill_date);
+    // Bind parameters (d: double/float, s: string, i: integer)
+    $updateOrderStmt->bind_param("dsi", $bill_amount, $bill_date, $order_id);
 
-    // Execute the query to insert the bill
-    if ($billStmt->execute()) {
-        // Update the order's status to 'Accepted'
-        $orderUpdateSQL = "UPDATE Orders SET status = 'approvedss' WHERE order_id = ?";
-        $orderStmt = $conn->prepare($orderUpdateSQL);
-
-        if ($orderStmt) {
-            $orderStmt->bind_param("i", $order_id);
-            if ($orderStmt->execute()) {
-                echo "<script>alert('Bill created and order accepted successfully!');</script>";
-            } else {
-                echo "<script>alert('Error: Could not update order status.');</script>";
-            }
-            $orderStmt->close();
-        } else {
-            echo "<script>alert('Error preparing statement for order update: " . $conn->error . "');</script>";
-        }
+    // Execute the query to update the Orders table
+    if ($updateOrderStmt->execute()) {
+        echo "<script>alert('Order updated with bill details successfully!');</script>";
+        echo "<script>window.location.href='supplier_dashboard.php';</script>";
     } else {
-        echo "<script>alert('Error: Could not create bill.');</script>";
+        echo "<script>alert('Error: Could not update order with bill details.');</script>";
     }
 
     // Close the prepared statement
-    $billStmt->close();
+    $updateOrderStmt->close();
 }
 
 // Close the database connection

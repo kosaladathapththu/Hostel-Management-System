@@ -62,8 +62,8 @@ JOIN Residents r ON t.resident_id = r.id
 ORDER BY t.trant_payment_date DESC LIMIT 5";
 $recentPaymentsResult = $conn->query($recentPaymentsQuery);
 
-?>
 
+?>
 
 
 <!DOCTYPE html>
@@ -187,6 +187,7 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
                     <a href="matron_logout.php" class="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                     </a>
+
                     <a href="edit_matron_profile.php" class="profile-btn">
                     <i class="fas fa-user-edit"></i> Edit Profile
                     </a>

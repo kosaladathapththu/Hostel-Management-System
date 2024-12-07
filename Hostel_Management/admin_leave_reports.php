@@ -4,7 +4,7 @@ include 'db_connect.php';
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php"); // Redirect to admin login if not logged in
+    header("Location: admin_login.php");
     exit;
 }
 
@@ -12,26 +12,52 @@ if (!isset($_SESSION['admin_id'])) {
 $admin_id = $_SESSION['admin_id'];
 $adminQuery = "SELECT admin_name FROM admin WHERE admin_id = ?";
 $stmt = $conn->prepare($adminQuery);
-$stmt->bind_param("i", $admin_id);
-$stmt->execute();
-$result = $stmt->get_result();
+if ($stmt) {
+    $stmt->bind_param("i", $admin_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $admin_name = $row['admin_name'];
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $admin_name = $row['admin_name'];
+    } else {
+        $admin_name = "Admin"; // Default fallback
+    }
+    $stmt->close();
 } else {
-    $admin_name = "Admin"; // Default fallback
+    $admin_name = "Admin"; // Default fallback in case of query failure
 }
 
-$stmt->close();
+// Fetch approved leave applications based on the selected period
+$filterQuery = "";
+$reportTitle = "All Approved Leave Reports";
 
-// Fetch all pending leave requests
-$query = "SELECT la.application_id, la.employee_id, e.name AS employee_name, la.start_date, la.end_date, la.reason, la.status 
+if (isset($_GET['report_type'])) {
+    $report_type = $_GET['report_type'];
+    $currentYear = date("Y");
+    $currentMonth = date("m");
+
+    if ($report_type == "monthly") {
+        $filterQuery = "WHERE MONTH(la.start_date) = $currentMonth AND YEAR(la.start_date) = $currentYear AND la.status = 'approved'";
+        $reportTitle = "Monthly Leave Reports (" . date("F Y") . ")";
+    } elseif ($report_type == "annual") {
+        $filterQuery = "WHERE YEAR(la.start_date) = $currentYear AND la.status = 'approved'";
+        $reportTitle = "Annual Leave Reports ($currentYear)";
+    }
+}
+
+$query = "SELECT la.application_id, la.employee_id, e.name AS employee_name, la.start_date, la.end_date, la.reason 
           FROM leave_applications la
           JOIN employees e ON la.employee_id = e.employee_id
-          WHERE la.status = 'pending'";
+          $filterQuery";
 $result = $conn->query($query);
+
+if (!$result) {
+    die("Error executing query: " . $conn->error); // Debugging in case of query failure
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +68,44 @@ $result = $conn->query($query);
     <link rel="stylesheet" href="view_leave_requests.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; }
+        .main-container { padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid #ddd; }
+        th, td { padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+        .btn { padding: 10px 15px; text-decoration: none; border: none; border-radius: 5px; margin-right: 10px; }
+        .btn-primary { background-color: #007BFF; color: #fff; }
+        .btn-secondary { background-color: #6c757d; color: #fff; }
+        .print-btn { margin-top: 20px; }
+    </style>
+
+<style>
+    @media print {
+        /* Hide unnecessary sections */
+        body * {
+            visibility: hidden;
+        }
+
+        /* Only display the table and header */
+        .main-container, .main-container * {
+            visibility: visible;
+        }
+
+        .sidebar, .profile-info, .breadcrumbs, .print-btn {
+            display: none;
+        }
+
+        /* Ensure the table is the only thing visible */
+        section {
+            margin-top: 0;
+        }
+    }
+</style>
+
+
 </head>
 <body>
     <!-- Sidebar -->
@@ -86,14 +150,17 @@ $result = $conn->query($query);
             </a>
         </div>
 
-        <div class="breadcrumbs">
-            <a href="admin_leave_reports.php" class="breadcrumb-item">
-                <i class="fas fa-print"></i> Leave Reports
-            </a>
+        <div>
+        <h2><?php echo $reportTitle; ?></h2>
+        <div>
+            <a href="admin_leave_reports.php?report_type=monthly" class="btn btn-primary">Monthly Report</a>
+            <a href="admin_leave_reports.php?report_type=annual" class="btn btn-secondary">Annual Report</a>
+            <button class="btn btn-primary print-btn" onclick="printTable()">Print Report</button>
         </div>
+    </div>
 
         <section>
-            <table>
+        <table>
         <thead>
             <tr>
                 <th>Application ID</th>
@@ -123,6 +190,13 @@ $result = $conn->query($query);
     </table>
         </section>
     </div>
+
+    <script>
+    function printTable() {
+        window.print();
+    }
+</script>
+
 
     <?php $conn->close(); ?>
 </body>

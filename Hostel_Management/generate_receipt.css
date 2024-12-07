@@ -46,3 +46,60 @@
 .print-button:hover {
     background-color: #45a049; /* Darker green on hover */
 }
+
+.paid-seal {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.paid-seal {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; /* Ensure it appears above other content */
+            border: 5px solid white;
+        }
+
+        /* Additional styling for the receipt */
+        .receipt-container {
+            position: relative;
+            padding: 20px;
+        }
+
+        .receipt-details {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .print-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .print-button:hover {
+            background-color: #45a049;
+        }

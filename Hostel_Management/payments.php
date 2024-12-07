@@ -23,7 +23,7 @@ $grandTotal = $grandTotalResult->fetch_assoc()['grand_total'] ?? 0;
 
 // Fetch all individual transactions
 $allTransactionsQuery = "
-    SELECT trant_month, resident_id, trant_payment_date, amount
+    SELECT trant_month, resident_id, trant_payment_date, amount, trant_payment_receipt
     FROM transactionss
     ORDER BY trant_month, trant_payment_date";
 
@@ -101,6 +101,7 @@ while ($row = $allTransactionsResult->fetch_assoc()) {
                                     <th>Resident ID</th>
                                     <th>Payment Date</th>
                                     <th>Amount (Rs.)</th>
+                                    <th>Receipt</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,6 +110,13 @@ while ($row = $allTransactionsResult->fetch_assoc()) {
                                     <td><?php echo htmlspecialchars($transaction['resident_id']); ?></td>
                                     <td><?php echo htmlspecialchars($transaction['trant_payment_date']); ?></td>
                                     <td>Rs. <?php echo number_format($transaction['amount'], 2); ?></td>
+                                    <td>
+                                        <?php if (!empty($transaction['trant_payment_receipt'])): ?>
+                                            <a href="<?php echo htmlspecialchars($transaction['trant_payment_receipt']); ?>" target="_blank">View Receipt</a>
+                                        <?php else: ?>
+                                            No Receipt
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
