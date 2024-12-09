@@ -98,16 +98,16 @@ form textarea {
 
 /* Button Styles */
 button[type="submit"] {
-    background-color: #4a90e2;
+    background-color: #54184e;
     color: #fff;
     font-weight: bold;
     cursor: pointer;
     border: none;
-    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    transition: background-color 0.3s ease; 
 }
 
 button[type="submit"]:hover {
-    background-color: #357ABD;
+    background-color: #932989;
 }
 
 .nav-buttons {
@@ -117,7 +117,7 @@ button[type="submit"]:hover {
 }
 
 .nav-buttons .button {
-    background-color: #4a90e2;
+    background-color: #e24ad0;
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -134,7 +134,7 @@ button[type="submit"]:hover {
 .dashboard-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007BFF; /* Blue color */
+    background-color: #007BFF; 
     color: white;
     text-align: center;
     text-decoration: none;

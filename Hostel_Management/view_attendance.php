@@ -5,12 +5,13 @@ include 'db_connect.php';
 // Assuming the employee's session contains the employee_id
 $employee_id = $_SESSION['employee']['employee_id'];
 
-// Query to fetch check-in and check-out data for the current employee
+// Query to fetch the most recent check-in and check-out data for each day
 $query = "
     SELECT 
         edc.emp_attendance_id, 
-        edc.daily_in_time, 
-        edco.daily_out_time 
+        DATE(edc.daily_in_time) as attendance_date,
+        MIN(edc.daily_in_time) as first_in_time,
+        MAX(edco.daily_out_time) as last_out_time 
     FROM 
         employee_daily_checkin edc
     LEFT JOIN 
@@ -19,8 +20,10 @@ $query = "
         employee_attendance ea ON edc.emp_attendance_id = ea.emp_attendance_id
     WHERE 
         ea.employee_id = ?
+    GROUP BY 
+        attendance_date
     ORDER BY 
-        edc.daily_in_time DESC
+        attendance_date DESC
 ";
 
 $stmt = $conn->prepare($query);
@@ -28,13 +31,12 @@ $stmt->bind_param("i", $employee_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Create an associative array to store the data for each day.
+// Create an associative array to store the data for each day
 $attendance_data = [];
 while ($row = $result->fetch_assoc()) {
-    $date = date('Y-m-d', strtotime($row['daily_in_time']));
-    $attendance_data[$date][] = [
-        'in_time' => $row['daily_in_time'],
-        'out_time' => $row['daily_out_time'] ?? '0000-00-00 00:00:00', // Handle cases where there's no check-out time
+    $attendance_data[$row['attendance_date']] = [
+        'in_time' => $row['first_in_time'],
+        'out_time' => $row['last_out_time'] ?? '0000-00-00 00:00:00',
     ];
 }
 ?>
@@ -45,7 +47,7 @@ while ($row = $result->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Attendance Calendar</title>
-    <link rel="stylesheet" href="view_attendance.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="view_attendance.css">
 </head>
 <body>
     <h1>Employee Attendance Calendar</h1>
@@ -83,13 +85,12 @@ while ($row = $result->fetch_assoc()) {
 
                 // Check if attendance data is available for this date
                 if (isset($attendance_data[$date])) {
-                    foreach ($attendance_data[$date] as $attendance) {
-                        echo "<div class='attendance-time in'>In: " . date('H:i:s', strtotime($attendance['in_time'])) . "</div>";
-                        if ($attendance['out_time'] != '0000-00-00 00:00:00') {
-                            echo "<div class='attendance-time out'>Out: " . date('H:i:s', strtotime($attendance['out_time'])) . "</div>";
-                        } else {
-                            echo "<div class='attendance-time'>Out: Not yet checked out</div>";
-                        }
+                    $attendance = $attendance_data[$date];
+                    echo "<div class='attendance-time in'>In: " . date('H:i:s', strtotime($attendance['in_time'])) . "</div>";
+                    if ($attendance['out_time'] != '0000-00-00 00:00:00') {
+                        echo "<div class='attendance-time out'>Out: " . date('H:i:s', strtotime($attendance['out_time'])) . "</div>";
+                    } else {
+                        echo "<div class='attendance-time out'>Out: Not yet checked out</div>";
                     }
                 } else {
                     echo "<div class='attendance-time no-records'>No check-in/out records</div>";
@@ -101,7 +102,6 @@ while ($row = $result->fetch_assoc()) {
             }
             ?>
         </div>
-        <a href="employee_atendance.php" class="view-button">print all employee records</a>
     </div>
 </body>
 </html>

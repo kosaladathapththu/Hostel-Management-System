@@ -8,7 +8,7 @@ if (!isset($_SESSION['supplier_id'])) {
     exit();
 }
 
-$matron_id = $_SESSION['suplier_id'];
+$matron_id = $_SESSION['suplierk=_id'];
 
 // Fetch orders that have a status of 'requested' and haven't been accepted yet
 $sql = "SELECT o.*, os.supplier_acceptance

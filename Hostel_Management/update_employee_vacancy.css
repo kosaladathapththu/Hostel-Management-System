@@ -110,11 +110,13 @@ h1 {
 .breadcrumbs {
     margin: 10px 0;
     font-size: 14px;
+    text-align: right;
 }
 
 .breadcrumbs .breadcrumb-item {
-    color: #007bff;
+    color: #04366b;
     text-decoration: none;
+    text-align: right;
 }
 
 .breadcrumbs .breadcrumb-item:hover {

@@ -27,16 +27,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <title>Submit Feedback</title>
     <link rel="stylesheet" href="submit_feedback.css">
+    <link rel="stylesheet" href="view_meal_plans.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<header>
-        <h1>Salvation Army Girls Hostel - Dashboard</h1>
-        <div class="user-info">
-            <p>Admin: [matron Name]</p>
-            <a href="logout.php" class="logout-btn">Logout</a>
-        </div>
-    </header>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2><i class="fas fa-user-shield"></i> Resident Panel</h2>
+        <ul>
+                    <li class="active">
+                        <a href="resident_dashboard.php"><i class="fas fa-home"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="edit_profile.php"><i class="fas fa-user"></i>Profile</a>
+                    </li>
+                    <li>
+                        <a href="resident_view_meal_plans.php"><i class="fas fa-utensils"></i>Meals</a>
+                    </li>
+                    <li>
+                        <a href="update_checkin_checkout.php"><i class="fas fa-calendar-check"></i>Check-in/out</a>
+                    </li>
+                    <li>
+                        <a href="Re_view_calendar.php"><i class="fas fa-calendar"></i>Events</a>
+                    </li>
+                    <li>
+                        <a href="transaction.php"><i class="fa fa-credit-card"></i>Monthly Fee</a>
+                    </li>
+                    <li>
+                        <a href="#support"><i class="fas fa-headset"></i>Support</a>
+                    </li>
+                </ul>
+                <button onclick="window.location.href='admin_edit_profile.php'" class="edit-btn"><i class="fas fa-user-edit"></i> Edit Profile</button>
+                <button onclick="window.location.href='admin_logout.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header>
+            <div class="header-left">
+                <img src="The_Salvation_Army.png" alt="Logo" class="logo">
+            </div>
+            <center><b><h1 style="text-align: center; margin-left: 100px;">Salvation Army Girls Hostel</h1></b></center>
+        </header>
+
+        <section class="meal-plans-list">
+            <h2>Available Meal Plans</h2>
+            <div class="breadcrumbs">
+            <a href="resident_view_meal_plans.php" class="breadcrumb-item">
+        <i class="fas fa-utensils"></i>Back to meal plan
+    </a>
+    <span class="breadcrumb-separator">|</span>
+    <a href="resident_dashboard.php" class="breadcrumb-item">
+        <i class="fas fa-home"></i> Resident Dashboard
+    </a>
+
+</div>
 
     <!-- Success/Error Message Display -->
     <?php if (!empty($message)) : ?>

@@ -1,5 +1,10 @@
 <?php
 session_start();
+include 'db_connect.php';
+
+
+$query = "SELECT * FROM social_service";
+$result = $conn->query($query);
 
 if (!isset($_SESSION['guest_id'])) {
     header("Location: guest_login.php");
@@ -10,12 +15,15 @@ include 'db_connect.php';
 $guest_name = $_SESSION['guest_name'];
 ?>
 
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>View Room Vacancy</title>
-    <link rel="stylesheet" href="view_room_vacancy.css">
+    <meta charset="UTF-8">
+    <title>View Social Services</title>
+    <link rel="stylesheet" href="view_social_service1.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -84,41 +92,28 @@ $guest_name = $_SESSION['guest_name'];
                 
             </header>
 
-    <h2>Available Rooms</h2>
+        <h2>Social Services</h2>
 
-    <?php
-    // Query to count available rooms
-    $count_query = "SELECT COUNT(*) as available_count FROM rooms WHERE status = 'available'";
-    $count_result = mysqli_query($conn, $count_query);
-    $count_row = mysqli_fetch_assoc($count_result);
-    $available_count = $count_row['available_count'];
-    echo "<p>Total Available Rooms: <strong>$available_count</strong></p>";
-    ?>
 
-    <table border="1">
-        <tr>
-            <th>Room Number</th>
-            <th>Capacity</th>
-            <th>Status</th>
-            <th>Created At</th>
-        </tr>
-
-        <?php
-        // Query to fetch details of available rooms
-        $query = "SELECT room_number, capacity, status, created_at FROM rooms WHERE status = 'available'";
-        $result = mysqli_query($conn, $query);
-
-        // Loop through the results and display each available room
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $row['room_number'] . "</td>";
-            echo "<td>" . $row['capacity'] . "</td>";
-            echo "<td>" . $row['status'] . "</td>";
-            echo "<td>" . $row['created_at'] . "</td>";
-            echo "</tr>";
-        }
-        ?>
-
-    </table>
+        <div class="services-container">
+            <?php if ($result->num_rows > 0): ?>
+                <div class="services-list">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <div class="service-box">
+                            <p><strong>Date:</strong> <?php echo $row['service_date']; ?></p>
+                            <p><strong>Province:</strong> <?php echo $row['service_province']; ?></p>
+                            <p><strong>City:</strong> <?php echo $row['service_city']; ?></p>
+                            <p><strong>Street:</strong> <?php echo $row['service_street']; ?></p>
+                            <p><strong>Description:</strong> <?php echo $row['service_description']; ?></p>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+            <?php else: ?>
+                <p>No social services found.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 </body>
 </html>
+
+<?php $conn->close(); ?>

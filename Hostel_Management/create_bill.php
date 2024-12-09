@@ -66,8 +66,16 @@ $conn->close();
 <body>
     <header>
         <h1>Create Bill for Order</h1>
-        <p><a href="supplier_dashboard.php">Back to Supplier Dashboard</a></p>
+        <p><a href="supplier_dashboard.php">Back to Supplier Orders</a></p>
     </header>
+
+    <nav class="breadcrumb">
+        <a href="supplier_dashboard.php">Supplier Dashboard</a>
+        <span>&gt;</span>
+        <a href="order_list.php">Orders</a>
+        <span>&gt;</span>
+        <span>Create Bill</span>
+    </nav>
 
     <section>
         <h2>Enter Bill Details</h2>
@@ -82,4 +90,5 @@ $conn->close();
         </form>
     </section>
 </body>
+
 </html>

@@ -69,9 +69,13 @@ $result = $conn->query($query);
 
         <h2>Check Attendance</h2>
         <div class="breadcrumbs">
-            <span class="breadcrumb-separator">|</span>
+            <span class="breadcrumb-separator"></span>
             <a href="admin_dashboard.php" class="breadcrumb-item">
                 <i class="fas fa-home"></i> Admin Dashboard
+            </a>
+            <span class="breadcrumb-separator">|</span>
+            <a href="employee_atendance.php" class="breadcrumb-item">
+                <i class="fas fa-check"></i> Full Attendence reports
             </a>
         </div>
 

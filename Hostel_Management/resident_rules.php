@@ -11,15 +11,14 @@ $guest_name = $_SESSION['guest_name'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>View Room Vacancy</title>
-    <link rel="stylesheet" href="view_room_vacancy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Rules - Salvation Army Girls Hostel</title>
+    <link rel="stylesheet" href="resident_rules.css">
 </head>
-
 <body>
-
 <div class="dashboard-container">
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
@@ -83,42 +82,31 @@ $guest_name = $_SESSION['guest_name'];
                 </div>
                 
             </header>
-
-    <h2>Available Rooms</h2>
-
-    <?php
-    // Query to count available rooms
-    $count_query = "SELECT COUNT(*) as available_count FROM rooms WHERE status = 'available'";
-    $count_result = mysqli_query($conn, $count_query);
-    $count_row = mysqli_fetch_assoc($count_result);
-    $available_count = $count_row['available_count'];
-    echo "<p>Total Available Rooms: <strong>$available_count</strong></p>";
-    ?>
-
-    <table border="1">
-        <tr>
-            <th>Room Number</th>
-            <th>Capacity</th>
-            <th>Status</th>
-            <th>Created At</th>
-        </tr>
-
-        <?php
-        // Query to fetch details of available rooms
-        $query = "SELECT room_number, capacity, status, created_at FROM rooms WHERE status = 'available'";
-        $result = mysqli_query($conn, $query);
-
-        // Loop through the results and display each available room
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $row['room_number'] . "</td>";
-            echo "<td>" . $row['capacity'] . "</td>";
-            echo "<td>" . $row['status'] . "</td>";
-            echo "<td>" . $row['created_at'] . "</td>";
-            echo "</tr>";
-        }
-        ?>
-
-    </table>
+        <center><h1>Resident Rules and Regulations</h1>
+        <section class="rules">
+            <ol>
+                <li data-emoji="📝">Residents must sign in and out when leaving the premises.</li>
+                <li data-emoji="🚫📢">Quiet hours are enforced from 10 PM to 6 AM.</li>
+                <li data-emoji="🚶‍♀️🚫">No visitors are allowed in the rooms without prior approval.</li>
+                <li data-emoji="🧳">Personal items should be stored neatly in designated areas.</li>
+                <li data-emoji="🎧">Noise should be kept to a minimum to respect others.</li>
+                <li data-emoji="🚭🍷">No smoking or alcohol consumption within the premises.</li>
+                <li data-emoji="🍽️">All meals must be consumed in the designated dining area.</li>
+                <li data-emoji="💡🚪">Lights must be turned off when leaving the room.</li>
+                <li data-emoji="⚒️">All damages or repairs should be reported immediately.</li>
+                <li data-emoji="⏰">Residents must follow the curfew rules set by the matron.</li>
+                <li data-emoji="📱💻">Laptops, phones, and other electronic devices should not disrupt communal areas.</li>
+                <li data-emoji="🐾🚫">No pets allowed inside the hostel rooms.</li>
+                <li data-emoji="🧺">All personal laundry must be done in the designated laundry area.</li>
+                <li data-emoji="🤝">Respect for fellow residents and their privacy is mandatory.</li>
+                <li data-emoji="🧼">Keep your room clean and free of pests.</li>
+                <li data-emoji="🏠">Respect hostel property and treat it with care.</li>
+                <li data-emoji="🚬🌳">Smoking areas are designated outside the building.</li>
+                <li data-emoji="🩺">Reporting any health or safety concerns to the matron is required.</li>
+                <li data-emoji="👊🚫">No fighting or physical altercations are allowed.</li>
+                <li data-emoji="👜">Residents are responsible for their own belongings; the hostel is not liable for lost items.</li>
+            </ol>
+        </section></center>
+    </div>
 </body>
 </html>

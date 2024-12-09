@@ -1,10 +1,15 @@
-body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
+
+body {
+    display: flex;
+    background-color: #f4f7fa;
+}
+
 
 .sidebar {
     width: 350px;
@@ -110,85 +115,52 @@ header h1 {
     height: 60px; 
 }
 
-/* Page title styling */
-h1 {
+.dashboard-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 20px;
+}
+.dashboard-section > div {
+    flex: 1 1 calc(50% - 20px); 
+    box-sizing: border-box; 
+}
+
+.dashboard-box {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(33.33% - 20px);
     text-align: center;
+    transition: transform 0.3s;
+}
+
+.dashboard-box h2 {
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Section title styling */
-h2 {
-    color: #444;
-    margin-bottom: 15px;
+.dashboard-box .control-btn {
+    background-color:#44d758;
+    color: #343a40;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
 }
 
-/* Table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+.dashboard-box:hover {
+    transform: translateY(-5px);
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-/* Table header styling */
-th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #e2e2e2;
-}
-
-/* Action links styling */
-a {
-    color: #007BFF;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
-}
-
-a:hover {
-    background-color: #e2e2ff;
-}
-
-/* Accept and Decline button styling */
-a[href*="accept_order.php"] {
-    color: white;
-    background-color: #4CAF50; /* Green for Accept */
-}
-
-a[href*="accept_order.php"]:hover {
-    background-color: #45a049;
-}
-
-a[href*="decline_order.php"] {
-    color: white;
-    background-color: #f44336; /* Red for Decline */
-}
-
-a[href*="decline_order.php"]:hover {
-    background-color: #d32f2f;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    th, td {
-        font-size: 14px;
-        padding: 8px;
-    }
+.control-btn:hover {
+    background-color: #2daa3e;
 }

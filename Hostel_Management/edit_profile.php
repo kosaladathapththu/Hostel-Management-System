@@ -14,31 +14,27 @@ $resident_id = $_SESSION['resident_id'];
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Gather POST data
     $new_name = $_POST['resident_name'];
-    $new_national_id = $_POST['resident_id']; // Make sure this matches the database column
-    $new_age = $_POST['resident_DOB']; // This should map to resident_DOB
+    $new_national_id = $_POST['resident_id'];
+    $new_age = $_POST['resident_DOB'];
     $new_email = $_POST['email'];
     $new_phone = $_POST['resident_contact'];
     $new_room_id = $_POST['resident_room_no'];
     $new_username = $_POST['username'];
-    $new_password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null; // Hashing password only if provided
+    $new_password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
     $new_profile_picture = $_FILES['profile_picture']['name'] ? $_FILES['profile_picture']['name'] : null;
 
-    // Update query with proper fields
-    $updateQuery = "UPDATE residents SET resident_name = ?, resident_id = ?, resident_DOB = ?, email = ?, resident_contact = ?, resident_room_no = ?, username = ?" . 
-                    ($new_password ? ", password = ?" : "") . 
-                    ($new_profile_picture ? ", profile_picture = ?" : "") . 
-                    " WHERE id = ?";
+    $updateQuery = "UPDATE residents SET resident_name = ?, resident_id = ?, resident_DOB = ?, email = ?, resident_contact = ?, resident_room_no = ?, username = ?" .
+        ($new_password ? ", password = ?" : "") .
+        ($new_profile_picture ? ", profile_picture = ?" : "") .
+        " WHERE id = ?";
 
-    // Prepare statement
     $stmt = $conn->prepare($updateQuery);
 
     if (!$stmt) {
-        die('Error preparing the statement: ' . $conn->error); // Check for errors in query preparation
+        die('Error preparing the statement: ' . $conn->error);
     }
 
-    // Bind parameters based on which fields are filled
     if ($new_password && $new_profile_picture) {
         $stmt->bind_param("ssissssssi", $new_name, $new_national_id, $new_age, $new_email, $new_phone, $new_room_id, $new_username, $new_password, $new_profile_picture, $resident_id);
     } elseif ($new_password) {
@@ -49,20 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ssisssss", $new_name, $new_national_id, $new_age, $new_email, $new_phone, $new_room_id, $new_username, $resident_id);
     }
 
-    // Execute statement and check for errors
     if ($stmt->execute()) {
         echo "Profile updated successfully!";
     } else {
         echo "Error updating profile: " . $stmt->error;
     }
 
-    // Handle file upload for profile picture
     if ($new_profile_picture) {
-        move_uploaded_file($_FILES['profile_picture']['tmp_name'], "uploads/" . $new_profile_picture); // Ensure this directory exists and is writable
+        move_uploaded_file($_FILES['profile_picture']['tmp_name'], "uploads/" . $new_profile_picture);
     }
 }
 
-// Fetch current details to show in the form
 $residentQuery = "SELECT resident_name, resident_id, resident_DOB, email, resident_contact, resident_room_no, username, profile_picture FROM residents WHERE id = ?";
 $residentStmt = $conn->prepare($residentQuery);
 $residentStmt->bind_param("i", $resident_id);
@@ -78,19 +71,56 @@ $residentData = $residentResult->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="edit_profile.css">
+    <link rel="stylesheet" href="view_meal_plans.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <form method="POST" action="" enctype="multipart/form-data">
-        <div class="form-content"> 
-            <h1><center>Edit Profile</center></h1>
+    <!-- Sidebar -->
+    <div class="sidebar" style="position: fixed; top: 0; left: 0; height: 100%; width: 250px; background-color: #2c2f33; color: #fff; padding: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">
+
+        <h2><i class="fas fa-user-shield"></i> Resident Panel</h2>
+        <ul>
+            <li><a href="resident_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="active"><a href="edit_profile.php"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="resident_view_meal_plans.php"><i class="fas fa-utensils"></i> Meals</a></li>
+            <li><a href="update_checkin_checkout.php"><i class="fas fa-calendar-check"></i> Check-in/out</a></li>
+            <li><a href="Re_view_calendar.php"><i class="fas fa-calendar"></i> Events</a></li>
+            <li><a href="transaction.php"><i class="fa fa-credit-card"></i> Monthly Fee</a></li>
+            <li><a href="#support"><i class="fas fa-headset"></i> Support</a></li>
+        </ul>
+        <button onclick="window.location.href='edit_profile.php'" class="edit-btn"><i class="fas fa-user-edit"></i> Edit Profile</button>
+        <button onclick="window.location.href='login.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header style="max: width 200px; margin-left: 250px;">
+            <div class="header-left">
+                <img src="The_Salvation_Army.png" alt="Logo" class="logo">
+            </div>
+            <center><b><h2 style="text-align:left; margin-right: 500px;">Salvation Army Girls Hostel</h2></b></center>
+        </header>
+        <div class="breadcrumbs">
+
+        <a href="resident_dashboard.php" class="breadcrumb-item">
+
+    <i class="fas fa-home"></i> Back to Dashboard
+</a>
+
+</div>
+
+
+
+        <center><form method="POST" action="" enctype="multipart/form-data">
+            <h1>Edit Profile</h1>
             <label for="resident_name">Name:</label>
             <input type="text" name="resident_name" id="resident_name" value="<?php echo htmlspecialchars($residentData['resident_name']); ?>" required>
-            
+
             <label for="resident_id">National ID:</label>
             <input type="text" name="resident_id" id="resident_id" value="<?php echo htmlspecialchars($residentData['resident_id']); ?>" required>
 
-            <label for="resident_DOB">Age:</label>
+            <label for="resident_DOB">Date of Birth:</label>
             <input type="date" name="resident_DOB" id="resident_DOB" value="<?php echo htmlspecialchars($residentData['resident_DOB']); ?>" required>
 
             <label for="email">Email:</label>
@@ -110,11 +140,10 @@ $residentData = $residentResult->fetch_assoc();
 
             <label for="profile_picture">Profile Picture:</label>
             <input type="file" name="profile_picture" id="profile_picture" accept="image/*">
-        </div> <!-- End of form-content -->
 
-        <button type="submit">Update Profile</button>
-        <div><a href="resident_dashboard.php">Back to Dashboard</a></div>
-    </form><br>
-    
+            <button type="submit">Update Profile</button>
+        </form></center>
+        
+    </div>
 </body>
 </html>

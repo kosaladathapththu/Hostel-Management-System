@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Verify entered password with the stored hash
             if (password_verify($password, $supplier['password'])) {
                 $_SESSION['supplier_id'] = $supplier['supplier_id'];
-                header("Location: supplier_dashboard.php");
+                header("Location: new_supplier.php");
                 exit();
             } else {
                 echo "Incorrect password.";

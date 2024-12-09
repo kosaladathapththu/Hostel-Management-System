@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Edit Employee</title>
     <link rel="stylesheet" href="edit_employee.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 
@@ -121,6 +122,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p>Welcome, <?php echo htmlspecialchars($admin_name); ?></p>
             </div>
         </header>
+        <h2>Edit Employee</h2>
+        <div class="breadcrumbs">
+                    <a href="view_employee.php" class="breadcrumb-item">
+                    <i class="fas fa-arrow-left"></i> Back to Employee List
+                    </a>
+                <span class="breadcrumb-separator">|</span>
+                <a href="admin_dashboard.php" class="breadcrumb-item">
+                <i class="fas fa-home"></i> Admin Dashboard
+                </a>
+        </div>
 
         <br><center>
         <form method="POST" action="">
@@ -163,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-            <a href="view_employee.php">Back to Employee List</a> | | <a href="admin_dashboard.php">Admin Dashboard</a></center>
+            
     </div>
 </body>
 </html>

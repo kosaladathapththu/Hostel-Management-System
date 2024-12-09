@@ -30,7 +30,8 @@ $stmt->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="The_Salvation_Army.png">
     <style>
     /* Snow animation styles */
     .snowflake {
@@ -70,7 +71,7 @@ $stmt->close();
             <li><a href="view_employee_vacancies.php"><i class="fas fa-briefcase"></i> Employee Vacancies</a></li>
             <li><a href="view_applications.php"><i class="fas fa-file-alt"></i> Job Applications</a></li>
             <li><a href="admin_approve_matron.php"><i class="fas fa-user-check"></i> Matron Applications</a></li>
-            <li><a href="view_attendance.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
+            <li><a href="view_attendance_by_admin.php"><i class="fas fa-calendar-check"></i> Attendance Record</a></li>
             <li><a href="view_leave_requests.php"><i class="fas fa-envelope"></i> Leave Requests</a></li>
             <li><a href="view_payroll.php"><i class="fas fa-money-check-alt"></i> Payroll System</a></li>
             <li><a href="generate_payroll_reports.php"><i class="fas fa-chart-line"></i> Payroll Report</a></li>
@@ -100,12 +101,13 @@ $stmt->close();
                 <button onclick="window.location.href='view_employee_vacancies.php'" class="control-btn">Employee Vacancy</button>
                 <button onclick="window.location.href='view_applications.php'" class="control-btn">View Job Applications</button>
                 <button onclick="window.location.href='admin_approve_matron.php'" class="control-btn">Matron Applications</button>
-                <button onclick="window.location.href='employee_atendance.php'" class="control-btn">Atendance Record</button>
+                
             </div>
             <div class="dashboard-box">
                 <h2><i class="fas fa-industry "></i> Leave Management</h2>
                 <button onclick="window.location.href='view_leave_requests.php'" class="control-btn">View leave Requests</button>
-                <button onclick="window.location.href='view_attendance.php'" class="control-btn">Attendance Record</button>
+                <button onclick="window.location.href='view_attendance_by_admin.php'" class="control-btn">Attendance Record</button>
+                <button onclick="window.location.href='employee_atendance.php'" class="control-btn">Full Attendance Report</button>
             </div>
             <div class="dashboard-box">
                 <h2><i class="fas fa-life-ring "></i> Social Awareness</h2>

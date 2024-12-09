@@ -1,3 +1,7 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;700&display=swap');
+
+/* Root Variables for Easy Theming */
 :root {
     /* Color Palette */
     --primary-color: #2C3E50;        /* Deep Navy Blue */
@@ -157,71 +161,96 @@ body {
     border: 3px solid var(--secondary-color);
 }
 
-h2 {
-    color: #4b6584;
-    text-align: center;
-    font-size: 1.8em;
-    margin-bottom: 20px;
+/* Rules Styling */
+.rules {
+    padding: 2rem;
 }
 
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+.rules ol {
+    list-style-type: none;
+    counter-reset: item;
 }
 
-form label {
-    font-weight: 500;
-    color: #333;
+.rules ol li {
+    counter-increment: item;
+    position: relative;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-form input[type="text"],
-form input[type="email"],
-form input[type="tel"],
-form select,
-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
+.rules ol li::before {
+    content: counter(item) ".";
+    position: absolute;
+    left: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--secondary-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.rules ol li:hover {
+    transform: translateX(10px);
+    background-color: #f1f3f4;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.rules ol li::after {
+    content: attr(data-emoji);
+    margin-left: auto;
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        margin: 0 10px;
+    }
+
+    .rules ol li::before {
+        position: static;
+        margin-right: 10px;
+    }
+
+    .rules ol li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rules ol li::after {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+}
+
+/* Scrollbar Styling (Optional) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
     border-radius: 5px;
-    font-size: 1em;
-    font-family: 'Roboto', Arial, sans-serif;
 }
 
-form select {
-    background-color: #fff;
-}
-
-form textarea {
-    resize: vertical;
-}
-
-button[type="submit"] {
-    display: inline-block;
-    width: 100%;
-    padding: 10px;
-    background-color: #4b6584;
-    color: #fff;
-    font-size: 1em;
-    font-weight: 700;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #3a4c66;
-}
-
-p {
-    font-size: 1.1em;
-    text-align: center;
-    color: #333;
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }

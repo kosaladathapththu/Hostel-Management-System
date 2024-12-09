@@ -52,6 +52,7 @@ $orderCount = $ordersResult->num_rows;
     </style>
 </head>
 <body>
+    
 <header>
     <h1>Salvation Army Girls Hostel - Supplier Dashboard</h1>
     <div class="user-info">

@@ -13,7 +13,7 @@
     <div class="container">
         <header class="header">
             <div class="logo-container">
-                <img src="salarmylogo.webp" alt="Salvation Army Logo" class="logo">
+                <img src="The_Salvation_Army.png" alt="Salvation Army Logo" class="logo">
                 <div class="title-group">
                     <h1 class="main-title">Salvation Army</h1>
                     <p class="subtitle">Girls' Hostel Management System</p>
