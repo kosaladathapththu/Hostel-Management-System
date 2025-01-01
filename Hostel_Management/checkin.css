@@ -3,34 +3,34 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Light gradient background */
+    background: linear-gradient(135deg, #f5f7fa, #ffffff); /* Light gradient background */
     color: #333;
 }
 
 /* Main container for content with background image */
-.main-container {
+.main-container1 {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 40px auto;
-    max-width: 1000px;
+    max-width: 2000px;
     padding: 20px;
     height: 80vh; /* Set a fixed height for the container */
     background-image: url('checkin.png'); /* Set your image as background */
     background-size: cover;
     background-position: center;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 10px 10px 12px 10px rgba(0, 0, 0, 0.1);
     position: relative; /* Enable positioning of child elements */
 }
 
 /* Main content area */
-.main-content {
+.main-content1 {
     position: absolute; /* Allows precise positioning */
     top: 27%; /* Adjust to place the form inside the calendar */
     left: 35%; /* Center horizontally relative to parent */
     transform: translate(-50%, -30%); /* Offset for centering */
-    max-width: 50%; /* Allows form to take up 60% of the space */
+    max-width: 75%; /* Allows form to take up 60% of the space */
     padding: 20px;
     background-color: rgba(36, 3, 63, 0.9); /* Semi-transparent white background */
     border-radius: 12px;
@@ -58,7 +58,7 @@ p {
 label {
     font-size: 18px;
     font-weight: 500;
-    color: #e4dede;
+    color: #2f4ebc;
 }
 
 /* Input field styling */
@@ -69,7 +69,7 @@ input[type="datetime-local"] {
     font-size: 16px;
     margin-top: 10px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd;
     background-color: #fafafa;
     transition: border-color 0.3s ease;
 }

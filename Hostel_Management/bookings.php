@@ -1,19 +1,69 @@
 <?php
-// Include database connection
-include 'db_connect.php';
+session_start(); // Start session for authentication check
 
-// Check database connection
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
+// Check if the user is logged in as a matron
+if (!isset($_SESSION['matron_id'])) {
+    header("Location: matron_auth.php"); // Redirect if not logged in
+    exit();
 }
 
-// SQL query to fetch booking details
+include 'db_connect.php'; // Include database connection
+
+// Fetch the matron's details (Extra safety check)
+$matron_id = $_SESSION['matron_id'];
+$matronQuery = "SELECT first_name FROM Matrons WHERE matron_id = ?";
+$stmt = $conn->prepare($matronQuery);
+$stmt->bind_param("i", $matron_id);
+$stmt->execute();
+$matronResult = $stmt->get_result();
+
+if ($matronResult->num_rows === 0) {
+    header("Location: matron_auth.php"); // Redirect if matron not found
+    exit();
+}
+
+// Assign matron's first name
+$matronData = $matronResult->fetch_assoc();
+$matron_first_name = $matronData['first_name'];
+
+// Handle approve or decline action
+if (isset($_GET['action']) && isset($_GET['record_id'])) {
+    $action = $_GET['action'];
+    $record_id = $_GET['record_id'];
+
+    if ($action == 'approve') {
+        $status = 'approved';
+        // Add the matron's ID to the update query
+        $updateQuery = "UPDATE `resident_checking-checkouts` 
+                        SET `status` = ?, `matron_id` = ? 
+                        WHERE `checking-checkout_id` = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("sii", $status, $matron_id, $record_id); // Bind matron_id as an integer
+        $stmt->execute();
+    } elseif ($action == 'decline') {
+        $status = 'declined';
+        // If declined, no need to set matron_id
+        $updateQuery = "UPDATE `resident_checking-checkouts` 
+                        SET `status` = ? 
+                        WHERE `checking-checkout_id` = ?";
+        $stmt = $conn->prepare($updateQuery);
+        $stmt->bind_param("si", $status, $record_id);
+        $stmt->execute();
+    }
+}
+
+// SQL query to fetch check-in/check-out details with status
 $query = "
-SELECT b.booking_id, r.resident_name, ro.room_number, b.check_in_date, b.check_out_date, b.status, b.created_at
-FROM Bookings b
-JOIN Residents r ON b.resident_id = r.resident_id
-JOIN Rooms ro ON b.room_id = ro.room_id
-ORDER BY b.check_in_date DESC";
+SELECT 
+    cc.`checking-checkout_id` AS record_id,
+    r.`resident_name`,
+    cc.`resident_id`,
+    cc.`check_in_date`,
+    cc.`check_out_date`,
+    cc.`status`
+FROM `resident_checking-checkouts` cc
+LEFT JOIN `Residents` r ON cc.`resident_id` = r.`id`
+ORDER BY cc.`created_at` DESC"; // Ordered by creation date
 
 // Prepare the query
 $stmt = $conn->prepare($query);
@@ -27,15 +77,7 @@ if (!$stmt) {
 $stmt->execute();
 
 // Fetch the results
-$bookingsResult = $stmt->get_result();
-
-// Check if there are any results
-if (!$bookingsResult || $bookingsResult->num_rows == 0) {
-    echo "No bookings found."; // Display a message if no bookings exist
-} else {
-    echo "Bookings found: " . $bookingsResult->num_rows; // Display number of bookings found for debugging
-}
-
+$checkInOutResult = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -43,57 +85,94 @@ if (!$bookingsResult || $bookingsResult->num_rows == 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings</title>
-    <link rel="stylesheet" href="bookstylelcss.css">
+    <title>Resident Check-ins/Outs</title>
+    <link rel="stylesheet" href="stylesresident.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Salvation Army Girls Hostel - Bookings</h1>
-        <div class="user-info">
-            <p>Admin: [Admin Name]</p>
-            <a href="logout.php" class="logout-btn">Logout</a>
-        </div>
-    </header>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2><i class="fas fa-user-shield"></i> Matron Panel</h2>
+        <ul>
+            <li><a href="dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="residents.php"><i class="fas fa-users"></i> Residents</a></li>
+            <li><a href="bookings.php"><i class="fas fa-calendar-check"></i> Check-ins/Outs</a></li>
+            <li><a href="rooml.php"><i class="fas fa-door-open"></i> Rooms</a></li>
+            <li><a href="payments.php"><i class="fas fa-money-check-alt"></i> Payments</a></li>
+            <li><a href="view_suppliers.php"><i class="fas fa-truck"></i> Suppliers</a></li>
+            <li><a href="view_order.php"><i class="fas fa-receipt"></i> Orders</a></li>
+            <li><a href="view_inventory.php"><i class="fas fa-boxes"></i> Inventory</a></li>
+            <li><a href="view_calendar.php"><i class="fas fa-calendar"></i> Events</a></li>
+            <li><a href="view_meal_plans.php"><i class="fas fa-utensils"></i> Meal Plans</a></li>
+        </ul>
+        <button onclick="window.location.href='matron_logout.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
 
-    <section>
-        <h2>Bookings List</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Resident</th>
-                    <th>Room Number</th>
-                    <th>Check-in Date</th>
-                    <th>Check-out Date</th>
-                    <th>Status</th>
-                    <th>Created At</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($row = $bookingsResult->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['resident_name']); ?></td>
-                    <td><?php echo htmlspecialchars($row['room_number']); ?></td>
-                    <td><?php echo htmlspecialchars($row['check_in_date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['check_out_date']); ?></td>
-                    <td><?php echo htmlspecialchars($row['status']); ?></td>
-                    <td><?php echo htmlspecialchars($row['created_at']); ?></td>
-                    <td>
-                        <a href="edit_booking.php?id=<?php echo htmlspecialchars($row['booking_id']); ?>" class="edit-btn">Edit</a>
-                        <a href="delete_booking.php?booking_id=<?php echo htmlspecialchars($row['booking_id']); ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</a>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+    <div class="main-content">
+        <header>
+            <div class="header-left">
+                <img src="The_Salvation_Army.png" alt="Logo" class="logo"> 
+            </div>
+            <center><b><h1>Salvation Army Girls Hostel</h1></b></center>
+            <div class="header-right">
+                <p>Welcome, <?php echo htmlspecialchars($matron_first_name); ?></p>
+            </div>
+        </header>
 
-        <div class="nav-buttons">
-            <a href="add_booking.php" class="add-btn">Add New Booking</a>
-            <a href="dashboard.php" class="dashboard-btn">Go to Dashboard</a>
-            <a href="manage_checkin_checkout.php" class="dashboard-btn">Approve Check-ins</a>
-        </div>
-    </section>
+        <section>
+            <h2 style="margin-top:20px;">Resident Check-in/Check-out History</h2>
+            <div class="breadcrumbs">
+                <a href="add_booking.php" class="breadcrumb-item">
+                    <i class="fas fa-plus"></i> Add Checking/checkouts
+                </a>
+                <span class="breadcrumb-separator">|</span>
+                <a href="dashboard.php" class="breadcrumb-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Resident ID</th>
+                        <th>Resident Name</th>
+                        <th>Check-in Date</th>
+                        <th>Check-out Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $checkInOutResult->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['record_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['resident_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['resident_name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['check_in_date']); ?></td>
+                            <td><?php echo htmlspecialchars($row['check_out_date']); ?></td>
+                            <td>
+                                <?php if ($row['status'] === 'approved'): ?>
+                                    <span style="color: green;"><?php echo htmlspecialchars($row['status']); ?></span>
+                                <?php elseif ($row['status'] === 'declined'): ?>
+                                    <span style="color: red;"><?php echo htmlspecialchars($row['status']); ?></span>
+                                <?php else: ?>
+                                    <span style="color: gray;"><?php echo htmlspecialchars($row['status']); ?></span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if ($row['status'] == 'Pending'): ?>
+                                    <a href="?action=approve&record_id=<?php echo $row['record_id']; ?>" class="approve-btn">Approve</a> |
+                                    <a href="?action=decline&record_id=<?php echo $row['record_id']; ?>" class="decline-btn">Decline</a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </section>
+    </div>
 </body>
 </html>
 
@@ -102,4 +181,3 @@ if (!$bookingsResult || $bookingsResult->num_rows == 0) {
 $stmt->close();
 $conn->close();
 ?>
-

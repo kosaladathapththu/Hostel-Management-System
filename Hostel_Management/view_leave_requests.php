@@ -84,16 +84,16 @@ $result = $conn->query($query);
             <a href="admin_dashboard.php" class="breadcrumb-item">
                 <i class="fas fa-home"></i> Admin Dashboard
             </a>
-        </div>
-
-        <div class="breadcrumbs">
+            <span class="breadcrumb-separator">|</span>
             <a href="admin_leave_reports.php" class="breadcrumb-item">
                 <i class="fas fa-print"></i> Leave Reports
             </a>
         </div>
 
+ 
         <section>
-            <table>
+        <section>
+    <table>
         <thead>
             <tr>
                 <th>Application ID</th>
@@ -101,6 +101,7 @@ $result = $conn->query($query);
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Reason</th>
+                <th>Action</th> <!-- Added column for action buttons -->
             </tr>
         </thead>
         <tbody>
@@ -112,16 +113,23 @@ $result = $conn->query($query);
                         <td><?php echo $row['start_date']; ?></td>
                         <td><?php echo $row['end_date']; ?></td>
                         <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                        <td>
+                            <!-- Approve Button -->
+                            <a href="approve_leave.php?application_id=<?php echo $row['application_id']; ?>" class="btn-approve">Approve</a>
+                            <!-- Decline Button -->
+                            <a href="decline_leave.php?application_id=<?php echo $row['application_id']; ?>" class="btn-decline">Decline</a>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="5">No records found for this period.</td>
+                    <td colspan="6">No records found for this period.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
     </table>
-        </section>
+</section>
+
     </div>
 
     <?php $conn->close(); ?>

@@ -1,7 +1,24 @@
 <?php
 include 'db_connect.php'; // Include the database connection
 
+session_start(); // Start session
 
+// Check if resident is logged in; if not, redirect to login page
+if (!isset($_SESSION['resident_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch resident_id from session
+$resident_id = $_SESSION['resident_id'];
+
+// Fetch resident data
+$residentQuery = "SELECT username FROM residents WHERE id = ?";
+$residentStmt = $conn->prepare($residentQuery);
+$residentStmt->bind_param("i", $resident_id);
+$residentStmt->execute();
+$residentResult = $residentStmt->get_result();
+$residentData = $residentResult->fetch_assoc();
 
 // Fetch meal plans from the database
 $sql = "SELECT meal_id, meal_name, description, date, created_by, created_at FROM meal_plans ORDER BY created_at DESC";
@@ -23,6 +40,7 @@ $result = $conn->query($sql);
     <!-- Sidebar -->
     <div class="sidebar">
         <h2><i class="fas fa-user-shield"></i> Resident Panel</h2>
+        
         <ul>
                     <li class="active">
                         <a href="resident_dashboard.php"><i class="fas fa-home"></i>Dashboard</a>
@@ -56,11 +74,14 @@ $result = $conn->query($sql);
             <div class="header-left">
                 <img src="The_Salvation_Army.png" alt="Logo" class="logo">
             </div>
-            <center><b><h2 style="text-align:left; margin-right: 500px;">Salvation Army Girls Hostel</h2></b></center>
+            <center><b><h2 style="text-align:left;">Salvation Army Girls Hostel</h2></b></center>
+            <div class="header-right">
+            <h4>Welcome,<?php echo htmlspecialchars($residentData['username']); ?></h4>
+</div>
         </header>
 
         <section class="meal-plans-list">
-            <h2>Available Meal Plans</h2>
+            <h2  style="margin-top:10px; margin-left:10px;">Available Meal Plans</h2>
             <div class="breadcrumbs">
             <a href="submit_feedback.php" class="breadcrumb-item">
         <i class="fas fa-comments"></i> Submit Feedback

@@ -73,8 +73,6 @@ if (isset($_GET['id'])) {
                     <?php 
                     $status = htmlspecialchars($order['status']);
                     if ($status == 'Paid') {
-                        echo "<span class='paid-seal'>PAID</span>";
-                    } else {
                         echo $status;
                     }
                     ?>

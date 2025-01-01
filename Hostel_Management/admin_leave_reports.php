@@ -58,7 +58,6 @@ if (!$result) {
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,10 +67,20 @@ if (!$result) {
     <link rel="stylesheet" href="view_leave_requests.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
         body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; }
-        .main-container { padding: 20px; }
+        .main-container { padding: 20px; margin-left: 250px; }
+        .sidebar { position: fixed; width: 250px; height: 100%; background-color: #2c3e50; color: white; padding: 15px; }
+        .sidebar h2, .sidebar ul, .sidebar button { margin: 10px 0; }
+        .sidebar h2 { font-size: 1.5em; text-align: center; }
+        .profile-info { text-align: center; margin-bottom: 15px; }
+        .profile-info p { margin: 0; font-size: 1.2em; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li { margin: 10px 0; }
+        .sidebar ul li a { text-decoration: none; color: white; display: block; padding: 10px; border-radius: 5px; }
+        .sidebar ul li a:hover { background-color: #34495e; }
+        .edit-btn, .logout-btn { width: 100%; background-color: #e74c3c; color: white; text-align: center; padding: 10px; border: none; border-radius: 5px; margin-top: 10px; }
+        .edit-btn:hover, .logout-btn:hover { background-color: #c0392b; cursor: pointer; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         table, th, td { border: 1px solid #ddd; }
         th, td { padding: 8px; text-align: center; }
@@ -80,35 +89,18 @@ if (!$result) {
         .btn-primary { background-color: #007BFF; color: #fff; }
         .btn-secondary { background-color: #6c757d; color: #fff; }
         .print-btn { margin-top: 20px; }
+        @media print {
+            body * { visibility: hidden; }
+            .main-container, .main-container * { visibility: visible; }
+            .sidebar, .profile-info, .breadcrumbs, .print-btn { display: none; }
+            section { margin-top: 0; }
+            
+        }
+
+        
     </style>
-
-<style>
-    @media print {
-        /* Hide unnecessary sections */
-        body * {
-            visibility: hidden;
-        }
-
-        /* Only display the table and header */
-        .main-container, .main-container * {
-            visibility: visible;
-        }
-
-        .sidebar, .profile-info, .breadcrumbs, .print-btn {
-            display: none;
-        }
-
-        /* Ensure the table is the only thing visible */
-        section {
-            margin-top: 0;
-        }
-    }
-</style>
-
-
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
         <div class="profile-info">
@@ -131,73 +123,58 @@ if (!$result) {
         <button onclick="window.location.href='admin_logout.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
-    <!-- Main Content -->
     <div class="main-container">
-        <header>
-            <div class="header-left">
-                <img src="The_Salvation_Army.png" alt="Logo" class="logo">
-            </div>
-            <center><h1>Salvation Army Girls Hostel</h1></center>
-            <div class="header-right">
-                <p>Welcome, <?php echo htmlspecialchars($admin_name); ?></p>
-            </div>
-        </header>
-
-        <h2>Pending Leave Requests</h2>
-        <div class="breadcrumbs">
-            <a href="admin_dashboard.php" class="breadcrumb-item">
-                <i class="fas fa-home"></i> Admin Dashboard
-            </a>
+        <div class="header2">
+            <img src="images/header.png" alt="Header Image">
         </div>
-
-        <div>
         <h2><?php echo $reportTitle; ?></h2>
         <div>
             <a href="admin_leave_reports.php?report_type=monthly" class="btn btn-primary">Monthly Report</a>
             <a href="admin_leave_reports.php?report_type=annual" class="btn btn-secondary">Annual Report</a>
-            <button class="btn btn-primary print-btn" onclick="printTable()">Print Report</button>
+            <button class="btn btn-primary print-btn" onclick="printPage()">Print Report</button>
         </div>
-    </div>
 
         <section>
-        <table>
-        <thead>
-            <tr>
-                <th>Application ID</th>
-                <th>Employee Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Reason</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
+            <table>
+                <thead>
                     <tr>
-                        <td><?php echo $row['application_id']; ?></td>
-                        <td><?php echo $row['employee_name']; ?></td>
-                        <td><?php echo $row['start_date']; ?></td>
-                        <td><?php echo $row['end_date']; ?></td>
-                        <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                        <th>Application ID</th>
+                        <th>Employee Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Reason</th>
                     </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5">No records found for this period.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                    <?php if ($result->num_rows > 0): ?>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['application_id']; ?></td>
+                                <td><?php echo $row['employee_name']; ?></td>
+                                <td><?php echo $row['start_date']; ?></td>
+                                <td><?php echo $row['end_date']; ?></td>
+                                <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">No records found for this period.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </section>
     </div>
 
     <script>
-    function printTable() {
-        window.print();
-    }
-</script>
-
-
+        function printPage() {
+            const printButton = document.querySelector('.print-btn');
+            printButton.style.display = 'none';
+            window.print();
+            printButton.style.display = 'block';
+        }
+    </script>
     <?php $conn->close(); ?>
 </body>
 </html>
+

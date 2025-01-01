@@ -99,7 +99,8 @@ $residentData = $residentResult->fetch_assoc();
             <div class="header-left">
                 <img src="The_Salvation_Army.png" alt="Logo" class="logo">
             </div>
-            <center><b><h2 style="text-align:left; margin-right: 500px;">Salvation Army Girls Hostel</h2></b></center>
+            <center><b><h2 style="text-align:left;">Salvation Army Girls Hostel</h2></b></center>
+            <h4  style="margin-right:20px;">Welcome,<?php echo htmlspecialchars($residentData['username']); ?></h4>
         </header>
         <div class="breadcrumbs">
 
@@ -112,7 +113,7 @@ $residentData = $residentResult->fetch_assoc();
 
 
 
-        <center><form method="POST" action="" enctype="multipart/form-data">
+        <center><form method="POST" action="" enctype="multipart/form-data" style="margin-left:550px; border-radius:10px;box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);">
             <h1>Edit Profile</h1>
             <label for="resident_name">Name:</label>
             <input type="text" name="resident_name" id="resident_name" value="<?php echo htmlspecialchars($residentData['resident_name']); ?>" required>

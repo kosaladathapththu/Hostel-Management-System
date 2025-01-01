@@ -33,7 +33,7 @@ $orderCount = $ordersResult->num_rows;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Supplier Dashboard</title>
     <link rel="stylesheet" href="new_supplier.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,8 +47,9 @@ $orderCount = $ordersResult->num_rows;
         <p>Welcome, <?php echo htmlspecialchars($supplier['username']); ?></p>
         </div>
         <ul>
-            <li><a href="view_orders.php"><i class="fas fa-users"></i> Order management</a></li>
-            <li><a href="view_contracts.php"><i class="fas fa-bars"></i>Supplier contracts</a></li><br>
+            <li><a href="new_supplier.php"><i class="fas fa-home"></i> Dashboard</a></li><br>
+            <li><a href="supplier_dashboard.php"><i class="fas fa-users"></i> Order Management</a></li><br>
+            <li><a href="view_supplier_contracts.php"><i class="fas fa-bars"></i> Supplier Contracts</a></li><br>
 
         <button onclick="window.location.href='edit_supplier_profile.php'" class="edit-btn"><i class="fas fa-user-edit"></i> Edit Profile</button>
         <button onclick="window.location.href='supplier_logout.php'" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
@@ -78,6 +79,10 @@ $orderCount = $ordersResult->num_rows;
                 <button onclick="window.location.href='view_supplier_contracts.php'" class="control-btn">View contract details</button>
 
             </div>
+            <center>
+            <img src="supplier.png" alt="supplierimage" style="width: 400px; height: auto; box-shadow: 10px 10px 8px 10px rgba(0, 0, 0, 0.2); margin-top: 10px; margin-left:450px;border-radius: 30px;">
+
+</center>
 
         </section>
     </div>

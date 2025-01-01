@@ -1,0 +1,75 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Styling */
+.header img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Footer Styling */
+.footer img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 20px;
+}
+
+/* Container Styling */
+.container {
+    margin: 20px;
+}
+
+/* Table Styling */
+.summary-table, .details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.summary-table th, .summary-table td, .details-table th, .details-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.summary-table th, .details-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+}
+
+/* Button Styling */
+.btn-toggle {
+    background-color: #007BFF;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-toggle:hover {
+    background-color: #0056b3;
+}
+
+.btn-print {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-print:hover {
+    background-color: #45a049;
+}
+
+/* Details Container Styling */
+.details-container {
+    display: none;
+    margin-top: 10px;
+}

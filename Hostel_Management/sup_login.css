@@ -1,0 +1,87 @@
+/* supplier_login.css */
+
+/* General styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #4caf50, #2c3e50);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Form container */
+form {
+    background: #ffffff;
+    color: #333;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Headings */
+form h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4caf50;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 10px;
+    display: block;
+    text-align: left;
+}
+
+/* Input fields */
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Button */
+form input[type="submit"] {
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background: #45a049;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    form {
+        padding: 20px;
+    }
+
+    form h1 {
+        font-size: 1.8rem;
+    }
+
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="submit"] {
+        font-size: 0.9rem;
+    }
+}

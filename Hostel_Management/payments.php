@@ -13,7 +13,6 @@ $transactionsQuery = "
     FROM transactionss
     GROUP BY trant_month
     ORDER BY trant_month DESC";
-
 $transactionsResult = $conn->query($transactionsQuery);
 
 // Calculate grand total
@@ -26,7 +25,6 @@ $allTransactionsQuery = "
     SELECT trant_month, resident_id, trant_payment_date, amount, trant_payment_receipt
     FROM transactionss
     ORDER BY trant_month, trant_payment_date";
-
 $allTransactionsResult = $conn->query($allTransactionsQuery);
 
 // Organize transactions by month
@@ -46,30 +44,40 @@ while ($row = $allTransactionsResult->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction Report</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="payments.css">
+
     <style>
-        .container { margin: 20px; font-family: Arial, sans-serif; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .transaction-table, .details-table, .summary-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .transaction-table th, .transaction-table td, .summary-table th, .summary-table td, .details-table th, .details-table td { 
-            border: 1px solid #ddd; padding: 8px; 
+        
+
+    @media print {
+        .btn-print {
+            display: none; /* Hides the Print button on the print screen */
         }
-        .transaction-table th, .summary-table th, .details-table th { background-color: #f4f4f4; text-align: left; }
-        .btn-toggle { background-color: #007BFF; color: white; padding: 5px 10px; border: none; cursor: pointer; }
-        .btn-toggle:hover { background-color: #0056b3; }
-        .btn-print { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 20px; }
-        .btn-print:hover { background-color: #45a049; }
-        .details-container { display: none; margin-top: 10px; }
-    </style>
+    }
+
+    @media print {
+        .btn-print,
+        .details-container, /* Hides detailed rows */
+        th:nth-child(4), /* Hides the 'Details' header */
+        td:nth-child(4) /* Hides the 'Details' column */ {
+            display: none;
+        }
+    }
+</style>
+
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Transaction Report</h1>
-            <p>Salvation Army Girls Hostel</p>
-        </div>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="images/header.png" alt="Header Image">
+    </div>
 
-        <h2>Monthly Summary</h2>
+    <!-- Content Section -->
+    <div class="container">
+        <center><h2>Transaction Report</h2></center>
+       
+
+
         <table class="summary-table">
             <thead>
                 <tr>
@@ -127,10 +135,15 @@ while ($row = $allTransactionsResult->fetch_assoc()) {
             </tbody>
         </table>
 
-        <h2>Grand Total</h2>
+        <h2>Net Salary</h2>
         <p><strong>Total Amount:</strong> Rs. <?php echo number_format($grandTotal, 2); ?></p>
 
-        <button class="btn-print" onclick="window.print()">Print Report</button>
+        <button class="btn-print" onclick="window.print()" >Print Report</button>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <img src="images/footer.png" alt="Footer Image">
     </div>
 
     <script>

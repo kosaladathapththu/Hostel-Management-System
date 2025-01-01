@@ -7,106 +7,112 @@
 }
 
 body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 40px 20px;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-h1 {
-    color: #2c3e50;
-    margin-bottom: 30px;
+/* Form container */
+form {
+    width: 50%;
+    max-width: 500px;
+    padding: 25px 30px;
+    background-color: #ffffff; /* White background for contrast */
+    border: 2px solid #4e54c8; /* Blue border */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+form h2 {
     text-align: center;
-    font-size: 2.2rem;
+    color: #4e54c8;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
     font-weight: 600;
 }
 
-form {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-}
-
-label {
+form label {
     display: block;
     margin-bottom: 8px;
-    color: #34495e;
-    font-weight: 500;
-    font-size: 0.95rem;
+    color: #4e54c8; /* Blue label text */
+    font-weight: bold;
 }
 
-input {
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
     width: 100%;
     padding: 12px 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    transition: border-color 0.3s ease;
+    margin-bottom: 15px;
+    border: 1px solid #4e54c8; /* Blue border */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Light gray background for inputs */
+    font-size: 14px;
 }
 
-input:focus {
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
     outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    border-color: #3b3ea8; /* Slightly darker blue on focus */
+    box-shadow: 0 0 6px rgba(78, 84, 200, 0.4);
 }
 
-button {
-    width: 100%;
-    padding: 14px;
-    background-color: #3498db;
-    color: white;
+form button {
+    width: 50%;
+    padding: 12px 15px;
+    background-color: #4e54c8; /* Blue button */
+    color: #ffffff; /* White text */
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    margin-top: 50px;
+
+
 }
 
-button:hover {
-    background-color: #2980b9;
+form button:hover {
+    background-color: #3b3ea8; /* Darker blue on hover */
 }
 
-button:active {
-    transform: translateY(1px);
-}
-
-/* Error message styling */
-.error {
-    color: #e74c3c;
+/* Message styling */
+form .message {
     margin-bottom: 15px;
     font-size: 0.9rem;
 }
 
-/* Success message styling */
-.success {
-    color: #27ae60;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
+form .message.error {
+    color: #e74c3c; /* Red for error messages */
 }
 
-/* Responsive adjustments */
+form .message.success {
+    color: #27ae60; /* Green for success messages */
+}
+
+/* Responsive design */
 @media (max-width: 600px) {
     form {
+        width: 90%;
         padding: 20px;
     }
 
-    h1 {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
+    form h2 {
+        font-size: 1.5rem;
     }
 
-    input {
-        padding: 10px 12px;
+    form input {
+        padding: 10px;
     }
 
-    button {
-        padding: 12px;
+    form button {
+        padding: 10px;
     }
 }

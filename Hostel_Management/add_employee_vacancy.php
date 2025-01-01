@@ -32,14 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $department = $_POST['department'];
     $status = $_POST['status'];
 
-    $insertQuery = "INSERT INTO employee_vacancies (job_title, department, status) 
-                    VALUES ('$jobTitle', '$department', '$status')";
+    // Insert the new vacancy with the admin_id
+    $insertQuery = "INSERT INTO employee_vacancies (job_title, department, status, admin_id) 
+                    VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param("sssi", $jobTitle, $department, $status, $admin_id);
 
-    if ($conn->query($insertQuery)) {
+    if ($stmt->execute()) {
         echo "<script>alert('Vacancy added successfully'); window.location.href = 'view_employee_vacancies.php';</script>";
     } else {
         echo "<script>alert('Error adding vacancy');</script>";
     }
+
+    $stmt->close();
 }
 ?>
 
@@ -100,7 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <h2>Add Employee Vacancy</h2>
 
-        <center><form action="add_employee_vacancy.php" method="POST">
+        <center>
+        <form action="add_employee_vacancy.php" method="POST">
             <label for="job_title">Job Title:</label>
             <input type="text" name="job_title" required>
 
@@ -114,8 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
 
             <button type="submit">Add Vacancy</button>
-            
-        </form></center>
+        </form>
+        </center>
     </div>
 
     <?php $conn->close(); ?>

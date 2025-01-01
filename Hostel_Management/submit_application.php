@@ -1,32 +1,48 @@
 <?php
-// Include database connection file
-include 'db_connect.php';
+session_start();
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data and sanitize inputs
-    $vacancy_id = $_POST['vacancy_id'];
-    $applicant_name = mysqli_real_escape_string($conn, $_POST['applicant_name']);
-    $contact_email = mysqli_real_escape_string($conn, $_POST['contact_email']);
-    $contact_phone = mysqli_real_escape_string($conn, $_POST['contact_phone']);
-    $cover_letter = mysqli_real_escape_string($conn, $_POST['cover_letter']);
-
-    // SQL query to insert data into the job_applications table
-    $query = "INSERT INTO job_applications (vacancy_id, applicant_name, contact_email, contact_phone, cover_letter, application_date)
-              VALUES ('$vacancy_id', '$applicant_name', '$contact_email', '$contact_phone', '$cover_letter', NOW())";
-
-    // Execute the query and check for success
-    if (mysqli_query($conn, $query)) {
-        echo "<p>✅ Application submitted successfully!</p>";
-    } else {
-        echo "<p>❌ Error: " . mysqli_error($conn) . "</p>";
-    }
-} else {
-    // Redirect to the application form if accessed directly
-    header("Location: apply_for_job.php");
+// Check if guest is logged in
+if (!isset($_SESSION['guest_id'])) {
+    header("Location: guest_login.php");
     exit();
 }
-?>
 
-<!-- Link to go back to the application form or other pages -->
-<a href="apply_for_job.php">🔙 Back to Job Application</a>
+// Check if admin is logged in (for admin_id)
+if (!isset($_SESSION['admin_id'])) {
+    echo "Admin not logged in. Please log in.";
+    exit();
+}
+
+include 'db_connect.php';
+
+// Fetch data from the form
+$vacancy_id = $_POST['vacancy_id'];
+$applicant_name = $_POST['applicant_name'];
+$contact_email = $_POST['contact_email'];
+$contact_phone = $_POST['contact_phone'];
+$cover_letter = $_POST['cover_letter'];
+$status = 'pending';
+
+// Get the admin ID from the session
+$admin_id = $_SESSION['admin_id'];
+
+// Prepare and execute the query to insert the job application
+$query = "INSERT INTO job_applications (vacancy_id, applicant_name, contact_email, contact_phone, application_date, cover_letter, status, admin_id) 
+          VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("issssss", $vacancy_id, $applicant_name, $contact_email, $contact_phone, $cover_letter, $status, $admin_id);
+
+// Execute the query
+if ($stmt->execute()) {
+    // Successfully inserted the application
+    echo "Job application submitted successfully!";
+    header("Location: guest_dashboard.php");
+    exit();
+} else {
+    // Error in submission
+    echo "Error: " . $stmt->error;
+}
+
+$stmt->close();
+$conn->close();
+?>

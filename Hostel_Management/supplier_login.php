@@ -57,20 +57,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Supplier Login</title>
-    <link rel="stylesheet" href="supplier_login.css">
+    <link rel="stylesheet" href="sup_login.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
     <form method="post" action="">
-    <B><h1><diV>Suplier Login</h1></div></B><br>
+        <b><h1><div>Supplier Login</h1></div></b><br>
         <label>Username:</label>
         <input type="text" name="username" required><br>
 
         <label>Password:</label>
-        <input type="password" name="password" required><br>
+        <div style="position: relative;">
+            <input type="password" name="password" id="password" required style="width: calc(100% - 40px);">
+            <span onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                👁️
+            </span>
+        </div><br>
 
         <input type="submit" value="Login">
     </form>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        }
+    </script>
 </body>
 </html>
+

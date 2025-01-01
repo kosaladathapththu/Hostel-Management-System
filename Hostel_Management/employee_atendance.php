@@ -73,21 +73,12 @@ $result = $conn->query($query);
             background-color: #45a049;
         }
     </style>
-    <script>
-        function printPage() {
-            // Hide the print button during printing
-            const printButton = document.querySelector('.print-button');
-            printButton.style.display = 'none';
-
-            // Print the page
-            window.print();
-
-            // Show the print button after printing
-            printButton.style.display = 'block';
-        }
-    </script>
+    
 </head>
 <body>
+<div class="header2">
+            <img src="images/header.png" alt="Header Image">
+        </div>
     <h1>Employee Attendance Record</h1>
     <a href="#" class="print-button" onclick="printPage()">Print Attendance</a>
     <?php if ($result->num_rows > 0): ?>
@@ -116,6 +107,24 @@ $result = $conn->query($query);
     <?php else: ?>
         <p class="no-data">No attendance records found.</p>
     <?php endif; ?>
+<!-- Footer Section -->
+<div class="footer">
+        <img src="images/footer.png" alt="Footer Image">
+    </div>
+    </div>
+    <script>
+        function printPage() {
+            // Hide the print button during printing
+            const printButton = document.querySelector('.print-button');
+            printButton.style.display = 'none';
+
+            // Print the page
+            window.print();
+
+            // Show the print button after printing
+            printButton.style.display = 'block';
+        }
+    </script>
 </body>
 </html>
 

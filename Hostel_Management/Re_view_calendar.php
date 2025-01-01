@@ -1,6 +1,26 @@
 <?php
 include 'db_connect.php'; // Include database connection
 
+session_start(); // Start session
+
+// Check if resident is logged in; if not, redirect to login page
+if (!isset($_SESSION['resident_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch resident_id from session
+$resident_id = $_SESSION['resident_id'];
+
+// Fetch resident data
+$residentQuery = "SELECT username FROM residents WHERE id = ?";
+$residentStmt = $conn->prepare($residentQuery);
+$residentStmt->bind_param("i", $resident_id);
+$residentStmt->execute();
+$residentResult = $residentStmt->get_result();
+$residentData = $residentResult->fetch_assoc();
+
+
 // Fetch events from the database
 $eventsQuery = "SELECT * FROM Events";
 $eventsResult = $conn->query($eventsQuery);
@@ -73,11 +93,12 @@ $conn->close();
             <div class="header-left">
                 <img src="The_Salvation_Army.png" alt="Logo" class="logo">
             </div>
-             <center><b><h2 style="text-align:left; margin-right: 450px; color:black;">Salvation Army Girls Hostel</h2></b></center>
+             <center><b><h2 style="text-align:left; color:black;">Salvation Army Girls Hostel</h2></b></center>
+             <h4 style="text-align:left;color:black">Welcome,<?php echo htmlspecialchars($residentData['username']); ?></h4>
         </header>
 
         <section class="meal-plans-list">
-            <h2>Upcoming Events</h2>
+            <h2 style="margin-top:10px; margin-left:10px;">Upcoming Events</h2>
             <div class="breadcrumbs">
 
     <span class="breadcrumb-separator">|</span>

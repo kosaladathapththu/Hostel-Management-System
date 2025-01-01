@@ -17,6 +17,11 @@ $stmt->bind_param("i", $matron_id);
 $stmt->execute();
 $matronResult = $stmt->get_result();
 
+if ($matronResult === false) {
+    // Query failed, handle error (e.g., log it or display a message)
+    die("Error in fetching matron details: " . $stmt->error);
+}
+
 if ($matronResult->num_rows === 0) {
     header("Location: matron_auth.php"); // Redirect if matron not found
     exit();
@@ -29,29 +34,44 @@ $matron_first_name = $matronData['first_name'];
 // Fetch total residents
 $totalResidentsQuery = "SELECT COUNT(*) AS total FROM Residents";
 $totalResidentsResult = $conn->query($totalResidentsQuery);
+if ($totalResidentsResult === false) {
+    die("Error in fetching total residents: " . $conn->error);
+}
 $totalResidents = $totalResidentsResult->fetch_assoc()['total'] ?? 0;
 
-// Fetch total room capacity (adjust query to match your schema)
+// Fetch total room capacity
 $totalRoomCapacityQuery = "SELECT SUM(capacity) AS total_capacity FROM Rooms WHERE status = 'available'";
 $totalRoomCapacityResult = $conn->query($totalRoomCapacityQuery);
+if ($totalRoomCapacityResult === false) {
+    die("Error in fetching total room capacity: " . $conn->error);
+}
 $totalRoomCapacity = $totalRoomCapacityResult->fetch_assoc()['total_capacity'] ?? 0;
 
 // Fetch current residents in available rooms
 $currentResidentsQuery = "SELECT COUNT(*) AS total_residents FROM Residents WHERE status = 'active'";
 $currentResidentsResult = $conn->query($currentResidentsQuery);
+if ($currentResidentsResult === false) {
+    die("Error in fetching current residents: " . $conn->error);
+}
 $currentResidents = $currentResidentsResult->fetch_assoc()['total_residents'] ?? 0;
 
 // Calculate remaining capacity
 $remainingCapacity = $totalRoomCapacity - $currentResidents;
 
 // Fetch upcoming check-ins
-$upcomingCheckinsQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE check_in_date >= CURDATE()";
+$upcomingCheckinsQuery = "SELECT COUNT(*) AS total FROM `resident_checking-checkouts` WHERE check_in_date >= CURDATE()";
 $upcomingCheckinsResult = $conn->query($upcomingCheckinsQuery);
+if ($upcomingCheckinsResult === false) {
+    die("Error in fetching upcoming check-ins: " . $conn->error);
+}
 $upcomingCheckins = $upcomingCheckinsResult->fetch_assoc()['total'] ?? 0;
 
 // Fetch upcoming check-outs
-$upcomingCheckoutsQuery = "SELECT COUNT(*) AS total FROM Bookings WHERE check_out_date >= CURDATE()";
+$upcomingCheckoutsQuery = "SELECT COUNT(*) AS total FROM `resident_checking-checkouts` WHERE check_out_date >= CURDATE()";
 $upcomingCheckoutsResult = $conn->query($upcomingCheckoutsQuery);
+if ($upcomingCheckoutsResult === false) {
+    die("Error in fetching upcoming check-outs: " . $conn->error);
+}
 $upcomingCheckouts = $upcomingCheckoutsResult->fetch_assoc()['total'] ?? 0;
 
 // Fetch recent payments with resident name
@@ -61,8 +81,9 @@ FROM transactionss t
 JOIN Residents r ON t.resident_id = r.id
 ORDER BY t.trant_payment_date DESC LIMIT 5";
 $recentPaymentsResult = $conn->query($recentPaymentsQuery);
-
-
+if ($recentPaymentsResult === false) {
+    die("Error in fetching recent payments: " . $conn->error);
+}
 ?>
 
 
@@ -178,7 +199,7 @@ $recentPaymentsResult = $conn->query($recentPaymentsQuery);
                         <span class="notification-badge">3</span>
                     </div>
                     <div class="admin-profile">
-                        <img src="admin-avatar.jpg" alt="Admin" class="avatar">
+                        <img src="matron.png" alt="Admin" class="avatar">
                         <div class="admin-info">
                         <span class="admin-name"><?php echo htmlspecialchars($matron_first_name); ?></span>
                             <p class="admin-role">Matron</p>

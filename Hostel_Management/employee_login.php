@@ -72,6 +72,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Employee Login</title>
     <link rel="stylesheet" href="employee_login.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .password-container {
+            position: relative;
+        }
+        .password-container .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
@@ -81,11 +94,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="email" id="email" name="email" required>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+            </div>
 
             <button type="submit">Login</button>
         </form>
     </div>
+
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const passwordField = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function () {
+            // Toggle the password visibility
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            // Toggle the eye icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 </html>
-

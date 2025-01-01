@@ -21,6 +21,8 @@ $guest_name = $_SESSION['guest_name'];
 <head>
     <meta charset="UTF-8">
     <title>View Social Services</title>
+    <link rel="stylesheet" href="guest_dashboard.css">
+
     <link rel="stylesheet" href="view_social_service1.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -32,13 +34,16 @@ $guest_name = $_SESSION['guest_name'];
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="logo-container">
-                <img src="The_Salvation_Army.png" alt="Salvation Army Logo" class="logo">
-                <div><h2>Salvation Army Girl's Hostel</h2>
-            </div></div>
-            
+                <img src="The_Salvation_Army.png" alt="Salvation Army Logo" class="logo"><br><br>
+
+
+</div>
+<div><center><h3 styles="margin-bottom:20px;">Salvation Army <br>Girl's Hostel</h3></center>
+</div>
+
             
             <nav class="sidebar-menu">
-                <ul>
+            <ul>
                     <li class="active">
                         <a href="guest_dashboard.php">
                             <i class="fas fa-home"></i>
@@ -52,9 +57,27 @@ $guest_name = $_SESSION['guest_name'];
                         </a>
                     </li>
                     <li>
-                        <a href="#jobs">
-                            <i class="fas fa-briefcase"></i>
-                            <span>Job Opportunities</span>
+                        <a href="view_room_vacancy.php">
+                            <i class="fas fa-bed "></i>
+                            <span>Room Vacancies</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="register.php">
+                            <i class="fas fa-file"></i>
+                            <span>Apply Residency</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="employee_vacancies.php">
+                            <i class="fas fa-id-card "></i>
+                            <span>Job Vacancies</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="apply_for_job.php">
+                            <i class="fas fa-square"></i>
+                            <span>Apply Employee</span>
                         </a>
                     </li>
                     <li>

@@ -3,12 +3,12 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Light gradient background */
+    background: linear-gradient(135deg, #f5f7fa, #ffffff); /* Light gradient background */
     color: #333;
 }
 
 /* Main container for content with background image */
-.main-container {
+.main-container1 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,12 +20,12 @@ body {
     background-size: cover;
     background-position: center;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 10px 10px 12px 10px rgba(0, 0, 0, 0.1);
     position: relative; /* Enable positioning of child elements */
 }
 
 /* Main content area */
-.main-content {
+.main-content1 {
     position: absolute; /* Allows precise positioning */
     top: 28%; /* Adjust to place the form inside the calendar */
     left: 67%; /* Center horizontally relative to parent */

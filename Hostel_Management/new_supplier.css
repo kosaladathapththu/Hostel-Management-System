@@ -12,13 +12,14 @@ body {
 
 
 .sidebar {
-    width: 350px;
+    width: 250px;
     background-color: #343a40;
     color: #fff;
     display: flex;
     flex-direction: column;
     padding: 20px;
     height: 100vh;
+    position: sticky;
 }
 
 .sidebar h2 {
@@ -96,8 +97,9 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    background: linear-gradient(to right, #f5f1f1a2, #7a92a7);
+    background: linear-gradient(to right, #f5f1f1a2, #7ddd8a);
     border-bottom: 2px solid #e0e0e0;
+    position: sticky;
 }
 
 header h1 {
@@ -114,12 +116,158 @@ header h1 {
     width: 60px; 
     height: 60px; 
 }
+/* Breadcrumbs Styling */
+.breadcrumb {
+    margin-top: 20px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+}
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: -10px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #0d537b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color:  #503fa7;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
+}
+
+/* General Table Styling */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Row Styling */
+table tr:first-child {
+   
+    
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for clarity */
+}
+
+table tr:first-child th {
+    background: #359c37;
+    color: #ffffff;
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Data Rows Styling */
+table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:hover {
+    background: #60a550; /* Highlight row on hover */
+}
+
+table td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+/* Action Links Styling */
+table td a {
+    color: #5bc0de;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+table td a:hover {
+    text-decoration: underline;
+    color: #31b0d5;
+}
+
+/* Print Button Styling */
+.print-btn {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #007bff; /* Blue text */
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: transparent;
+    display: inline-block; /* For proper padding application */
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.print-btn:hover {
+    background-color: #007bff; /* Blue background on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Accept and Decline Buttons */
+table td a.accept-btn,
+table td a.decline-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+table td a.accept-btn {
+    background-color: #28a745;
+}
+
+table td a.accept-btn:hover {
+    background-color: #218838;
+}
+
+table td a.decline-btn {
+    background-color: #dc3545;
+}
+
+table td a.decline-btn:hover {
+    background-color: #c82333;
+}
+table td a.print-btn {
+    background-color: red;
+}
+
 
 .dashboard-section {
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
-    margin-top: 20px;
+
 }
 .dashboard-section > div {
     flex: 1 1 calc(50% - 20px); 
@@ -134,6 +282,7 @@ header h1 {
     width: calc(33.33% - 20px);
     text-align: center;
     transition: transform 0.3s;
+    margin-top: 30px;
 }
 
 .dashboard-box h2 {
@@ -160,7 +309,63 @@ header h1 {
 .dashboard-box:hover {
     transform: translateY(-5px);
 }
-
-.control-btn:hover {
-    background-color: #2daa3e;
+/* General Form Styling */
+form {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 10px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    max-width: 800px;
+    margin-left: 250px;
+    margin: 20px auto;
 }
+
+form label {
+    display: block;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+    text-align: left;
+}
+
+form input[type="number"],
+form input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s;
+}
+
+form input[type="number"]:focus,
+form input[type="date"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.submit-button {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #0e521c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #17341c;
+}
+
+

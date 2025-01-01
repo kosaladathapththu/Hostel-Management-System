@@ -1,150 +1,476 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
 body {
-    font-family: 'Roboto', Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
-    margin: 0;
-    padding: 20px;
+    display: flex;
+
 }
 
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    color: #9ea9d1;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    line-height: 30px;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #adb5bd;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar ul li a:hover {
+    color: #503fa7;
+}
+
+.sidebar .edit-btn, .sidebar .logout-btn {
+    background-color: #ffc107;
+    color: #343a40;
+    border: none;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.sidebar .logout-btn {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.sidebar .edit-btn:hover, .sidebar .logout-btn:hover {
+    opacity: 0.9;
+}
+
+
+
+
+.main-content {
+    flex-grow: 2;
+    padding: 20px;
+}
 header {
-    background: #de514f;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2em;
-}
-
-.user-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    position: relative;
-}
-
-.logout-btn {
-    margin-left: auto;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 8px 16px;
-    background-color: #64f6d9;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: background 0.3s;
-}
-
-.logout-btn:hover {
-    background-color: #ff4f4f;
-}
-
-section {
-    margin-top: 30px;
-    padding: 30px;
-    background: white;
+    padding-bottom: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 10px 2px 10px rgba(6, 39, 75, 0.1);
+    background: linear-gradient(to right, #f5f1f5a2, #8a7fd5);
+    border-bottom: 2px solid #e0e0e0;
+}
+.header-right{
+    margin-right: 20px;
+}
+colgroup{
+    color: #bfc9ca;
 }
 
-h2 {
-    color: #35495e;
-    font-size: 1.8em;
-    margin-bottom: 20px;
+.logo {
+    width: 60px; /* Smaller logo size */
+    height: 60px; /* Smaller logo size */
 }
 
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: -10px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #0d537b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color:  #503fa7;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
+}
+
+/* Table Styling */
 table {
     width: 100%;
+    margin-top: 20px;
+
     border-collapse: collapse;
-    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 table thead {
-    background-color: #f20909;
-    color: white;
+    background: #08524f;
+    color: #fff;
+    position: sticky;
 }
 
-table th, table td {
-    padding: 12px;
+table thead th {
+    padding: 12px 15px;
     text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    position: sticky; /* Keeps headers visible during scrolling */
+    top: 0;
+    z-index: 2;
+}
+
+table tbody tr {
     border-bottom: 1px solid #ddd;
 }
 
-table tr:hover {
-    background-color: #d8d5d5;
+table tbody tr:hover {
+    background: #f1f1f1;
 }
 
+table tbody td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word;
+}
 
-
-.edit-btn, .delete-btn, .add-btn {
-    display: inline-block;
-    padding: 8px 12px;
-    margin: 5px;
-    color: white;
+table tbody td a {
+    color: #5bc0de;
     text-decoration: none;
-    border-radius: 5px;
     font-weight: 500;
 }
 
-.edit-btn {
-    background-color: #4CAF50;
+table tbody td a:hover {
+    text-decoration: underline;
+    color: #31b0d5;
 }
 
-.delete-btn {
-    background-color: #ff6b6b;
+table tbody .edit-btn,
+table tbody .delete-btn {
+    background: #3faa44; /* Default background for edit button */
+    color: #fff;
+    display: inline-block;
+    width: 100px; /* Set a fixed width for both buttons */
+    text-align: center; /* Center align text */
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
 }
 
-.add-btn {
-    background-color: #00db25;
+table tbody .edit-btn:hover {
+    background: #34b92d;
 }
 
-.edit-btn:hover {
-    background-color: #45a049;
+table tbody .delete-btn {
+    background: #c93d3d;
 }
 
-.delete-btn:hover {
-    background-color: #ff4f4f;
+table tbody .delete-btn:hover {
+    background: #df3b3b;
 }
 
-.add-btn:hover {
-    background-color: #00cf30;
+
+table tbody .delete-btn:hover {
+    background: #b71c1c;
 }
 
-.nav-buttons {
-    display: flex;
-    justify-content: space-between; /* Space buttons evenly */
+table tbody .approve-btn,
+table tbody .decline-btn {
+    background: #3faa44; /* Default background for edit button */
+    color: #fff;
+    display: inline-block;
+    width: 100px; /* Set a fixed width for both buttons */
+    text-align: center; /* Center align text */
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+table tbody .approve-btn:hover {
+    background: #34b92d;
+}
+
+table tbody .decline-btn {
+    background: #c93d3d;
+}
+
+table tbody .decline-btn:hover {
+    background: #df3b3b;
+}
+
+
+table tbody .decline-btn:hover {
+    background: #b71c1c;
+}
+
+
+/* General Form Styling */
+form {
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Styling for form labels */
+label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+}
+
+/* Styling for input fields */
+input[type="textarea"],
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="password"],
+input[type="file"] {
+    width: 100%;
+    padding: 12px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus styling for inputs */
+input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 4px #4CAF50;
+}
+
+/* Styling for file upload buttons */
+input[type="file"] {
+    padding: 8px 0;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+/* Styling for file upload wrapper */
+.file-upload-wrapper {
+    margin-bottom: 15px;
+}
+
+/* Button Styling */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #08524f;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     margin-top: 20px;
 }
 
-/* Add common button styles for Dashboard and Add Resident */
-.dashboard-btn, .add-btn, .waiting-list-btn {
-    background-color: #5d5d5d; /* Dark gray */
+button[type="submit"]:hover {
+    background-color: #4b408f;
+}
+/* Styles for the "Pay" button */
+.pay-btn {
+    background-color: #28a745; /* Green background */
+    color: #fff; /* White text */
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border: 1px solid #218838; /* Dark green border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pay-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+    border-color: #1e7e34;
+}
+
+/* Styles for the "Print" link */
+.print-link {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #007bff; /* Blue text */
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: transparent;
+    display: inline-block; /* For proper padding application */
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.print-link:hover {
+    background-color: #007bff; /* Blue background on hover */
+    color: #fff; /* White text on hover */
+}
+/* button_styles.css */
+
+/* Style the links inside the button container */
+.button-container a {
+    display: inline-block; /* Makes the links behave like buttons */
+    width: 50%; /* Width of the button */
+    text-align: center; /* Center the text inside */
+    background-color: #57dfec; /* Background color */
+    color: white; /* Text color */
+    padding: 8px 16px; /* Padding for the button */
+    font-size: 14px; /* Font size */
+    border: none; /* Removes default border */
+    border-radius: 10px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    text-decoration: none; /* Removes underline from links */
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3); /* Adds a shadow effect */
+    margin-bottom: 10px; /* Space between buttons */
+}
+
+/* Hover effect for the buttons */
+.button-container a:hover {
+    background-color: #45cdd4; /* Darker shade on hover */
+}
+
+
+
+/* Error message styling */
+.error-message {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Success message styling */
+.success-message {
+    color: #4CAF50;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+form input[type="text"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box; /* Ensures padding is included in the element's total width */
+}
+
+/* Focus effect on input and select */
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default focus outline */
+}
+form input[type="submit"] {
+    background-color: #08524f;
     color: white;
-    padding: 10px 20px;
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s; /* Smooth transition */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
 }
 
-/* Hover effect for all buttons */
-.dashboard-btn:hover, .add-btn:hover, .waiting-list-btn:hover {
-    background-color: #4a4a4a; /* Darker gray on hover */
+form input[type="submit"]:hover {
+    background-color: #0056b3;
 }
 
-/* Specific button styling for Waiting List */
-.waiting-list-btn {
-    background-color: #4a4a4a; /* Orange for the Waiting List */
+@media screen and (max-width: 600px) {
+    form {
+        padding: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="password"],
+    input[type="file"] {
+        padding: 10px 8px;
+    }
+
+    button[type="submit"] {
+        padding: 10px;
+    }
 }
 
-.waiting-list-btn:hover {
-    background-color: #e68a00; /* Darker orange on hover */
-}
 
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    main {
+        margin-left: 200px; /* Adjusts for smaller sidebar */
+    }
+
+    table thead th,
+    table tbody td {
+        font-size: 12px;
+        padding: 10px;
+    }
+}

@@ -50,14 +50,35 @@ $result = $stmt->get_result();
             window.print();
         }
     </script>
+
+<style>
+        
+
+        @media print {
+            .btn-print {
+                display: none; /* Hides the Print button on the print screen */
+            }
+        }
+    
+        @media print {
+            .btn-print,
+            .details-container, /* Hides detailed rows */
+            th:nth-child(4), /* Hides the 'Details' header */
+            td:nth-child(4) /* Hides the 'Details' column */ {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
+    <div class="header2">
+            <img src="images/header.png" alt="Header Image">
+        </div>
         <h1>Payroll Report - <?php echo ucfirst($reportType); ?></h1>
         <p>Report Period: <?php echo ($reportType === 'monthly') ? date("F Y", strtotime($reportPeriod)) : $year; ?></p>
-        <button class="print-btn" onclick="printReport()">Print Report</button>
     </header>
-
+    <button class="print-btn" onclick="printReport()">Print Report</button>
     <section>
         <table>
             <thead>
@@ -99,6 +120,12 @@ $result = $stmt->get_result();
         <a href="generate_payroll_reports.php" class="back-link">Back to Report Options</a>
     </footer>
 </body>
+
+<!-- Footer Section -->
+<div class="footer">
+        <img src="images/footer.png" alt="Footer Image">
+    </div>
+    </div>
 </html>
 
 <?php

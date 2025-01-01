@@ -18,8 +18,19 @@ if (!isset($_SESSION['resident_id'])) {
 
 // Regenerate session ID for security
 session_regenerate_id(true);
+// Fetch resident_id from session
+$resident_id = $_SESSION['resident_id'];
+
+// Fetch resident data
+$residentQuery = "SELECT username FROM residents WHERE id = ?";
+$residentStmt = $conn->prepare($residentQuery);
+$residentStmt->bind_param("i", $resident_id);
+$residentStmt->execute();
+$residentResult = $residentStmt->get_result();
+$residentData = $residentResult->fetch_assoc();
 
 // Fetch session data
+
 $resident_id = $_SESSION['resident_id'];
 $resident_name = $_SESSION['resident_name'];
 
@@ -68,26 +79,34 @@ if ($upcomingEventsResult === false) {
 // Fetch resident's upcoming check-in and check-out dates
 $checkinCheckoutQuery = "
     SELECT check_in_date, check_out_date 
-    FROM bookings 
+    FROM `resident_checking-checkouts` 
     WHERE resident_id = ? AND status = 'active'";
 $checkinStmt = $conn->prepare($checkinCheckoutQuery);
+if ($checkinStmt === false) {
+    die('MySQL prepare error: ' . $conn->error);  // Check for errors
+}
 $checkinStmt->bind_param("i", $resident_id);
 $checkinStmt->execute();
 $checkinCheckoutResult = $checkinStmt->get_result();
 $checkinCheckout = $checkinCheckoutResult->fetch_assoc();
 $checkinStmt->close();
 
+
 // Fetch past check-in/check-out records for checking checkouts
 $pastCheckinsQuery = "
     SELECT check_in_date, check_out_date 
-    FROM bookings 
+    FROM `resident_checking-checkouts` 
     WHERE resident_id = ? AND status = 'approved' 
     ORDER BY check_in_date DESC";
 $pastCheckinsStmt = $conn->prepare($pastCheckinsQuery);
+if ($pastCheckinsStmt === false) {
+    die('MySQL prepare error: ' . $conn->error);  // Check for errors
+}
 $pastCheckinsStmt->bind_param("i", $resident_id);
 $pastCheckinsStmt->execute();
 $pastCheckinsResult = $pastCheckinsStmt->get_result();
 $pastCheckinsStmt->close();
+
 
 // Check if check-out date has passed
 $showRequestCheckings = true;
@@ -95,10 +114,8 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
     $showRequestCheckings = false;
 }
 
+
 ?>
-
-
-
 
 
 <!DOCTYPE html>
@@ -147,6 +164,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
             </div>
             <nav class="sidebar-nav">
                 <ul>
+                
                     <li class="active">
                         <a href="resident_dashboard.php"><i class="fas fa-home"></i>Dashboard</a>
                     </li>
@@ -216,6 +234,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
                                 <h4>Room Service</h4>
                                 <span class="time">2m ago</span>
                             </div>
+                            
                             <p>Your room cleaning is scheduled...</p>
                         </div>
                     </a>
@@ -257,7 +276,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
              alt="Profile" 
              class="profile-picture"
              onerror="this.src='assets/default_profile.png'">
-        <span class="profile-name"><?php echo $resident_name; ?></span>
+        <span class="profile-name"><?php echo htmlspecialchars($residentData['username']); ?></span>
         <i class="fas fa-chevron-down"></i>
     </button>
     <div class="dropdown-content profile-content">
@@ -275,10 +294,10 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
             <a href="edit_profile.php" class="dropdown-item">
                 <i class="fas fa-user"></i> My Profile
             </a>
-            <a href="settings.php" class="dropdown-item">
+            <a href="#" class="dropdown-item">
                 <i class="fas fa-cog"></i> Settings
             </a>
-            <a href="help.php" class="dropdown-item">
+            <a href="#" class="dropdown-item">
                 <i class="fas fa-question-circle"></i> Help Center
             </a>
             <div class="dropdown-divider"></div>
@@ -295,7 +314,7 @@ if (isset($checkinCheckout['check_out_date']) && strtotime($checkinCheckout['che
             <div class="dashboard-content">
                 <!-- Welcome Section -->
                 <div class="welcome-section">
-                    <h1>Welcome back, <?php echo $resident_name; ?>!</h1>
+                    <h1>Welcome back, <?php echo htmlspecialchars($residentData['username']); ?></h1>
                     <p>Here's what's happening today</p>
                 </div>
 

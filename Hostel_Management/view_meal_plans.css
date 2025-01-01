@@ -22,21 +22,24 @@ body {
 }
 
 .sidebar h2 {
+    margin-top:20px;
     font-size: 24px;
     color: #eacbe9;
     margin-bottom: 30px;
     display: flex;
-    align-items: center;
+    align-items:left;
     gap: 10px;
 }
 
 .sidebar ul {
     list-style-type: none;
     padding: 0;
+
 }
 
 .sidebar ul li {
     margin: 15px 0;
+    align-items: left;
 }
 
 .sidebar ul li a {
@@ -88,13 +91,20 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    background: linear-gradient(to right, #f5f1f1a2,#e7bae5);
+
+    background: linear-gradient(to right, #f5f1f1a2,#d4a1bc);
     border-bottom: 2px solid #e0e0e0;
-    border-radius: 15px;
+    position: sticky;
+}
+
+header h2 {
+    font-size: 24px;
+    color: #333;
 }
 
 .header-right {
-    margin-right: 20px;
+    color: rgb(3, 6, 3);
+    margin-right: 30px;
 }
 
 .logo {

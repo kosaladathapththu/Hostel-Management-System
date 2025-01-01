@@ -47,33 +47,7 @@
     background-color: #45a049; /* Darker green on hover */
 }
 
-.paid-seal {
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-.paid-seal {
-            width: 200px;
-            height: 200px;
-            background-color: red;
-            color: white;
-            font-size: 36px;
-            font-weight: bold;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10; /* Ensure it appears above other content */
-            border: 5px solid white;
-        }
+ 
 
         /* Additional styling for the receipt */
         .receipt-container {

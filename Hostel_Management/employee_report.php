@@ -60,60 +60,83 @@ $result = $conn->query($query);
         .print-btn:hover {
             background-color: #45a049;
         }
+
+        @media print {
+            .print-btn {
+                display: none; /* Hide the print button */
+            }
+            table th:nth-child(1), /* Hide the ID column header */
+        table td:nth-child(1){} /* Hide the ID column data */
+                table th:nth-child(3), /* Hide the ID column header */
+            table td:nth-child(3) { /* Hide the ID column data */
+                display: none;
+            }
+        }
     </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="header2">
+            <img src="images/header.png" alt="Header Image">
+        </div>
+        <h1>Employee Report</h1>
+        <button class="print-btn" onclick="printReport()">Print Employee Report</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Position</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Join Date</th>
+                    <th>National ID</th>
+                    <th>Leave Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $row['employee_id']; ?></td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td><?php echo htmlspecialchars($row['emp_gender']); ?></td>
+                            <td><?php echo htmlspecialchars($row['position']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                            <td><?php echo htmlspecialchars($row['full_address']); ?></td>
+                            <td>
+                                <?php echo $row['status'] == 1 
+                                    ? "<span class='status-active'>Active</span>" 
+                                    : "<span class='status-inactive'>Inactive</span>"; ?>
+                            </td>
+                            <td><?php echo htmlspecialchars($row['created_at']); ?></td>
+                            <td><?php echo htmlspecialchars($row['national_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['leave_balance']); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="11">No records found.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <img src="images/footer.png" alt="Footer Image">
+        </div>
+    </div>
     <script>
         function printReport() {
+            // Trigger the print dialog
             window.print();
         }
     </script>
-</head>
-<body>
-    <h1>Employee Report</h1>
-    <button class="print-btn" onclick="printReport()">Print Employee Report</button>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Position</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Status</th>
-                <th>Join Date</th>
-                <th>National ID</th>
-                <th>Leave Balance</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['employee_id']; ?></td>
-                        <td><?php echo htmlspecialchars($row['name']); ?></td>
-                        <td><?php echo htmlspecialchars($row['emp_gender']); ?></td>
-                        <td><?php echo htmlspecialchars($row['position']); ?></td>
-                        <td><?php echo htmlspecialchars($row['email']); ?></td>
-                        <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                        <td><?php echo htmlspecialchars($row['full_address']); ?></td>
-                        <td>
-                            <?php echo $row['status'] == 1 
-                                ? "<span class='status-active'>Active</span>" 
-                                : "<span class='status-inactive'>Inactive</span>"; ?>
-                        </td>
-                        <td><?php echo htmlspecialchars($row['created_at']); ?></td>
-                        <td><?php echo htmlspecialchars($row['national_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['leave_balance']); ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="11">No records found.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
 </body>
 </html>
 

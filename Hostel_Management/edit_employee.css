@@ -120,6 +120,7 @@ form label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
+    text-align: left;
 }
 
 form input {
@@ -128,6 +129,14 @@ form input {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+#emp_gender{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px
+
 }
 
 form button {

@@ -109,12 +109,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 }
 
 .header h1 {
     color: var(--secondary-color);
     font-size: 1.8rem;
     font-weight: 600;
+    margin-bottom: 20px;
 }
 
 .user-info {
@@ -245,6 +247,34 @@ body {
     color: var(--secondary-color);
     margin-bottom: 0.5rem;
 }
+/* Breadcrumbs Styling */
+.breadcrumbs {
+    margin-top: 15px;
+    display: flex;
+    justify-content: right;
+    gap: 5px;
+    font-size: 14px;
+    align-items: right;
+    text-align: right;
+}
+
+.breadcrumb-item {
+    text-decoration: none;
+    color: #0d537b;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.breadcrumb-item:hover {
+    color: #ffc107;
+}
+
+.breadcrumb-separator {
+    color: #aaa;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {

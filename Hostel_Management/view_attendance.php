@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php';
 
-// Assuming the employee's session contains the employee_id
+$employee = $_SESSION['employee'];
 $employee_id = $_SESSION['employee']['employee_id'];
 
 // Query to fetch the most recent check-in and check-out data for each day
@@ -48,9 +48,59 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Attendance Calendar</title>
     <link rel="stylesheet" href="view_attendance.css">
+    <link rel="stylesheet" href="employee_view_leave_status.css"> 
+    <link rel="stylesheet" href="employee_dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Employee Attendance Calendar</h1>
+            <!-- Sidebar -->
+            <div class="sidebar">
+            <div class="logo-container">
+        <img src="The_Salvation_Army.png" alt="Logo" class="logo" style="width: 60px; height: 60px;"> 
+
+        <h2>Salvation Army<br>Girls Hostel</h2>
+    </div>
+        <ul class="nav-menu">
+            <li><a href="employee_dashboard.php"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="employee_view_leave_status.php"><i class="fas fa-calendar-check"></i><span>Leave Status</span></a></li>
+            <li><a href="employee_view_remaining_leave.php"><i class="fas fa-calendar-alt"></i><span>Remaining Leave</span></a></li>
+            <li><a href="checkin.php"><i class="fas fa-sign-in-alt"></i><span>Check-in</span></a></li>
+            <li><a href="update_ckeckout.php"><i class="fas fa-sign-out-alt"></i><span>Check-out</span></a></li>
+            <li><a href="view_attendance.php"><i class="fas fa-clipboard-list"></i><span>Attendance</span></a></li>
+
+            <li><a href="view_paysheet.php"><i class="fas fa-file-invoice-dollar"></i><span>Paysheet</span></a></li>
+            <li><a href="employee_change_details.php"><i class="fas fa-user-edit"></i><span>Profile</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+    <div class="header" style="width: 100%;">
+            <h1>Welcome, <?php echo $employee['name']; ?></h1>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <a href="employee_logout.php" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    <h2>Your Attendance Record</h2>
+    <div class="breadcrumbs">
+    <a href="checkin.php" class="breadcrumb-item">
+        <i class="fas fa-sign-in-alt"></i> Checkin
+    </a>
+    <span class="breadcrumb-separator">|</span>
+    <a href="update_ckeckout.php" class="breadcrumb-item">
+        <i class="fas fa-sign-out-alt"></i> CheckOut
+    </a>
+    <span class="breadcrumb-separator">|</span>
+    <a href="employee_dashboard.php" class="breadcrumb-item">
+        <i class="fas fa-home"></i> Back to Dashboard
+    </a>
+</div>
 
     <div class="calendar-container">
         <div class="calendar-header">

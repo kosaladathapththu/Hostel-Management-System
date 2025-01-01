@@ -1,6 +1,24 @@
 <?php
-session_start();
-require_once 'db_connect.php';
+include 'db_connect.php'; // Include the database connection
+
+session_start(); // Start session
+
+// Check if resident is logged in; if not, redirect to login page
+if (!isset($_SESSION['resident_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch resident_id from session
+$resident_id = $_SESSION['resident_id'];
+
+// Fetch resident data
+$residentQuery = "SELECT username FROM residents WHERE id = ?";
+$residentStmt = $conn->prepare($residentQuery);
+$residentStmt->bind_param("i", $resident_id);
+$residentStmt->execute();
+$residentResult = $residentStmt->get_result();
+$residentData = $residentResult->fetch_assoc();
 
 class TransactionManager {
     private $conn;
@@ -169,7 +187,8 @@ $transactions = $transactionManager->getAllTransactions($resident_id);
             <div class="header-left">
                 <img src="The_Salvation_Army.png" alt="Logo" class="logo">
             </div>
-            <center><b><h2 style="text-align:left; margin-right: 450px;margin-top :20px;color:black;">Salvation Army Girls Hostel</h2></b></center>
+            <center><b><h2 style="text-align:left;margin-top :20px;color:black;">Salvation Army Girls Hostel</h2></b></center>
+            <h4 style="margin-right:15px;color:black">Welcome,<?php echo htmlspecialchars($residentData['username']); ?></h4>
         </header>
 
         <section class="meal-plans-list">
@@ -220,7 +239,7 @@ $transactions = $transactionManager->getAllTransactions($resident_id);
                     <input type="number" step="0.01" name="amount" placeholder="Enter amount" required>
                 </div>
 
-                <button type="submit" class="btn-submit">Submit Transaction</button>
+                <button type="submit" class="btn-submit" style="background-color:#483d8b;">Submit Transaction</button>
             </form>
         </div>
 

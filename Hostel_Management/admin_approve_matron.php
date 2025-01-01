@@ -43,12 +43,19 @@ if (isset($_POST['approve'])) {
     if ($vacancyResult->num_rows > 0) {
         $matron = $vacancyResult->fetch_assoc();
 
+        // Insert the matron into the Matrons table
         $insertQuery = "INSERT INTO Matrons (first_name, second_name, email, birth_date, city, password) VALUES (?, ?, ?, ?, ?, ?)";
         $insertStmt = $conn->prepare($insertQuery);
         $insertStmt->bind_param("ssssss", $matron['first_name'], $matron['second_name'], $matron['email'], $matron['birth_date'], $matron['city'], $matron['password']);
         
         if ($insertStmt->execute()) {
-            // Update status in Matron_Vacancy
+            // Update the admin_id in the job_applications table (foreign key link)
+            $updateJobAppQuery = "UPDATE job_applications SET admin_id = ? WHERE vacancy_id = ?";
+            $updateJobAppStmt = $conn->prepare($updateJobAppQuery);
+            $updateJobAppStmt->bind_param("ii", $admin_id, $vacancyId);
+            $updateJobAppStmt->execute();
+
+            // Update status in Matron_Vacancy table
             $updateQuery = "UPDATE Matron_Vacancys SET status = 'approved' WHERE vacancy_id = ?";
             $updateStmt = $conn->prepare($updateQuery);
             $updateStmt->bind_param("i", $vacancyId);
@@ -63,6 +70,7 @@ if (isset($_POST['approve'])) {
     }
     $stmt->close();
 }
+
 ?>
 
 <!DOCTYPE html>

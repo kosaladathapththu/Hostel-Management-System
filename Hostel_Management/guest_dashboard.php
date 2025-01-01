@@ -26,15 +26,19 @@ $guest_name = $_SESSION['guest_name'];
 <body>
     <div class="dashboard-container">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" style="width:350px;">
             <div class="logo-container">
-                <img src="The_Salvation_Army.png" alt="Salvation Army Logo" class="logo">
-                <div><h2>Salvation Army Girl's Hostel</h2>
-            </div></div>
+                <img src="The_Salvation_Army.png" alt="Salvation Army Logo" class="logo"><br><br>
+
+
+</div>
+<div><center><h3 styles="margin-bottom:20px;">Salvation Army <br>Girl's Hostel</h3></center>
+</div>
+
             
             
             <nav class="sidebar-menu">
-                <ul>
+            <ul>
                     <li class="active">
                         <a href="guest_dashboard.php">
                             <i class="fas fa-home"></i>
@@ -48,9 +52,27 @@ $guest_name = $_SESSION['guest_name'];
                         </a>
                     </li>
                     <li>
-                        <a href="#jobs">
-                            <i class="fas fa-briefcase"></i>
-                            <span>Job Opportunities</span>
+                        <a href="view_room_vacancy.php">
+                            <i class="fas fa-bed "></i>
+                            <span>Room Vacancies</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="register.php">
+                            <i class="fas fa-file"></i>
+                            <span>Apply Residency</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="employee_vacancies.php">
+                            <i class="fas fa-id-card "></i>
+                            <span>Job Vacancies</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="apply_for_job.php">
+                            <i class="fas fa-square"></i>
+                            <span>Apply Employee</span>
                         </a>
                     </li>
                     <li>
@@ -112,7 +134,7 @@ $guest_name = $_SESSION['guest_name'];
                     </div>
                     <div class="card-content">
                         <p>Review hostel guidelines and regulations</p><br>
-                        <a href="resident_rules.php" class="btn btn-info">Read Rules</a>
+                        <a href="resident_rules.php" class="btn btn-info">Read Resident Guidelines</a>
                     </div>
                 </div>
 
@@ -138,9 +160,27 @@ $guest_name = $_SESSION['guest_name'];
                     </div>
                     <div class="card-content">
                         <p>Understand workplace guidelines</p><br>
-                        <a href="employee_rules.php" class="btn btn-info">Read Guidelines</a>
+                        <a href="employee_rules.php" class="btn btn-info">Read Employee Guidelines</a>
                     </div>
                 </div>
+                <div class="image-slider">
+  <div class="image-container">
+    <img src="img1.jpg" alt="Image 1" class="hover-image" />
+    <img src="img2.jpg" alt="Image 2" class="hover-image" />
+
+    
+  </div>
+</div>
+<div class="image-slider">
+  <div class="image-container">
+    <img src="img3.jpg" alt="Image 1" class="hover-image" />
+    <img src="img4.jpg" alt="Image 2" class="hover-image" />
+
+    
+  </div>
+</div>
+
+
             </div>
         </main>
     </div>
