@@ -32,44 +32,32 @@ if (isset($_GET['id'])) {
     $supplierId = intval($_GET['id']); // Use intval() to ensure it's an integer
 
     // Fetch supplier details
-    $supplierQuery = "SELECT supplier_name FROM Suppliers WHERE supplier_id = ?";
-    $stmt = $conn->prepare($supplierQuery);
-    $stmt->bind_param("i", $supplierId);
-    $stmt->execute();
-    $supplierResult = $stmt->get_result();
+    $supplierQuery = "SELECT supplier_name FROM Suppliers WHERE supplier_id = $supplierId";
+    $supplierResult = $conn->query($supplierQuery);
 
     // Check if the supplier exists
     if ($supplierResult && $supplierResult->num_rows > 0) {
         $supplier = $supplierResult->fetch_assoc();
     } else {
         echo "Supplier not found.";
-        exit(); // Stop further execution
+        exit; // Stop further execution
     }
 } else {
     echo "Invalid request. Supplier ID not provided.";
-    exit(); // Stop further execution
+    exit; // Stop further execution
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
-    $rating = intval($_POST['rating']);
+    $rating = $_POST['rating'];
     $comments = $_POST['comments'];
 
-    // Validate the input data
-    if ($rating < 1 || $rating > 5) {
-        echo "Error: Rating must be between 1 and 5.";
-        exit();
-    }
-
-    // Insert rating into the database with matron_id
-    $insertRatingQuery = "INSERT INTO Ratings (supplier_id, matron_id, rating, comments) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($insertRatingQuery);
-    $stmt->bind_param("iiis", $supplierId, $matron_id, $rating, $comments);
-
-    if ($stmt->execute()) {
+    // Insert rating into the database
+    $insertRatingQuery = "INSERT INTO Ratings (supplier_id, rating, comments) VALUES ('$supplierId', '$rating', '$comments')";
+    if ($conn->query($insertRatingQuery) === TRUE) {
         echo "Rating submitted successfully.";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: " . $insertRatingQuery . "<br>" . $conn->error;
     }
 }
 ?>
@@ -140,8 +128,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="submit" value="Submit Rating">
             </form>
             <center>
-                <img src="review.png" alt="review image" style="width: 400px; height: auto; box-shadow: 10px 10px 8px 10px rgba(0, 0, 0, 0.2); margin-top: 20px; margin-left: 400px; border-radius: 1000px;">
+            <img src="review.png" alt="review image" style="width: 400px; height: auto; box-shadow: 10px 10px 8px 10px rgba(0, 0, 0, 0.2); margin-top: 20px; margin-left: 400px; border-radius: 1000px;">
+
             </center>
+
+
+
         </section>
     </div>
 </body>

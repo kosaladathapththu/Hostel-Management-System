@@ -13,9 +13,6 @@ include 'db_connect.php'; // Include database connection
 $matron_id = $_SESSION['matron_id'];
 $matronQuery = "SELECT first_name FROM Matrons WHERE matron_id = ?";
 $stmt = $conn->prepare($matronQuery);
-if (!$stmt) {
-    die("Matron query preparation failed: " . $conn->error);
-}
 $stmt->bind_param("i", $matron_id);
 $stmt->execute();
 $matronResult = $stmt->get_result();
@@ -27,14 +24,11 @@ if ($matronResult->num_rows === 0) {
 
 // Assign matron's first name
 $matronData = $matronResult->fetch_assoc();
-$matron_first_name = htmlspecialchars($matronData['first_name']);
+$matron_first_name = $matronData['first_name'];
 
-// Fetch all applicants with status 'waiting'
-$query = "SELECT applicant_id, name, national_id, age, email, phone, room_id, profile_picture, resident_form FROM applicants WHERE status = 'waiting'";
+// Fetch all applicants with status 'Pending'
+$query = "SELECT * FROM applicants WHERE status = 'waiting'";
 $result = $conn->query($query);
-if (!$result) {
-    die("Applicants query failed: " . $conn->error);
-}
 ?>
 
 <!DOCTYPE HTML>
@@ -45,30 +39,8 @@ if (!$result) {
     <link rel="stylesheet" href="stylesresident.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Add hover effects for action buttons */
-        .approve-btn, .decline-btn {
-            padding: 5px 10px;
-            text-decoration: none;
-            color: #fff;
-            border-radius: 4px;
-        }
-        .approve-btn {
-            background-color: #28a745;
-        }
-        .decline-btn {
-            background-color: #dc3545;
-        }
-        .approve-btn:hover {
-            background-color: #218838;
-        }
-        .decline-btn:hover {
-            background-color: #c82333;
-        }
-    </style>
 </head>
 <body>
-    <!-- Sidebar -->
     <!-- Sidebar -->
     <div class="sidebar">
         <h2><i class="fas fa-user-shield"></i> Matron Panel</h2>
@@ -94,12 +66,26 @@ if (!$result) {
             </div>
             <center><b><h1>Salvation Army Girls Hostel</h1></b></center>
             <div class="header-right">
-                <p>Welcome, <?php echo $matron_first_name; ?></p>
+                <p>Welcome, <?php echo htmlspecialchars($matron_first_name); ?></p>
             </div>
         </header>
 
         <section>
             <h2 style="margin-top:20px;">Resident Waiting List</h2>
+            <div class="breadcrumbs">
+                <a href="add_resident.php" class="breadcrumb-item">
+                    <i class="fas fa-plus"></i> Add new Resident
+                </a>
+                <span class="breadcrumb-separator">|</span>
+                <a href="dashboard.php" class="breadcrumb-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <span class="breadcrumb-separator">|</span>
+                <a href="waiting_list.php" class="breadcrumb-item">
+                    <i class="fas fa-list"></i> Waiting List
+                </a>
+            </div>
+
             <table>
                 <thead>
                     <tr>
@@ -117,25 +103,27 @@ if (!$result) {
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['applicant_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['name']); ?></td>
-                        <td><?php echo htmlspecialchars($row['national_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['age']); ?></td>
-                        <td><?php echo htmlspecialchars($row['email']); ?></td>
-                        <td><?php echo htmlspecialchars($row['phone']); ?></td>
-                        <td><?php echo htmlspecialchars($row['room_id']); ?></td>
+                        <td><?php echo $row['applicant_id']; ?></td>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['national_id']; ?></td>
+                        <td><?php echo $row['age']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
+                        <td><?php echo $row['phone']; ?></td>
+                        <td><?php echo $row['room_id']; ?></td>
                         <td>
-                            <a href="<?php echo htmlspecialchars($row['profile_picture']); ?>" target="_blank" class="view-doc-btn">View Profile Picture</a><br><br>
-                            <a href="<?php echo htmlspecialchars($row['resident_form']); ?>" target="_blank" class="view-doc-btn">View Resident Form</a> 
+                            <a href="<?php echo $row['profile_picture']; ?>" target="_blank" class="view-doc-btn">View Profile Picture</a> <br><br>
+                            <a href="<?php echo $row['resident_form']; ?>" target="_blank" class="view-doc-btn">View Resident Form</a> 
                         </td>
                         <td>
-                            <a href="approve_resident.php?id=<?php echo $row['applicant_id']; ?>" class="approve-btn" onclick="return confirm('Are you sure you want to approve this resident?');">Approve</a>
-                            <a href="decline_resident.php?id=<?php echo $row['applicant_id']; ?>" class="decline-btn" onclick="return confirm('Are you sure you want to decline this resident?');">Decline</a>
+                            <a href="approve_resident.php?id=<?php echo $row['applicant_id']; ?>" class="approve-btn">Approve</a>
+                            <a href="decline_resident.php?id=<?php echo $row['applicant_id']; ?>" class="decline-btn">Decline</a>
                         </td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
+
+
         </section>
     </div>
 </body>

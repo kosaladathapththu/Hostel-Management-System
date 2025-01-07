@@ -41,12 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $emp_addr_street = $_POST['emp_addr_street'];
     $emp_addr_city = $_POST['emp_addr_city'];
     $emp_addr_province = $_POST['emp_addr_province'];
-    $national_id = $_POST['national_id']; // Added national ID from form
 
     // Default values for other fields
     $status = 1; // Default active status
+    $national_id = $_POST['national_id']; // Added national ID from form
 
-    // Include admin_id in the INSERT query
     $insertQuery = "INSERT INTO employees (
                         name, 
                         emp_gender, 
@@ -58,14 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         emp_addr_province, 
                         status, 
                         created_at, 
-                        national_id, 
-                        admin_id  -- Added admin_id column
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?)"; // Added admin_id as a parameter
+                        national_id
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
 
-    // Ensure the bind_param matches the placeholders in the query
     $stmt = $conn->prepare($insertQuery);
     $stmt->bind_param(
-        "sssssssssis",  // 12 placeholders, matching the number of variables
+        "sssssssssi",
         $name, 
         $emp_gender, 
         $position, 
@@ -75,8 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $emp_addr_city, 
         $emp_addr_province, 
         $status, 
-        $national_id, 
-        $admin_id // Binding the current admin_id
+        $national_id
     );
 
     if ($stmt->execute()) {

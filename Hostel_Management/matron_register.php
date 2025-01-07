@@ -4,42 +4,24 @@ include 'db_connect.php'; // Include your database connection
 
 // Handle registration
 if (isset($_POST['register'])) {
-    // Collect and sanitize input data
-    $firstName = trim($_POST['first_name']);
-    $secondName = trim($_POST['second_name']);
-    $email = trim($_POST['email']);
-    $birthDate = $_POST['birth_date']; // Assuming date format is validated before submission
-    $city = trim($_POST['city']);
-    $password = $_POST['password'];
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $firstName = $_POST['first_name'];
+    $secondName = $_POST['second_name'];
+    $email = $_POST['email'];
+    $birthDate = $_POST['birth_date'];
+    $city = $_POST['city'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Check if email already exists in the Matron_Vacancy table
+    // Check if email already exists in Matron_Vacancy
     $checkEmailQuery = "SELECT * FROM matron_vacancys WHERE email = ?";
     $stmt = $conn->prepare($checkEmailQuery);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows == 0) { // Email not found, proceed with registration
-
-        // Retrieve the first admin's ID to associate with the new matron
-        $defaultAdminQuery = "SELECT admin_id FROM admin LIMIT 1";  // Retrieve first admin ID
-        $adminResult = $conn->query($defaultAdminQuery);
-        $adminId = null;
-
-        if ($adminResult && $adminResult->num_rows > 0) {
-            $adminRow = $adminResult->fetch_assoc();
-            $adminId = $adminRow['admin_id'];  // Use the first admin's ID
-        } else {
-            // Handle case where no admin is found
-            echo "No admin found in the system. Please contact the system administrator.";
-            exit();
-        }
-
-        // Insert new matron registration data into the database, including admin_id
-        $insertQuery = "INSERT INTO matron_vacancys (first_name, second_name, email, birth_date, city, password, status, admin_id) VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)";
-        $stmt = $conn->prepare($insertQuery);
-        $stmt->bind_param("ssssssi", $firstName, $secondName, $email, $birthDate, $city, $hashedPassword, $adminId);
+    if ($result->num_rows == 0) { // Email not found, proceed to registration
+        $query = "INSERT INTO matron_vacancys(first_name, second_name, email, birth_date, city, password) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ssssss", $firstName, $secondName, $email, $birthDate, $city, $password);
 
         if ($stmt->execute()) {
             echo "Registration successful! Your application is pending admin approval.";
@@ -50,12 +32,10 @@ if (isset($_POST['register'])) {
         echo "Email already registered!";
     }
 
-    // Close statement and database connection
     $stmt->close();
 }
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

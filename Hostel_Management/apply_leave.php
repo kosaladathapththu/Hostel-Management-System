@@ -19,8 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert the leave application into the database
     $query = "INSERT INTO leave_applications (employee_id, start_date, end_date, reason, status) 
-    VALUES ($employee_id, '$start_date', '$end_date', '$reason', 'pending')";
-
+              VALUES ($employee_id, '$start_date', '$end_date', '$reason', 'pending')";
 
     if (mysqli_query($conn, $query)) {
         echo "<p>Leave application submitted successfully!</p>";

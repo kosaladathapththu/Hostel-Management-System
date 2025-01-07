@@ -10,7 +10,7 @@ if (!isset($_SESSION['matron_id'])) {
 include 'db_connect.php'; // Include database connection
 
 // Fetch the matron's details (Extra safety check)
-$matron_id = $_SESSION['matron_id'];  // Use matron_id, not first_name
+$matron_id = $_SESSION['matron_id'];
 $matronQuery = "SELECT first_name FROM Matrons WHERE matron_id = ?";
 $stmt = $conn->prepare($matronQuery);
 $stmt->bind_param("i", $matron_id);
@@ -22,7 +22,7 @@ if ($matronResult->num_rows === 0) {
     exit();
 }
 
-// Assign matron's first name (for display purposes, not for insertion)
+// Assign matron's first name
 $matronData = $matronResult->fetch_assoc();
 $matron_first_name = $matronData['first_name'];
 
@@ -34,12 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date = $_POST['date'];
 
     // Prepare the SQL query to insert the meal plan into the database
-    $insertQuery = "INSERT INTO meal_plans (meal_name, description, date, created_by, created_at, matron_id) 
-                    VALUES (?, ?, ?, ?, NOW(), ?)";
-
-    // Bind parameters for the SQL query
+    $insertQuery = "INSERT INTO meal_plans (meal_name, description, date, created_by, created_at) 
+                    VALUES (?, ?, ?, ?, NOW())";
+    
     $stmt = $conn->prepare($insertQuery);
-    $stmt->bind_param("ssssi", $meal_name, $description, $date, $matron_first_name, $matron_id);  // Now using matron_id
+    $stmt->bind_param("ssss", $meal_name, $description, $date, $matron_first_name);
 
     if ($stmt->execute()) {
         // If insertion is successful, redirect to the meal plans view page
@@ -51,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

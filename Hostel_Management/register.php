@@ -7,6 +7,7 @@ if (!isset($_SESSION['guest_id'])) {
     exit();
 }
 
+include 'db_connect.php';
 $guest_name = $_SESSION['guest_name'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $room_id = $_POST['room_id'];
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
-    $matron_id = $_POST['matron_id']; // Get matron ID from form
 
     // File upload directory
     $targetDir = "uploads/";
@@ -55,10 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert data into the applicants table with status 'Pending'
-    $query = $conn->prepare("INSERT INTO applicants (name, national_id, age, email, phone, room_id, username, password, matron_id, status, profile_picture, resident_form, application_date)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'waiting', ?, ?, NOW())");
+    $query = $conn->prepare("INSERT INTO applicants (name, national_id, age, email, phone, room_id, username, password, status, profile_picture, resident_form, application_date)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'waiting', ?, ?, NOW())");
     
-    $query->bind_param("sssssssssss", $name, $national_id, $age, $email, $phone, $room_id, $username, $password, $matron_id, $profilePicturePath, $residentFormPath);
+    $query->bind_param("ssssssssss", $name, $national_id, $age, $email, $phone, $room_id, $username, $password, $profilePicturePath, $residentFormPath);
 
     if ($query->execute()) {
         // Redirect to login page with awaiting approval message

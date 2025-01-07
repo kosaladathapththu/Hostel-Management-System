@@ -13,46 +13,35 @@ if (isset($_GET['application_id'])) {
 
     if ($result->num_rows > 0) {
         $leaveRequest = $result->fetch_assoc();
-
         // Calculate the number of days for the leave request
         $start_date = new DateTime($leaveRequest['start_date']);
         $end_date = new DateTime($leaveRequest['end_date']);
         $interval = $start_date->diff($end_date);
         $leave_days = $interval->days + 1; // Include both start and end days
 
-        // Get the admin ID from the session (the logged-in admin)
-        session_start();
-        $admin_id = $_SESSION['admin_id'];
-
-        // Update the leave application status to 'approved' and set the admin_id
-        $query = "UPDATE leave_applications SET status = 'approved', admin_id = ? WHERE application_id = ?";
+        // Update the leave application status to 'approved'
+        $query = "UPDATE leave_applications SET status = 'approved' WHERE application_id = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ii", $admin_id, $application_id);
+        $stmt->bind_param("i", $application_id);
+        $stmt->execute();
+
+        // Deduct the leave days from the employee's leave balance
+        $employee_id = $leaveRequest['employee_id'];
+        $query = "UPDATE employees SET leave_balance = leave_balance - ? WHERE employee_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ii", $leave_days, $employee_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            // Deduct the leave days from the employee's leave balance
-            $employee_id = $leaveRequest['employee_id'];
-            $query = "UPDATE employees SET leave_balance = leave_balance - ? WHERE employee_id = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("ii", $leave_days, $employee_id);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                echo "Leave request approved and leave balance updated successfully.";
-            } else {
-                echo "Error updating employee's leave balance.";
-            }
+            echo "Leave request approved and leave balance updated successfully.";
         } else {
-            echo "Error updating leave application status.";
+            echo "Error updating leave balance.";
         }
     } else {
         echo "Leave application not found.";
     }
 
     $stmt->close();
-} else {
-    echo "Application ID not provided.";
 }
 
 $conn->close();

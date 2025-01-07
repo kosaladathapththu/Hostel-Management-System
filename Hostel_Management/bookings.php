@@ -33,23 +33,15 @@ if (isset($_GET['action']) && isset($_GET['record_id'])) {
 
     if ($action == 'approve') {
         $status = 'approved';
-        // Add the matron's ID to the update query
-        $updateQuery = "UPDATE `resident_checking-checkouts` 
-                        SET `status` = ?, `matron_id` = ? 
-                        WHERE `checking-checkout_id` = ?";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("sii", $status, $matron_id, $record_id); // Bind matron_id as an integer
-        $stmt->execute();
     } elseif ($action == 'decline') {
         $status = 'declined';
-        // If declined, no need to set matron_id
-        $updateQuery = "UPDATE `resident_checking-checkouts` 
-                        SET `status` = ? 
-                        WHERE `checking-checkout_id` = ?";
-        $stmt = $conn->prepare($updateQuery);
-        $stmt->bind_param("si", $status, $record_id);
-        $stmt->execute();
     }
+
+    // Update the status in the database
+    $updateQuery = "UPDATE `resident_checking-checkouts` SET `status` = ? WHERE `checking-checkout_id` = ?";
+    $stmt = $conn->prepare($updateQuery);
+    $stmt->bind_param("si", $status, $record_id);
+    $stmt->execute();
 }
 
 // SQL query to fetch check-in/check-out details with status
@@ -162,7 +154,7 @@ $checkInOutResult = $stmt->get_result();
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($row['status'] == 'Pending'): ?>
+                                <?php if ($row['status'] == 'Checked-In'): ?>
                                     <a href="?action=approve&record_id=<?php echo $row['record_id']; ?>" class="approve-btn">Approve</a> |
                                     <a href="?action=decline&record_id=<?php echo $row['record_id']; ?>" class="decline-btn">Decline</a>
                                 <?php endif; ?>

@@ -34,22 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $capacity = $_POST['capacity'];
     $status = $_POST['status'];
 
-    // Insert room into the database with matron_id
-    $insertQuery = "INSERT INTO Rooms (room_number, capacity, status, matron_id) VALUES (?, ?, ?, ?)";
-    
-    // Prepare and bind the parameters
-    if ($stmt = $conn->prepare($insertQuery)) {
-        $stmt->bind_param("sssi", $roomNumber, $capacity, $status, $matron_id);
-        
-        // Execute the query
-        if ($stmt->execute()) {
-            $message = 'Room added successfully.'; // Set the success message
-        } else {
-            $message = 'Error: ' . $stmt->error; // Set the error message
-        }
-        $stmt->close();
+    // Insert room into the database
+    $insertQuery = "INSERT INTO Rooms (room_number, capacity, status) VALUES ('$roomNumber', '$capacity', '$status')";
+    if ($conn->query($insertQuery) === TRUE) {
+        $message = 'Room added successfully.'; // Set the success message
     } else {
-        $message = 'Error: ' . $conn->error; // Handle query preparation error
+        $message = 'Error: ' . $conn->error; // Set the error message
     }
 }
 ?>

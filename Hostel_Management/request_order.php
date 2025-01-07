@@ -37,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = intval($_POST['quantity']); // Sanitize quantity
 
     // Insert directly into Orders table
-    $insertQuery = "INSERT INTO Orders (supplier_id, item_name, quantity, status,order_date, matron_id) 
-                    VALUES (?, ?, ?, 'requested', NOW(), ?)"; // Add matron_id to the query
+    $insertQuery = "INSERT INTO Orders (supplier_id, item_name, quantity, status, order_amount, order_date) 
+                    VALUES (?, ?, ?, 'requested', 0.00, NOW())"; // Default order amount and status
     $stmt = $conn->prepare($insertQuery);
-    $stmt->bind_param('isii', $supplierId, $itemName, $quantity, $matron_id); // Bind matron_id
+    $stmt->bind_param('isi', $supplierId, $itemName, $quantity);
 
     if ($stmt->execute()) {
         echo "<script>alert('Order requested successfully.');</script>";
@@ -121,6 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <br>
                 <input type="submit" value="Request Order" class="submit-button">
             </form>
+
+
         </section>
     </div>
 </body>

@@ -34,16 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemPrice = floatval($_POST['item_price']); // Sanitize and fetch item price
 
     // Insert new item into the Inventory table
-$insertQuery = "INSERT INTO Inventory (item_name, category, quantity, item_price, matron_id) VALUES (?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($insertQuery);
-$stmt->bind_param("ssiid", $itemName, $category, $quantity, $itemPrice, $matron_id);
+    $insertQuery = "INSERT INTO Inventory (item_name, category, quantity, item_price) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param("ssii", $itemName, $category, $quantity, $itemPrice);
 
-if ($stmt->execute()) {
-    echo "<script>alert('New inventory item added successfully.'); window.location.href='view_inventory.php';</script>";
-} else {
-    echo "Error: " . $stmt->error;
-}
-
+    if ($stmt->execute()) {
+        echo "<script>alert('New inventory item added successfully.'); window.location.href='view_inventory.php';</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 
     $stmt->close(); // Close the prepared statement
 }

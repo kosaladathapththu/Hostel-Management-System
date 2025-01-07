@@ -115,11 +115,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
         // Prepare the SQL query to insert the data
-        $query = $conn->prepare("INSERT INTO residents (resident_name, resident_id, resident_DOB, email, resident_contact, resident_room_no, username, password, profile_picture, resident_form, matron_id, status, created_at) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', NOW())");
+        $query = $conn->prepare("INSERT INTO residents (resident_name, resident_id, resident_DOB, email, resident_contact, resident_room_no, username, password, profile_picture, resident_form, status, created_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', NOW())");
 
         if ($query) {
-            $query->bind_param("ssssssssssi", $resident_name, $resident_id, $resident_DOB, $email, $resident_contact, $resident_room_no, $username, $password, $profilePicturePath, $residentFormPath, $matron_id);
+            $query->bind_param("ssssssssss", $resident_name, $resident_id, $resident_DOB, $email, $resident_contact, $resident_room_no, $username, $password, $profilePicturePath, $residentFormPath);
 
             if ($query->execute()) {
                 $showSuccessMessage = true;
@@ -132,7 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

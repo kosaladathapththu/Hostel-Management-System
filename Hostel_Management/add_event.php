@@ -36,11 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $event_place = mysqli_real_escape_string($conn, $_POST['event_place']);
     $organizer = mysqli_real_escape_string($conn, $_POST['organizer']);
 
-    // Insert new event into the database, including matron_id
-    $insertQuery = "INSERT INTO events (title, description, start_date, end_date, start_time, event_place, organizer, matron_id) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    // Insert new event into the database
+    $insertQuery = "INSERT INTO events (title, description, start_date, end_date, start_time, event_place, organizer) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($insertQuery);
-    $stmt->bind_param("sssssssi", $title, $description, $start_date, $end_date, $start_time, $event_place, $organizer, $matron_id); // Bind matron_id
+    $stmt->bind_param("sssssss", $title, $description, $start_date, $end_date, $start_time, $event_place, $organizer);
 
     if ($stmt->execute()) {
         echo "<script>alert('Event added successfully.'); window.location.href='view_calendar.php';</script>";
@@ -126,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="organizer" required>
                 <br>
                 <input type="submit" value="Add Event">
+
             </form>
         </section>
     </div>
